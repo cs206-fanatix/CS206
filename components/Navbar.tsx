@@ -56,7 +56,7 @@ const Navbar = (props: props) => {
 
         <div className="flex gap-4 items-center relative">
           <Link href="#" className="text-secondary font-semibold">
-            <img src="cart.png" className="h-7" />
+            <img src="/cart.png" className="h-7" />
           </Link>
           <img
             src="/profile.png"

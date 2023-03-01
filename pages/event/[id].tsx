@@ -1,20 +1,59 @@
 import type { NextPage } from 'next'
+import { useState } from 'react'
 import Navbar from '../../components/Navbar'
 
 const SeatSelect: NextPage = () => {
-    
-    const renderSeats = () => {
+    const [isDateSelected, setIsDateSelected] = useState(false)
+    const [isCatSelected, setIsCatSelected] = useState(false)
 
+    const toggleDateTime = () => {
+        setIsDateSelected(prevState => !prevState)
+    }
+    const toggleCat = () => {
+        setIsCatSelected(prevState => !prevState)
+    }
+
+    const RenderCat = () => {
+        // code here
+        return (
+            <div className='flex flex-col gap-2 h-80'>
+                <h1 className='text-3xl font-semibold text-secondary'>Select Category:</h1>
+                <div className='flex flex-col bg-primary h-full py-2 px-3 
+                rounded-lg drop-shadow-md gap-3 min-h-min overflow-y-auto'>
+                    <p className='text-secondary text-lg '>2) Pick a category:</p>
+                    <button onClick={toggleCat} className='text-primary bg-accent p-1 rounded-lg drop-shadow-md'>cat 1</button>
+
+                </div>
+            </div>
+    )}
+
+    const RenderSeats = () => {
+        // code here
+        return (
+            <div className='flex flex-col gap-2 h-80'>
+                <h1 className='text-3xl font-semibold text-secondary'>Select Seat:</h1>
+                <div className='flex flex-col bg-primary h-full py-2 px-3
+                rounded-lg drop-shadow-md gap-3 min-h-min overflow-y-auto'>
+                    <p className='text-secondary text-lg '>3) Pick a seat:</p>
+                    <button onClick={toggleCat} className='text-primary bg-accent p-1 rounded-lg drop-shadow-md'>seat here hehe</button>
+
+                </div>
+            </div>
+            )
     }
 
     return (
-        <div>
-            <div>
-                <Navbar username={"Change here"}/>
+        <div className='flex flex-col p-14 h-screen bg-gradient-to-b from-primary via-secondary/20 to-primary gap-5'>
+            <div className='flex flex-col gap-2 h-48'>
+                <h1 className='text-3xl font-semibold text-secondary'>Select event date:</h1>
+                <div className='flex flex-col bg-primary h-full py-2 px-3 
+                rounded-lg drop-shadow-md gap-3 min-h-min overflow-y-auto'>
+                    <p className='text-secondary text-lg'>1) Pick a date & time:</p>
+                    <button onClick={toggleDateTime} className='text-primary bg-accent p-1 rounded-lg drop-shadow-md'>Date</button>
+                </div>
             </div>
-            <div>
-                
-            </div>
+            {isDateSelected && <RenderCat />}
+            {isCatSelected && isDateSelected && <RenderSeats />}
         </div>
     )
 }
