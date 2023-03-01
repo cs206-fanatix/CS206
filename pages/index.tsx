@@ -2,65 +2,34 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-import Navbar from '../component/Navbar'
+import Navbar from '../components/Navbar'
 import styles from '../styles/Home.module.css'
 
 const Home: NextPage = () => {
-    const [number, setNumber] = useState(0)
-
-    useEffect(() => {
-        
-    }, [])
-
-    const cats = []
     return (
-        <div className='h-screen'>
+        <div className='flex flex-col h-screen'>
             <Navbar 
-                num={number}
+                username={"AdrianH01"}
             />
-
-            <div className='flex h-[80%]'>
+            <div className='flex h-1/12'>
                 <div className='flex flex-col w-24 gap-4 py-5 bg-blue-500'>
                     <div>
-                        {
-                            number
-                        }
+                        Hello
                     </div>
-                    <div
-                        onClick={() => setNumber(number + 1)}
-                    >
+                    <div>
                         Artist
                     </div>
                     <div>
                         Revenue
                     </div>
-
-                    {
-                        cats.map((cat) => {
-                            return (
-                                <div>
-                                    {cat}
-                                </div>
-                            )
-                        })
-                    }
-
-                    {
-                        cats.length != 0 ? (
-                            <div>
-                                {cats[0]}
-                            </div>
-                        )
-                        :
-                        <div>
-                            Nothing here
-                        </div>
-
-                    }
+                    
                 </div>
-
+                <video autoPlay muted loop id="bg-video">
+                    <source src="/background.mp4" type="video/mp4"/>
+                </video>
                 <div className='flex justify-between w-full gap-10 overflow-auto'>
                     <div className='w-full flex flex-col'>
+                    
                         {/* Upcoming event corner */}
                         <div className='text-4xl font-semibold'>
                             Upcoming Event
@@ -124,8 +93,10 @@ const Home: NextPage = () => {
                     <div className='w-full'>
                         Ticket Sales
                     </div>
+                
                 </div>
             </div>
+            
 
         </div>
     )
