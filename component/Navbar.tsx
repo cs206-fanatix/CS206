@@ -17,7 +17,7 @@ const Navbar = (props: props) => {
                     Create event
                 </div>
                 <div>
-                    Profile
+                    Profile 2
                 </div>
             </div>
         </div>
