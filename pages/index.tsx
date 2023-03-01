@@ -2,17 +2,17 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-import Navbar from '../components/Navbar'
+import Navbar from '../components/Navbar (Organiser)'
 import styles from '../styles/Home.module.css'
 
 const Home: NextPage = () => {
     return (
-        <div className='flex flex-col h-screen'>
+        <div className='flex flex-col h-screen w-full'>
             <Navbar 
                 username={"AdrianH01"}
             />
-            <div className='flex h-1/12'>
-                <div className='flex flex-col w-24 gap-4 py-5 bg-blue-500'>
+            <div className='flex h-'>
+                <div className='flex flex-col w-1/12 gap-4 py-5 bg-blue-500'>
                     <div>
                         Hello
                     </div>
@@ -22,12 +22,11 @@ const Home: NextPage = () => {
                     <div>
                         Revenue
                     </div>
-                    
                 </div>
-                <video autoPlay muted loop id="bg-video">
+                {/* <video autoPlay muted loop id="bg-video">
                     <source src="/background.mp4" type="video/mp4"/>
-                </video>
-                <div className='flex justify-between w-full gap-10 overflow-auto'>
+                </video> */}
+                <div className='flex justify-between w-11/12 gap-10 overflow-auto'>
                     <div className='w-full flex flex-col'>
                     
                         {/* Upcoming event corner */}
