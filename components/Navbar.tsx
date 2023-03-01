@@ -11,17 +11,17 @@ interface props {
 
 const Navbar = (props: props) => {
     return (
-        <div className='bg-black flex items-center justify-between p-4 h-full'>
+        <div className='bg-primary drop-shadow-md flex items-center justify-between p-4 h-full'>
             <div className='flex flex-col justify-center'>
                 
-                <img src="/logo.png" alt="Logo" className="h-12"></img>
+                <img src="/logo.png" alt="Logo" className="h-12 invert"></img>
                 
             </div>
             
             <div className='flex h-full c-full gap-4'>
-                    <a href="#" className="text-white">Create event</a>
-                    <a href="#" className="text-white">Sign in</a>
-                    <a href="#" className="text-white">{props.username}</a>
+                    <a href="#" className="text-secondary">Create event</a>
+                    <a href="#" className="text-secondary">Sign in</a>
+                    <a href="#" className="text-secondary">{props.username}</a>
             </div>
         </div>
     )
