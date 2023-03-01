@@ -119,3 +119,13 @@
     flex-direction: column;
   }
 }
+
+#bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100% /* Set a fixed width */
+  height: auto; /* Set a fixed height */
+  z-index: -2; /* Set a lower z-index value */
+  opacity: 0; /* Hide the video element */
+}
