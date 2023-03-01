@@ -1,9 +1,4 @@
-import Image from 'next/image'
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import { useEffect, useState } from 'react'
-import styles from '../styles/Navbar.module.css'
-import Button from './Button'
+import Link from "next/link"
 
 interface props {
     username: string
@@ -15,8 +10,8 @@ const Navbar = (props: props) => {
             <div className='flex justify-center gap-10'>
                 <img src="/logo.png" alt="Logo" className="h-12 bg-#0E1D31 invert"></img>
                 <div className='flex gap-10 p-4'>
-                    <a href="#" className="text-#0E1D31 font-semibold">Category</a>
-                    <a href="#" className="text-#0E1D31 font-semibold">FAQ</a>
+                    <Link href="#" className="text-#0E1D31 font-semibold">Category</Link>
+                    <Link href="#" className="text-#0E1D31 font-semibold">FAQ</Link>
                 </div>    
             </div>
 
@@ -35,8 +30,8 @@ const Navbar = (props: props) => {
             </form>
 
             <div className='flex gap-4'>
-                <a href="#" className="text-#0E1D31 font-semibold">Create event</a>
-                <a href="#" className="text-#0E1D31 font-semibold">{props.username}</a>
+                <Link href="#" className="text-#0E1D31 font-semibold">Create event</Link>
+                <Link href="#" className="text-#0E1D31 font-semibold">{props.username}</Link>
             </div>
         </div>
     )
