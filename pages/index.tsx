@@ -8,9 +8,6 @@ import styles from '../styles/Home.module.css'
 const Home: NextPage = () => {
     return (
         <div className='flex flex-col h-screen w-full'>
-            <Navbar 
-                username={"AdrianH01"}
-            />
             <div className='flex h-'>
                 <div className='flex flex-col w-1/12 gap-4 py-5 bg-blue-500'>
                     <div>

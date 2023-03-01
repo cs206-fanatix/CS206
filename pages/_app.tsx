@@ -1,5 +1,6 @@
 import '../styles/globals.css'
 import 'tailwindcss/tailwind.css';
+import Layout from '../components/Layout';
 
 import type { AppProps } from 'next/app'
 import { QueryClient, QueryClientProvider } from 'react-query';
@@ -9,7 +10,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Component {...pageProps} />
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
     </QueryClientProvider>
   )
 }
