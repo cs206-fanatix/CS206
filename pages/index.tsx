@@ -11,7 +11,7 @@ const Home: NextPage = () => {
             <Navbar 
                 username={"AdrianH01"}
             />
-            <div className='flex h-'>
+            <div className='flex h-5/6'>
                 <div className='flex flex-col w-1/12 gap-4 py-5 bg-blue-500'>
                     <div>
                         Hello

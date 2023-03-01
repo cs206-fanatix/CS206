@@ -11,7 +11,7 @@ interface props {
 
 const Navbar = (props: props) => {
     return (
-        <div className='bg-#F9F9F9 flex items-center justify-between p-4 w-full'>
+        <div className='bg-#F9F9F9 flex items-center justify-between p-4 w-full h-1/6'>
             <div className='flex justify-center gap-10'>
                 <img src="/logo.png" alt="Logo" className="h-12 bg-#0E1D31 invert"></img>
                 <div className='flex gap-10 p-4'>
