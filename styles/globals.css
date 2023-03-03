@@ -43,6 +43,17 @@ a {
 } */
 
 /* For Webkit-based browsers (Chrome, Safari and Opera) */
+.no-scroll-bar::-webkit-scrollbar {
+  display: none;
+}
+
+/* For IE, Edge and Firefox */
+.no-scroll-bar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* For Webkit-based browsers (Chrome, Safari and Opera) */
 body::-webkit-scrollbar {
   display: none;
 }

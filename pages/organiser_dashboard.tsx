@@ -5,8 +5,37 @@ import { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'
+import Event_Card from '../components/Organiser_dashboard/Event_Card'
+import Purchases from '../components/Organiser_dashboard/Purchases'
+import { randomInt } from 'crypto'
+
+
 
 const Home: NextPage = () => {
+    const generate_event_cards=()=> {
+        var event_cards = []
+        for (var i = 0; i < 10; i++) {
+            event_cards.push(<Event_Card event_name="Aimer" event_start_date="2021-01-01" event_end_date="2021-01-01" image="/zankyosanka-photo.jpg" />)
+        }
+        return event_cards
+    }
+
+    const generate_purchases=()=> {
+        var purchases = []
+        for (var i = 0; i < 10; i++) {
+            // Generate random profit
+            var profit_amt = (Math.random() * 1000).toString()
+            // round off to 2 decimal places
+            profit_amt = profit_amt.substring(0, profit_amt.indexOf('.') + 3)
+
+            purchases.push(
+            <li className="py-3 sm:py-4">
+                <Purchases image="/profile.png" username="SOLgod99" event="Aimer Live" profit={profit_amt} />
+            </li>)
+        }
+        return purchases
+    }
+
     const [open, setOpen] = useState(false)
     useEffect(() => {
         console.log("Hello")
@@ -14,106 +43,94 @@ const Home: NextPage = () => {
 
 
     return (
-        <div className='flex flex-col h-screen w-full'>
-            <div className='flex h-7/12'>
-                <div className='flex w-1/12 flex-col py-5 gap-8 bg-[#191645]'>
-                    <div className="flex flex-col gap-8 py-5 align-top">
-                        <Link href="#" >
-                            <text className='text-[#F9F9F9] text-center'>Dashboard</text>
-                        </Link>
-                        <Link href="#">
-                            <text className='text-[#F9F9F9] text-center'>Artists</text>
-                        </Link>
-                        <Link href="#">
-                            <text className='text-[#F9F9F9] text-center'>Revenue</text>
-                        </Link>
-                        <Link href="#">
-                            <text className='text-[#F9F9F9] text-center'>My Events</text>
-                        </Link>
-                    </div>
-                    <div className="flex flex-col gap-8 py-5 align-bottom">
-                        <Link href="#">
-                            <text className='text-[#F9F9F9] text-center'>Account</text>
-                        </Link>
-                        <Link href="#">
-                            <text className='text-[#F9F9F9] text-center'>Settings</text>
-                        </Link>
-                    </div>
+        <div className='flex flex-col h-auto w-full pt-20'>
+            <div className='flex h-auto w-full pt-1'>
+                {/* Side panel */}
+                <div className="px-3 pb-4 overflow-y-auto bg-secondary">
+                <ul className="space-y-2 pt-4">
+                    <li>
+                        <a href="#" className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <span className="material-symbols-outlined">dataset</span>
+                        <span className="ml-3">Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <span className="material-symbols-outlined">person</span>
+                        <span className="flex-1 ml-3 whitespace-nowrap">My Artists</span>
+                        </a>
+                    </li>                  
+                    <li>
+                        <a href="#" className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <span className="material-symbols-outlined">stadium</span>
+                        <span className="flex-1 ml-3 whitespace-nowrap">My Events</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <span className="material-symbols-outlined">confirmation_number</span>
+                        <span className="flex-1 ml-3 whitespace-nowrap">Ticketing</span>
+                        <span className="inline-flex items-center justify-center w-3 h-3 p-3 ml-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">3</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <span className="material-symbols-outlined">credit_card</span>   
+                        <span className="flex-1 ml-3 whitespace-nowrap">Payment</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <span className="material-symbols-outlined">settings</span>                    
+                        <span className="flex-1 ml-3 whitespace-nowrap">Settings</span>
+                        </a>
+                    </li>
+                </ul>
                 </div>
+                <div className='flex flex-col w-full h-screen overflow-auto no-scroll-bar'>
+                    {/* Graph */}
+                    <div className='flex bg-black'>
+                        gay
+                    </div>
 
-                <div className='flex justify-between w-11/12 gap-10 overflow-auto'>
-                    <div className='w-full flex flex-col'>
+                    {/* Main content */}
+                    <div className='flex justify-between w-auto bg-primary gap-10'>
+                        
+                        <div className='w-full flex flex-col pl-10'>
+                            {/* Upcoming event corner */}
+                            <div className='text-4xl font-semibold pt-10 pb-4 pl-2'>
+                                Upcoming Event
+                            </div>
+
+                            <div className='flex flex-col h-screen gap-6 align-center overflow-auto no-scroll-bar'>
+                                {generate_event_cards()}
+                            </div>
+                        </div>
+
+                        <div className="flex flex-col w-full justify-center">
+                            <div className='text-4xl font-semibold pt-10 pb-4 pl-2'>
+                                Ticket Sales
+                            </div>
+                            <div className="w-2/3 p-4 border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+                                <div className="flex items-center justify-between mb-4">
+                                    <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">Latest Purchases</h5>
+                                    <a href="#" className="text-sm font-medium hover:underline dark:text-blue-400">
+                                        View all
+                                    </a>
+                                </div>
+                                <div className="flow-root">
+                                    <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
+                                        {generate_purchases()}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     
-                        {/* Upcoming event corner */}
-                        <div className='text-4xl font-semibold'>
-                            Upcoming Event
-                        </div>
-
-                        <div className='flex flex-col h-full gap-6'>
-                            <div className='bg-red-400 h-40 p-4 flex flex-col justify-end'>
-                                <div className='flex flex-col gap-1'>
-                                    <div className=''>
-                                        Taylorswift
-                                    </div>
-                                    <div>
-                                        Time
-                                    </div>
-                                </div>
-                                
-                            </div>
-                            <div>
-                                Taylorswift
-                            </div>
-                            <div>
-                                Taylorswift
-                            </div>
-                            <div className='bg-red-400 h-40 p-4 flex flex-col justify-end'>
-                                <div className='flex flex-col gap-1'>
-                                    <div className=''>
-                                        Taylorswift
-                                    </div>
-                                    <div>
-                                        Time
-                                    </div>
-                                </div>
-                                
-                            </div>
-                            <div>
-                                Taylorswift
-                            </div>
-                            <div>
-                                Taylorswift
-                            </div>
-                            <div className='bg-red-400 h-40 p-4 flex flex-col justify-end'>
-                                <div className='flex flex-col gap-1'>
-                                    <div className=''>
-                                        Taylorswift
-                                    </div>
-                                    <div>
-                                        Time
-                                    </div>
-                                </div>
-                                
-                            </div>
-                            <div>
-                                Taylorswift
-                            </div>
-                            <div>
-                                Taylorswift
-                            </div>
-                        </div>
                     </div>
-
-                    <div className='w-full'>
-                        Ticket Sales
-                    </div>
-                
                 </div>
             </div>
-            
-
         </div>
     )
 }
 
-export default Home
+export default Home;
