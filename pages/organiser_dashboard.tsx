@@ -7,8 +7,7 @@ import styles from '../styles/Home.module.css'
 import Link from 'next/link'
 import Event_Card from '../components/Organiser_dashboard/Event_Card'
 import Purchases from '../components/Organiser_dashboard/Purchases'
-import { randomInt } from 'crypto'
-
+import RevenueChart from '../components/Organiser_dashboard/RevenueChart'
 
 
 const Home: NextPage = () => {
@@ -88,9 +87,14 @@ const Home: NextPage = () => {
                 </ul>
                 </div>
                 <div className='flex flex-col w-full h-screen overflow-auto no-scroll-bar'>
+                        <div className='text-4xl font-semibold pt-10 pb-4 pl-4 bg-primary'>
+                            Dashboard
+                        </div>
+
                     {/* Graph */}
-                    <div className='flex bg-black'>
-                        gay
+                    <div className="flex bg-primary pt-10 pr-80 justify-center">
+                        <RevenueChart
+                        />
                     </div>
 
                     {/* Main content */}
@@ -111,14 +115,14 @@ const Home: NextPage = () => {
                             <div className='text-4xl font-semibold pt-10 pb-4 pl-2'>
                                 Ticket Sales
                             </div>
-                            <div className="h-1/3 w-2/3 p-4 border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700 overflow-auto no-scroll-bar">
+                            <div className="h-1/3 w-2/3 p-4 border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
                                 <div className="flex items-center justify-between mb-4">
                                     <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">Latest Purchases</h5>
                                     <a href="#" className="text-sm font-medium hover:underline dark:text-blue-400">
                                         View all
                                     </a>
-                                </div>
-                                <div className="flow-root">
+                                </div>  
+                                <div className="h-full flex flow-root overflow-auto no-scroll-bar">
                                     <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
                                         {generate_purchases()}
                                     </ul>
