@@ -107,11 +107,11 @@ const Home: NextPage = () => {
                             </div>
                         </div>
 
-                        <div className="flex flex-col w-full justify-center">
+                        <div className="flex flex-col w-full">
                             <div className='text-4xl font-semibold pt-10 pb-4 pl-2'>
                                 Ticket Sales
                             </div>
-                            <div className="w-2/3 p-4 border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+                            <div className="h-1/3 w-2/3 p-4 border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700 overflow-auto no-scroll-bar">
                                 <div className="flex items-center justify-between mb-4">
                                     <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">Latest Purchases</h5>
                                     <a href="#" className="text-sm font-medium hover:underline dark:text-blue-400">
