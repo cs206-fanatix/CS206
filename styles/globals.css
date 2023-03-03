@@ -41,3 +41,14 @@ a {
   flex-direction: wrap;
   gap: 4px;
 } */
+
+/* For Webkit-based browsers (Chrome, Safari and Opera) */
+body::-webkit-scrollbar {
+  display: none;
+}
+
+/* For IE, Edge and Firefox */
+body {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}

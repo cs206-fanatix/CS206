@@ -2,17 +2,20 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-import Navbar from '../components/Navbar (Organiser)'
+import Navbar from '../components/Navbar'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'
 
 const Home: NextPage = () => {
+    const [open, setOpen] = useState(false)
+    useEffect(() => {
+        console.log("Hello")
+    }, [])
+
+
     return (
         <div className='flex flex-col h-screen w-full'>
-            <Navbar 
-                username={"AdrianH01"}
-            />
-            <div className='flex h-5/6'>
+            <div className='flex h-7/12'>
                 <div className='flex w-1/12 flex-col py-5 gap-8 bg-[#191645]'>
                     <div className="flex flex-col gap-8 py-5 align-top">
                         <Link href="#" >
