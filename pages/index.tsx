@@ -53,7 +53,7 @@ const Home: NextPage = () => {
                         )
                         :
                         <div>
-                            Nothing here Test
+                            Nothing here
                         </div>
 
                     }
