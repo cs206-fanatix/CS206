@@ -12,7 +12,7 @@ const Home: NextPage = () => {
         
     }, [])
 
-    const cats = []
+    const cats: any[] = []
     return (
         <div className='h-screen'>
             <Navbar 
@@ -38,7 +38,7 @@ const Home: NextPage = () => {
                     {
                         cats.map((cat) => {
                             return (
-                                <div>
+                                <div key="abc">
                                     {cat}
                                 </div>
                             )
