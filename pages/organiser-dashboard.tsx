@@ -5,9 +5,11 @@ import { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'
-import Event_Card from '../components/Organiser_dashboard/Event_Card'
-import Purchases from '../components/Organiser_dashboard/Purchases'
-import RevenueChart from '../components/Organiser_dashboard/RevenueChart'
+import Event_Card from '../components/Organiser-Dashboard/Event_Card'
+import Purchases from '../components/Organiser-Dashboard/Purchases'
+import RevenueChart from '../components/Organiser-Dashboard/RevenueChart'
+import Footer from '../components/Footer'
+import Carousel from '../components/Organiser-Dashboard/Carousel'
 
 
 const Home: NextPage = () => {
@@ -87,15 +89,18 @@ const Home: NextPage = () => {
                 </ul>
                 </div>
                 <div className='flex flex-col w-full h-screen overflow-auto no-scroll-bar'>
-                        <div className='text-4xl font-semibold pt-10 pb-4 pl-4 bg-primary'>
-                            Dashboard
-                        </div>
-
-                    {/* Graph */}
-                    <div className="flex bg-primary pt-10 pr-80 justify-center">
-                        <RevenueChart
-                        />
+                    <div className='text-4xl font-semibold pt-10 pb-4 pl-4 bg-primary'>
+                        Up next
                     </div>
+
+                    {/* Latest upcoming event */}
+                    {/* <div className="flex bg-gray-200 border border-gray-200 rounded-lg w-3/4 h-3/4 pt-10 pr-80 justify-center drop-shadow-md justify-center align-middle">
+                        <img src="/one_ok_rock.webp" className="w-full h-full" />
+                    </div> */}
+
+                    <Carousel
+                        img1="/one_ok_rock.webp"
+                    />
 
                     {/* Main content */}
                     <div className='flex justify-between w-auto bg-primary gap-10'>
@@ -128,9 +133,10 @@ const Home: NextPage = () => {
                                     </ul>
                                 </div>
                             </div>
+                            
                         </div>
-                    
                     </div>
+                    <Footer/>
                 </div>
             </div>
         </div>
