@@ -85,7 +85,7 @@ const SeatSelect: NextPage = () => {
     }
 
     return (
-        <div className='flex flex-col p-14 h-full bg-gradient-to-b from-primary via-secondary/20 to-primary gap-5'>
+        <div className='flex flex-col p-14 h- pt-24 bg-gradient-to-b from-primary via-secondary/20 to-primary gap-5'>
             
             {step === 1 && <RenderDateTime />}
             {step === 2 && <RenderCat />}
