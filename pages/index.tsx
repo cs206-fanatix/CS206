@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 import styles from '../styles/Home.module.css'
 
+// test
+
 const Home: NextPage = () => {
     return (
         <div className='flex flex-col h-screen w-full'>
