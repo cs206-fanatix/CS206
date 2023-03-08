@@ -121,7 +121,7 @@ const Home: NextPage = () => {
                                 Ticket Sales
                             </div>
                             <div className="h-1/3 w-2/3 p-4 border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-                                <div className="flex items-center justify-between mb-4">
+                                <div className="flex items-center justify-between">
                                     <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">Latest Purchases</h5>
                                     <a href="#" className="text-sm font-medium hover:underline dark:text-blue-400">
                                         View all
@@ -136,7 +136,7 @@ const Home: NextPage = () => {
                             
                         </div>
                     </div>
-                    <Footer/>
+                    {/* <Footer/> */}
                 </div>
             </div>
         </div>

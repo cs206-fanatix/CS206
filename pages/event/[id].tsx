@@ -17,8 +17,13 @@ const SeatSelect: NextPage = () => {
     const previousStep = () => {
         setStep(prevStep => prevStep === 1 ? 1 : prevStep -= 1)
     }
+    
+    type EventDates = {
+        dates: string[];
+        cat: any[];
+      }
 
-    const RenderDateButtons = ({Dates}) => {
+    const RenderDateButtons = ({Dates}: { Dates: EventDates["dates"] }) => {
         console.log(Dates)
         let dateArray = Dates.map((date, index) => {
             return (
@@ -32,26 +37,42 @@ const SeatSelect: NextPage = () => {
         )
     }
 
+    // const RenderDateTime = () => {
+    //     return (
+    //         <div className='flex flex-col gap-2 h-72'>
+    //             <h1 className='text-3xl font-semibold text-secondary'>1) Select Event Date:</h1>
+    //             <div className='flex flex-col bg-primary h-full py-2 px-3 
+    //             rounded-lg drop-shadow-md gap-3 min-h-min overflow-y-auto '>
+    //                 <button onClick={previousStep} className='self-start text-secondary text-lg 
+    //                 bg-primary p-2 rounded-lg drop-shadow hover:bg-accent/90 hover:text-primary'>&lt; Back</button>
+    //                 <p className='text-secondary text-lg '>Pick a date & time:</p>
+    //                 {console.log(testEventDates.dates)}
+                    
+    //                 <RenderDateButtons Dates={testEventDates.dates}/>
+    //                 {/* change the label */}
+                        
+
+                    
+    //             </div>
+    //         </div>
+    //     )
+    // }
+
     const RenderDateTime = () => {
         return (
             <div className='flex flex-col gap-2 h-72'>
                 <h1 className='text-3xl font-semibold text-secondary'>1) Select Event Date:</h1>
-                <div className='flex flex-col bg-primary h-full py-2 px-3 
-                rounded-lg drop-shadow-md gap-3 min-h-min overflow-y-auto '>
-                    <button onClick={previousStep} className='self-start text-secondary text-lg 
-                    bg-primary p-2 rounded-lg drop-shadow hover:bg-accent/90 hover:text-primary'>&lt; Back</button>
+                <div className='flex flex-col bg-primary h-full py-2 px-3
+                    rounded-lg drop-shadow-md gap-3 min-h-min overflow-y-auto'>
+                    <button onClick={previousStep} className='self-start text-secondary text-lg
+                        bg-primary p-2 rounded-lg drop-shadow hover:bg-accent/90 hover:text-primary'>&lt; Back</button>
                     <p className='text-secondary text-lg '>Pick a date & time:</p>
-                    {console.log(testEventDates.dates)}
-                    
-                    <RenderDateButtons Dates={testEventDates.dates}/>
-                    {/* change the label */}
-                        
-
-                    
+                    <RenderDateButtons Dates={testEventDates.dates} />
                 </div>
             </div>
         )
     }
+    
 
     const RenderCat = () => {
         return (

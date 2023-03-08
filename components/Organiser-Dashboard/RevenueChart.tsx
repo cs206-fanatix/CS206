@@ -14,7 +14,7 @@ const data = [
 const RevenueChart = () => {
   const [filter, setFilter] = useState('all');
 
-  const handleFilter = (filter) => {
+  const handleFilter = (filter: React.SetStateAction<string>) => {
     setFilter(filter);
   };
 

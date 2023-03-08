@@ -26,20 +26,24 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   const getLayout = () => {
     if (organiserPaths.includes(router.pathname)) {
-      return <OrganiserLayout {... pageProps}>{Component}</OrganiserLayout>;
+      return <OrganiserLayout {... pageProps}>
+        <Component/>
+        </OrganiserLayout>;
     }
 
-    return <Layout {... pageProps}>{Component}</Layout>;
+    return <Layout {... pageProps}>
+      <Component/>
+      </Layout>;
   };
 
   return (
-    <QueryClientProvider client={queryClient}>
+    <>
       <Head>
         <title>Fanatix</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       {getLayout()}
-    </QueryClientProvider>
+    </>
   );
 }
 export default MyApp
