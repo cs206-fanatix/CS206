@@ -20,9 +20,9 @@ const SeatSelect: NextPage = () => {
 
     const RenderDateButtons = ({Dates}) => {
         console.log(Dates)
-        let dateArray = Dates.map(date => {
+        let dateArray = Dates.map((date, index) => {
             return (
-                <button onClick={nextStep} className='bg-primary p-2 rounded-lg drop-shadow
+                <button key={index} onClick={nextStep} className='bg-primary p-2 rounded-lg drop-shadow
                  hover:bg-accent/90 hover:text-primary m-2 h-10 w-40'>{`${date}`}</button>
             )
         })

@@ -16,7 +16,7 @@ const Home: NextPage = () => {
     const generate_event_cards=()=> {
         var event_cards = []
         for (var i = 0; i < 10; i++) {
-            event_cards.push(<Event_Card event_name="Aimer" event_start_date="2021-01-01" event_end_date="2021-01-01" image="/zankyosanka-photo.jpg" />)
+            event_cards.push(<Event_Card event_name="Aimer" event_start_date="2021-01-01" event_end_date="2021-01-01" image="/static/images/zankyosanka-photo.jpg" />)
         }
         return event_cards
     }
@@ -31,7 +31,7 @@ const Home: NextPage = () => {
 
             purchases.push(
             <li className="py-3 sm:py-4">
-                <Purchases image="/profile.png" username="SOLgod99" event="Aimer Live" profit={profit_amt} />
+                <Purchases image="/static/images/profile.png" username="SOLgod99" event="Aimer Live" profit={profit_amt} />
             </li>)
         }
         return purchases

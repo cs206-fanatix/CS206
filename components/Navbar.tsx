@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { useState } from "react";
+import Image from "next/image";
 
 interface props {
   username: string;
@@ -16,7 +17,7 @@ const Navbar = (props: props) => {
     <nav className="items-center w-screen fixed">
       <div className="bg-primary flex items-center justify-between p-4 drop-shadow-md w-full">
         <div className="flex gap-10 w-full justify-start">
-          <img src="/logo.png" alt="Logo" className="h-12"></img>
+          <Image src="/static/images/logo.png" alt="Logo" width={100} height={34} />
           <div className="flex gap-10 p-4">
             <Link href="#" className="text-secondary font-semibold">
               Category
@@ -45,14 +46,11 @@ const Navbar = (props: props) => {
         
 
         <div className="pr-4 flex gap-4 items-center relative">
-          <Link href="#" className="text-secondary font-semibold">
+          <Link href="#" passHref className="text-secondary font-semibold cursor-pointer">
             <span className="material-symbols-outlined">shopping_cart</span>
           </Link>
-          <img
-            src="/profile.png"
-            className="h-11 object-cover rounded-full cursor-pointer"
-            onClick={toggleDropdown}
-          />
+          <Image src="/static/images/profile.png" alt="Profile" width={40} height={40} className="rounded-full cursor-pointer" onClick={toggleDropdown} />
+
           {open && (
             <div className="bg-white p-2 w-40 shadow-lg absolute top-9 right-3">
               <h3>{props.username}</h3>

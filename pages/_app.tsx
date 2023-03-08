@@ -37,7 +37,6 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Head>
         <title>Fanatix</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
       </Head>
       {getLayout()}
     </QueryClientProvider>
