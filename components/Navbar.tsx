@@ -14,7 +14,7 @@ const Navbar = (props: props) => {
   }
 
   return (
-    <nav className="items-center w-screen fixed">
+    <nav className="items-center w-screen fixed z-50">
       <div className="bg-primary flex items-center justify-between p-4 drop-shadow-md w-full">
         <div className="flex gap-10 w-full justify-start">
           <Image src="/static/images/logo.png" alt="Logo" width={100} height={34} />
