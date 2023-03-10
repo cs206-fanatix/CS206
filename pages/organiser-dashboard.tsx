@@ -9,7 +9,7 @@ import Event_Card from '../components/Organiser-Dashboard/Event_Card'
 import Purchases from '../components/Organiser-Dashboard/Purchases'
 import RevenueChart from '../components/Organiser-Dashboard/RevenueChart'
 import Footer from '../components/Footer'
-import Carousel from '../components/Organiser-Dashboard/Carousel'
+
 
 
 const Home: NextPage = () => {
@@ -98,9 +98,7 @@ const Home: NextPage = () => {
                         <img src="/one_ok_rock.webp" className="w-full h-full" />
                     </div> */}
 
-                    <Carousel
-                        img1="/one_ok_rock.webp"
-                    />
+                    
 
                     {/* Main content */}
                     <div className='flex justify-between w-auto bg-primary gap-10'>
