@@ -23,8 +23,7 @@ const Navbar = (props: props) => {
               <Image src="/static/images/logo.png" alt="Logo" width={1000} height={34} />
             </Link>
           </div>
-          
-          
+                    
           <div className="flex gap-10 p-4">
             <Link href="#" className="text-secondary font-semibold">
               FAQ
@@ -45,8 +44,6 @@ const Navbar = (props: props) => {
             </div>
           </form>
         </div>
-
-
         
 
         <div className="pr-4 flex gap-4 items-center relative">
