@@ -14,7 +14,7 @@ const Navbar = (props: props) => {
   }
 
   return (
-    <nav className="items-center w-screen fixed">
+    <nav className="items-center w-screen bg-primary fixed">
       <div className="bg-primary flex items-center justify-between p-4 drop-shadow-md w-full">
         <div className="flex gap-10 w-full justify-start">
           
@@ -29,7 +29,7 @@ const Navbar = (props: props) => {
               FAQ
             </Link>
           </div>
-          <form className="flex h-2/3 mb-auto mt-auto w-[40%]">
+          <form className="flex h-2/3 mb-auto mt-auto w-[40%] bg-primary">
             <div className="flex relative w-full">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
               <span className="material-symbols-outlined">search</span>

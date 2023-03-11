@@ -48,12 +48,14 @@ const Home: NextPage = () => {
             <div className='flex h-auto w-full pt-1'>
                 {/* Side panel */}
                 <div className="px-3 pb-4 overflow-y-auto bg-secondary">
-                <ul className="space-y-2 pt-4">
+                <ul className="space-y-2 pt-4 ">
                     <li>
-                        <a href="#" className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                        <span className="material-symbols-outlined">dataset</span>
-                        <span className="ml-3">Dashboard</span>
-                        </a>
+                        <Link href="/organiser-dashboard" passHref>
+                            <div className="flex items-center p-2 pr-8 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                                <span className="material-symbols-outlined">dataset</span>
+                                <span className="ml-3">Dashboard</span>
+                            </div>
+                        </Link>
                     </li>
                     <li>
                         <a href="#" className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
@@ -71,7 +73,6 @@ const Home: NextPage = () => {
                         <a href="#" className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                         <span className="material-symbols-outlined">confirmation_number</span>
                         <span className="flex-1 ml-3 whitespace-nowrap">Ticketing</span>
-                        <span className="inline-flex items-center justify-center w-3 h-3 p-3 ml-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">3</span>
                         </a>
                     </li>
                     <li>

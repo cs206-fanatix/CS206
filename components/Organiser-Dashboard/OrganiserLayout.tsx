@@ -14,7 +14,6 @@ const OrganiserLayout: React.FC<LayoutProps> = ({ children }) => {
     <>
       <Navbar username="Organiser 1" />
       <main>{children}</main>
-      <Footer />
     </>
   )
 }
