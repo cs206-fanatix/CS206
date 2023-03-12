@@ -7,7 +7,7 @@ const Footer = () => {
           <div className="mb-6 md:mb-0">
             <div className="flex items-center">
               {/* <img src="/logo-inverse.png" className="h-12" alt="Fanatix Logo" /> */}
-              <Image src="/static/images/logo-inverse.png" alt="Logo" width={100} height={34} />
+              <Image src="/static/images/logo-inverse.png" alt="Logo" width={150} height={51} />
             </div>
           </div>
           <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-2">

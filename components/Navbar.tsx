@@ -14,10 +14,14 @@ const Navbar = (props: props) => {
   }
 
   return (
-    <nav className="items-center w-screen fixed z-50">
+    <nav className="items-center w-screen sticky top-0 z-50">
       <div className="bg-primary flex items-center justify-between p-4 drop-shadow-md w-full">
         <div className="flex gap-10 w-full justify-start">
-          <Image src="/static/images/logo.png" alt="Logo" width={100} height={34} />
+        <div className="flex cursor-pointer w-1/12 align-auto justify-center">
+            <Link href="/" passHref>
+              <Image src="/static/images/logo.png" alt="Logo" width={1000} height={34} />
+            </Link>
+          </div>
           <div className="flex gap-10 p-4">
             <Link href="#" className="text-secondary font-semibold">
               Category
@@ -56,12 +60,15 @@ const Navbar = (props: props) => {
               <h3>{props.username}</h3>
               <hr></hr>
               <ul>
+                <Link href="/view-ticket">
                 <li
                   className="p-1 text-xs cursor-pointer rounded hover:bg-accent"
                   key="View Tickets"
+                  onClick={toggleDropdown}
                 >
-                  <Link href="#">View Tickets</Link>
+                  View Tickets
                 </li>
+                </Link>
                 <li
                   className="p-1 text-xs cursor-pointer rounded hover:bg-accent"
                   key="Profile Settings"
