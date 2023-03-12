@@ -60,12 +60,15 @@ const Navbar = (props: props) => {
               <h3>{props.username}</h3>
               <hr></hr>
               <ul>
+                <Link href="/view-ticket">
                 <li
                   className="p-1 text-xs cursor-pointer rounded hover:bg-accent"
                   key="View Tickets"
+                  onClick={toggleDropdown}
                 >
-                  <Link href="/view-ticket">View Tickets</Link>
+                  View Tickets
                 </li>
+                </Link>
                 <li
                   className="p-1 text-xs cursor-pointer rounded hover:bg-accent"
                   key="Profile Settings"

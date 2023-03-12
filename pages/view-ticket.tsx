@@ -9,6 +9,7 @@ const viewTicket: NextPage = () => {
         return (
             <EventCard
                 key={item.id}
+                id={item.id}
                 event_name={item.title}
                 artist = {item.artist}
                 event_start_date={item.dateTime}
@@ -18,7 +19,7 @@ const viewTicket: NextPage = () => {
     })
 
     return (
-        <div className='flex flex-col h-screen w-full'>
+        <div className='flex flex-col h-screen w-full bg-primary'>
             <div className='flex ml-40 mt-5 p-2 bg-secondary w-max rounded-lg'>
                 <Image src="/static/images/profile.png" width={150} height={150} className="rounded-full"></Image>
                 <div className='flex mt-3 gap-2'>
@@ -32,7 +33,7 @@ const viewTicket: NextPage = () => {
                     </div>
                 </div>
             </div>
-            <hr className='h-0.5 w-10/12 mx-auto my-3 bg-gray-200'></hr>
+            <hr className='h-0.5 w-10/12 mx-auto my-3 bg-gray-300'></hr>
             <div className='flex gap-3 ml-40 flex-wrap'>
                 {cards}
             </div>
