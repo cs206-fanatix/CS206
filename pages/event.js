@@ -5,7 +5,9 @@ export default [
         artist: "Blackpink",
         imageURL: "/static/images/bp.jpg",
         dateTime: "9/3/2023",
-        venue: "Singapore indoor stadium"
+        venue: "Singapore indoor stadium",
+        status: "listed"
+
     },
     {
         id:2,
@@ -13,7 +15,8 @@ export default [
         artist: "Blackpink",
         imageURL: "/static/images/bp.jpg",
         dateTime: "9/3/2023",
-        venue: "Singapore indoor stadium"
+        venue: "Singapore indoor stadium",
+        status: "unsold"
     },
     {
         id:3,
@@ -21,7 +24,8 @@ export default [
         artist: "Blackpink",
         imageURL: "/static/images/bp.jpg",
         dateTime: "9/3/2023",
-        venue: "Singapore indoor stadium"
+        venue: "Singapore indoor stadium",
+        status: "listed"
     },
     {
         id:4,
@@ -29,7 +33,8 @@ export default [
         artist: "Blackpink",
         imageURL: "/static/images/bp.jpg",
         dateTime: "9/3/2023",
-        venue: "Singapore indoor stadium"
+        venue: "Singapore indoor stadium",
+        status: "listed"
     },
     {
         id:5,
@@ -37,7 +42,8 @@ export default [
         artist: "Blackpink",
         imageURL: "/static/images/bp.jpg",
         dateTime: "9/3/2023",
-        venue: "Singapore indoor stadium"
+        venue: "Singapore indoor stadium",
+        status: "unsold"
     },
     {
         id:6,
@@ -45,6 +51,7 @@ export default [
         artist: "Blackpink",
         imageURL: "/static/images/bp.jpg",
         dateTime: "9/3/2023",
-        venue: "Singapore indoor stadium"
+        venue: "Singapore indoor stadium",
+        status: "unsold"
     }
 ]
