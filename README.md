@@ -26,3 +26,7 @@ To learn more about Next.js, take a look at the following resources:
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+
+## Postman
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/14575629-e1b0f2bc-3e65-4f73-97a2-b0f4d5f11054?action=collection%2Ffork&collection-url=entityId%3D14575629-e1b0f2bc-3e65-4f73-97a2-b0f4d5f11054%26entityType%3Dcollection%26workspaceId%3D73d53ac9-a175-4266-b00b-f8af1fd12943#?env%5BCS206%5D=W3sia2V5IjoiaG9zdCIsInZhbHVlIjoiaHR0cDovL2xvY2FsaG9zdDozMDAwIiwiZW5hYmxlZCI6dHJ1ZSwidHlwZSI6ImRlZmF1bHQiLCJzZXNzaW9uVmFsdWUiOiJodHRwczovL21haW4uZG9jZHlzdXlubHZwcS5hbXBsaWZ5YXBwLmNvbS8iLCJzZXNzaW9uSW5kZXgiOjB9XQ==)
