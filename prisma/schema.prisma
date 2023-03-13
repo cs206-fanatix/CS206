@@ -9,3 +9,68 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id String @id @default(uuid())
+  email String @unique
+  name String
+  hasCompletedKyc Boolean 
+
+  tickets Ticket[]
+
+  bids Bid[]
+}
+
+model Ticket {
+  id String @id @default(uuid())
+  level Int
+  category Int
+  seatNo Int
+  price Float
+  status String
+
+  owner User? @relation(fields: [ownerId], references: [id])
+  ownerId String?
+
+  listings Listing[]
+
+  event Event @relation(fields: [eventId], references: [id])
+  eventId String
+}
+
+model Listing {
+  createdAt DateTime 
+  ticketId String 
+  price Float
+  status String
+
+  bids Bid[]
+
+  tickets Ticket @relation(fields: [ticketId], references: [id])
+  @@id([createdAt, ticketId])
+}
+
+model Bid {
+  createdAt DateTime
+  listingDateTime DateTime
+  ticketId String
+  userId String
+
+  askingPrice Float
+
+  user User @relation(fields: [userId], references: [id])
+
+  listing Listing @relation(fields: [listingDateTime, ticketId], references: [createdAt, ticketId])
+  @@id([createdAt, listingDateTime, ticketId, userId])
+}
+
+model Event {
+  id String @id @default(uuid())
+  name String
+  artist String
+  imageUrl String?
+  eventDateTime DateTime
+  venue String
+
+  tickets Ticket[]
+}
