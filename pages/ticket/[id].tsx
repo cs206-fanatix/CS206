@@ -27,10 +27,10 @@ const TicketDetail: NextPage = () => {
       ];
 
 	return (
-		<div className="flex flex-col h-screen w-full bg-gradient-to-b from-primary via-secondary/20 to-primary">
+		<div className="flex flex-col h-screen w-full bg-gradient-to-b from-primary via-secondary/20 to-primary overflow-auto">
 			<div>
 				<div className="flex mt-8 justify-center">
-					<div className="flex w-1/2">
+					<div className="flex">
 						<div>
 							<Image
 								src="/static/images/bp.jpg"
@@ -65,7 +65,7 @@ const TicketDetail: NextPage = () => {
 								</Disclosure>
 							</div>
 						</div>
-						<div className="flex flex-col w-3/6 flex-1">
+						<div className="flex flex-col w-96 flex-1">
 							<div className="ml-6 bg-secondary h-40 rounded-lg">
 								<h2 className="text-primary text-xl font-bold pl-4 pt-3">
 									Born Pink World Tour
