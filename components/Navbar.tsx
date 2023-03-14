@@ -9,8 +9,8 @@ interface props {
 const Navbar = (props: props) => {
   const [open, setOpen] = useState(false);
   
-  let menuRef = useRef();
-  const imgRef = useRef();
+  let menuRef = useRef<HTMLDivElement>(null);
+  const imgRef = useRef<HTMLDivElement>(null);
   
   useEffect(()=>{
     window.addEventListener("mousedown", (e) => {
