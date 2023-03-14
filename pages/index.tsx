@@ -108,12 +108,12 @@ const Home: NextPage = () => {
 							moments in Singapore in July!
 						</h1>
 						<div className='ml-auto pt-3 flex gap-2'>
-						<Link href="#">
+						<Link href="/event/1">
 							<a className="	text-white bg-accent rounded-xl px-4 py-1 text-xl items-center hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-red-300">
 								Buy Ticket
 							</a>
 						</Link>
-						<Link href="#">
+						<Link href="/event-details/1">
 							<a className="text-white border rounded-xl px-4 py-1 text-xl items-center">
 								Learn More
 							</a>
