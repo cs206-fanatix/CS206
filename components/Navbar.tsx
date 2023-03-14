@@ -9,17 +9,18 @@ interface props {
 const Navbar = (props: props) => {
   const [open, setOpen] = useState(false);
   
-  let menuRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLDivElement>(null);
-  
+
+  /*
   useEffect(()=>{
-    window.addEventListener("mousedown", (e) => {
+    window.addEventListener("click", (e) => {
       if (e.target !== menuRef.current && e.target !== imgRef.current){
         setOpen(false);
       }
     });
   })
- 
+ */
   function toggleDropdown() {
     setOpen(() => !open);
   }
