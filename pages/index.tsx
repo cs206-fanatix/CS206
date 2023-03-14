@@ -1,102 +1,137 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
-import Link from 'next/link'
-import { useEffect, useState } from 'react'
-import Navbar from '../components/Navbar'
-import styles from '../styles/Home.module.css'
-
+import type { NextPage } from 'next';
+import Head from 'next/head';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import Navbar from '../components/Navbar';
+import styles from '../styles/Home.module.css';
+import Homecard from '../components/HomeCard';
 // test
 
 const Home: NextPage = () => {
-    return (
-        <div className='flex flex-col h-screen w-full'>
-            <div className='flex'>
-                <div className='flex flex-col w-1/12 gap-4 py-5 bg-blue-500'>
-                    <div>
-                        Hello
-                    </div>
-                    <div>
-                        Artist
-                    </div>
-                    <div>
-                        Revenue
-                    </div>
-                </div>
-                {/* <video autoPlay muted loop id="bg-video">
-                    <source src="/background.mp4" type="video/mp4"/>
-                </video> */}
-                <div className='flex justify-between w-11/12 gap-10 overflow-auto'>
-                    <div className='w-full flex flex-col'>
-                    
-                        {/* Upcoming event corner */}
-                        <div className='text-4xl font-semibold'>
-                            Upcoming Event
-                        </div>
+	const data = [{
+        id:1,
+        title: "Born Pink World Tour",
+        artist: "Blackpink",
+        imageURL: "/static/images/bp.jpg",
+        dateTime: "9/3/2023",
+        venue: "Singapore indoor stadium",
+        status: "listed"
 
-                        <div className='flex flex-col h-full gap-6'>
-                            <div className='bg-red-400 h-40 p-4 flex flex-col justify-end'>
-                                <div className='flex flex-col gap-1'>
-                                    <div className=''>
-                                        Taylorswift
-                                    </div>
-                                    <div>
-                                        Time
-                                    </div>
-                                </div>
-                                
-                            </div>
-                            <div>
-                                Taylorswift
-                            </div>
-                            <div>
-                                Taylorswift
-                            </div>
-                            <div className='bg-red-400 h-40 p-4 flex flex-col justify-end'>
-                                <div className='flex flex-col gap-1'>
-                                    <div className=''>
-                                        Taylorswift
-                                    </div>
-                                    <div>
-                                        Time
-                                    </div>
-                                </div>
-                                
-                            </div>
-                            <div>
-                                Taylorswift
-                            </div>
-                            <div>
-                                Taylorswift
-                            </div>
-                            <div className='bg-red-400 h-40 p-4 flex flex-col justify-end'>
-                                <div className='flex flex-col gap-1'>
-                                    <div className=''>
-                                        Taylorswift
-                                    </div>
-                                    <div>
-                                        Time
-                                    </div>
-                                </div>
-                                
-                            </div>
-                            <div>
-                                Taylorswift
-                            </div>
-                            <div>
-                                Taylorswift
-                            </div>
-                        </div>
-                    </div>
+    },
+    {
+        id:2,
+        title: "Born Pink World Tour",
+        artist: "Blackpink",
+        imageURL: "/static/images/bp.jpg",
+        dateTime: "9/3/2023",
+        venue: "Singapore indoor stadium",
+        status: "unsold"
+    },
+    {
+        id:3,
+        title: "Born Pink World Tour",
+        artist: "Blackpink",
+        imageURL: "/static/images/bp.jpg",
+        dateTime: "9/3/2023",
+        venue: "Singapore indoor stadium",
+        status: "listed"
+    },
+    {
+        id:4,
+        title: "Born Pink World Tour",
+        artist: "Blackpink",
+        imageURL: "/static/images/bp.jpg",
+        dateTime: "9/3/2023",
+        venue: "Singapore indoor stadium",
+        status: "listed"
+    },
+    {
+        id:5,
+        title: "Born Pink World Tour",
+        artist: "Blackpink",
+        imageURL: "/static/images/bp.jpg",
+        dateTime: "9/3/2023",
+        venue: "Singapore indoor stadium",
+        status: "unsold"
+    },
+    {
+        id:6,
+        title: "Born Pink World Tour",
+        artist: "Blackpink",
+        imageURL: "/static/images/bp.jpg",
+        dateTime: "9/3/2023",
+        venue: "Singapore indoor stadium",
+        status: "unsold"
+    }]
+	const cards = data.map((item) => {
+		return (
+			<Homecard
+			key={item.id}
+			id={item.id}
+			event_name={item.title}
+			artist={item.artist}
+			event_start_date={item.dateTime}
+			image={item.imageURL}
+			/>
+		);
+	});
+	return (
+		<div className="h-screen w-full bg-gradient-to-b from-primary via-secondary/20 to-primary overflow-auto">
+			
+				<div className="relative flex bg-gradient-to-tr from-gray-100 via-secondary to-black">
+					<div className="w-full h-104 overflow-hidden">
+						<Image
+							src="/static/images/1975.jpg"
+							layout="fill"
+							objectFit="cover"
+							objectPosition="top"
+							className="opacity-55 blur-sm"
+						></Image>
+						<div className='mt-10 ml-36'>
+					<Image
+							src="/static/images/1975.jpg"
+							width={700}
+							height={350}
+							objectPosition="center"
+							className="rounded-lg"
+						></Image>
+					</div>
+					</div>
+		
+					<div className="ml-auto z-1 flex flex-col w-max mt-20 mr-10">
+						<h1 className="text-white text-4xl font-bold">
+							THE 1975 are coming to Singapore!
+						</h1>
+						<h1 className="text-gray-200 text-xl font-semibold pt-1">
+							2023&aposs most famous British band promise only more show-stopping
+							moments in Singapore in July!
+						</h1>
+						<div className='ml-auto pt-3 flex gap-2'>
+						<Link href="/event/1">
+							<a className="	text-white bg-accent rounded-xl px-4 py-1 text-xl items-center hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-red-300">
+								Buy Ticket
+							</a>
+						</Link>
+						<Link href="/event-details/1">
+							<a className="text-white border rounded-xl px-4 py-1 text-xl items-center">
+								Learn More
+							</a>
+						</Link>
+						</div>
+						
+					</div>
+				</div>
+				<div className='p-8'>
+					<div>
+						<h1 className='text-secondary text-3xl font-bold ml-32'>
+							Upcoming Events
+						</h1>
+					</div>
+					<div className="flex gap-3 mt-5 ml-32 flex-wrap">{cards}</div>
+				</div>
+		</div>
+	);
+};
 
-                    <div className='w-full'>
-                        Ticket Sales
-                    </div>
-                
-                </div>
-            </div>
-        </div>
-    )
-}
-
-export default Home
+export default Home;
