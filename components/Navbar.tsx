@@ -1,15 +1,21 @@
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import axios from "axios";
 
 interface props {
-  username: string;
   userId?: string;
+}
+
+interface IUser {
+  id: string;
+  email: string;
+  name: string;
 }
 
 const Navbar = (props: props) => {
   const [open, setOpen] = useState(false);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<IUser>();
 
   const menuRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLDivElement>(null);
@@ -20,7 +26,18 @@ const Navbar = (props: props) => {
     //     setOpen(false);
     //   }
     // });
-  }, []);
+
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get("/api/users/" + props.userId);
+        console.log(response.data);
+        setUser(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchUser();
+  }, [props.userId]);
 
   function toggleDropdown() {
     setOpen(() => !open);
@@ -109,7 +126,7 @@ const Navbar = (props: props) => {
               ref={menuRef}
               className="bg-white p-2 w-40 shadow-lg absolute top-9 right-3"
             >
-              <h3>{props.username}</h3>
+              <h3>{user?.name}</h3>
               <hr></hr>
               <ul>
                 <Link href="/view-ticket" passHref>
@@ -127,6 +144,7 @@ const Navbar = (props: props) => {
                 >
                   Profile Settings
                 </li>
+                {/* TODO: Handle destroy cookie */}
               </ul>
             </div>
           )}

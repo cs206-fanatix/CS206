@@ -11,7 +11,7 @@ export default async function handler(
 
   switch (method) {
     /**
-     * This api will set the userId as the cookie if login is successful or throw an error if login fails
+     * This api will set the userId as the cookie if authentication is successful or throw an error if authentication fails
      */
     case "POST":
       try {
