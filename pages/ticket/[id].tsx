@@ -1,10 +1,16 @@
 import { NextPage } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { GetServerSideProps } from 'next'
+import { parse } from "cookie"
 import { Disclosure } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import PriceHistoryChart from '../../components/PriceHistoryChart';
 import QRCode from 'react-qr-code';
+
+interface Props {
+	userId?: string | null;
+}
 
 const TicketDetail: NextPage = () => {
 	const router = useRouter();
@@ -163,5 +169,14 @@ const TicketDetail: NextPage = () => {
 		</div>
 	);
 };
+
+export const getServerSideProps: GetServerSideProps<Props> = async (context) => {
+	const cookies = parse(context.req.headers.cookie as string)	
+    return { 
+		props: { 
+			userId: cookies.userId || null 
+		}
+	}
+}
 
 export default TicketDetail;

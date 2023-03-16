@@ -2,8 +2,14 @@ import type { NextPage } from 'next'
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from 'react'
+import { GetServerSideProps } from 'next'
+import { parse } from "cookie"
 
 import Navbar from '../../components/Navbar'
+
+interface Props {
+	userId?: string | null;
+}
 
 const SeatSelect: NextPage = () => {
     const [step, setStep] = useState(1)
@@ -234,6 +240,15 @@ const SeatSelect: NextPage = () => {
             : <NonVerified />}
         </div>
     )
+}
+
+export const getServerSideProps: GetServerSideProps<Props> = async (context) => {
+	const cookies = parse(context.req.headers.cookie as string)	
+    return { 
+		props: { 
+			userId: cookies.userId || null 
+		}
+	}
 }
 
 export default SeatSelect
