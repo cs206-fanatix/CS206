@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 
 interface props {
@@ -8,18 +8,30 @@ interface props {
 
 const Navbar = (props: props) => {
   const [open, setOpen] = useState(false);
+  
+  const menuRef = useRef<HTMLDivElement>(null);
+  const imgRef = useRef<HTMLDivElement>(null);
 
+  /*
+  useEffect(()=>{
+    window.addEventListener("click", (e) => {
+      if (e.target !== menuRef.current && e.target !== imgRef.current){
+        setOpen(false);
+      }
+    });
+  })
+ */
   function toggleDropdown() {
     setOpen(() => !open);
   }
 
   return (
     <nav className="items-center w-screen sticky top-0 z-50">
-      <div className="bg-primary flex items-center justify-between p-4 drop-shadow-md w-full">
-        <div className="flex gap-10 w-full justify-start">
-        <div className="flex cursor-pointer w-1/12 align-auto justify-center">
+      <div className="bg-primary flex p-4 drop-shadow-md w-full">
+        <div className="flex gap-10 w-full">
+        <div className="flex cursor-pointer align-auto">
             <Link href="/" passHref>
-              <Image src="/static/images/logo.png" alt="Logo" width={1000} height={34} />
+              <Image src="/static/images/logo.png" alt="Logo" width={140} height={40} />
             </Link>
           </div>
           <div className="flex gap-10 p-4">
@@ -38,7 +50,7 @@ const Navbar = (props: props) => {
               <input
                 type="text"
                 id="simple-search"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full pl-10 p-2.5  dark:bg-primary dark:border-gray-400 dark:placeholder-gray-400 dark:text-secondary dark:focus:ring-secondary dark:focus:border-seoncdary"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-secondary focus:border-secondary block w-full pl-10 p-2.5"
                 placeholder="Search for concerts/artists"
                 required
               />
@@ -53,10 +65,12 @@ const Navbar = (props: props) => {
           <Link href="#" passHref className="text-secondary font-semibold cursor-pointer">
             <span className="material-symbols-outlined">shopping_cart</span>
           </Link>
+          <div ref={imgRef}>
           <Image src="/static/images/profile.png" alt="Profile" width={40} height={40} className="rounded-full cursor-pointer" onClick={toggleDropdown} />
+          </div>
 
           {open && (
-            <div className="bg-white p-2 w-40 shadow-lg absolute top-9 right-3">
+            <div ref={menuRef} className="bg-white p-2 w-40 shadow-lg absolute top-9 right-3">
               <h3>{props.username}</h3>
               <hr></hr>
               <ul>
