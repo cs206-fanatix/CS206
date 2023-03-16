@@ -1,33 +1,42 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
+import { useCookies } from "react-cookie"
 import axios, { AxiosError } from "axios";
 
 const LoginPage = () => {
-  const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+    const router = useRouter();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+    const [cookie, setCookie] = useCookies(['userId'])
 
-  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
-  };
+};
 
-  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
-  };
+};
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     try {
-      const response = await axios.post("/api/login", {
-        email: email,
-        password: password,
-      });
-      console.log(response.data);
-      router.push("/");
-    } catch (error) {
-      setError((error as AxiosError).response?.data);
+        const response = await axios.post("/api/login", {
+            email: email,
+            password: password,
+        });
+
+        setCookie("userId", response.data.id, {
+            path: "/",
+            maxAge: 36000
+        })        
+        
+        console.log(cookie);
+        router.push("/");
+    } 
+    catch (error) {
+        setError((error as AxiosError).response?.data);
     }
   };
 

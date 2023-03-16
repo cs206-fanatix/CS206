@@ -15,9 +15,11 @@ export default async function handler(
           throw Error("Email and password are required");
         }
         const prisma = new PrismaClient();
+
         const user = await prisma.user.findUnique({
           where: { email: body.email },
         });
+
         if (user == null) {
           throw Error("Invalid email or password.");
         }

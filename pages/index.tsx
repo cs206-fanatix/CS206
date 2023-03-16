@@ -2,13 +2,21 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
+import { GetServerSideProps } from 'next'
 import { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import styles from '../styles/Home.module.css';
 import Homecard from '../components/HomeCard';
 // test
 
-const Home: NextPage = () => {
+interface Props {
+	userId?: string | null;
+}
+
+const Home: NextPage<Props> = (props: Props) => {
+	// console.log(props.userId);
+	
+	
 	const data = [{
         id:1,
         title: "Born Pink World Tour",
@@ -134,4 +142,13 @@ const Home: NextPage = () => {
 	);
 };
 
+export const getServerSideProps: GetServerSideProps<Props> = async (context) => {
+    const { req, res } = context
+    const { cookies } = req
+	// console.log(cookies)
+	
+    return { props: { userId: cookies.userId || null }}
+}
+  
+  
 export default Home;
