@@ -1,37 +1,39 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
-import { serialize } from "cookie";
+import { serialize, parse } from "cookie";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { query, method, body } = req;
-  const { id } = req.query;
+  const { headers, method, body } = req;
 
   switch (method) {
     /**
-     * This api will set the userId as the cookie if authentication is successful or throw an error if authentication fails
+     * This api will log current user out by setting the
+     * userId cookie to an expired one if the credentials is successful
      */
-    case "POST":
+    case "GET":
       try {
-        if (body.email === undefined || body.password === undefined) {
-          throw Error("Email and password are required");
-        }
+        const cookies = parse(headers.cookie as string);
         const prisma = new PrismaClient();
 
         const user = await prisma.user.findUnique({
-          where: { email: body.email },
+          where: { id: cookies.userId },
         });
 
         if (user == null) {
-          throw Error("Invalid email or password.");
+          throw Error("User does not exist.");
         }
 
-        const cookie = serialize("userId", user.id, {
+        // log out by overriding existing cookie with an expired one
+        const cookie = serialize("userId", "deleted", {
           httpOnly: true,
           path: "/",
+          expires: new Date(0),
         });
+        console.log(cookie);
+
         res.setHeader("Set-Cookie", cookie);
         res.status(200).send("OK");
       } catch (e) {
@@ -39,7 +41,7 @@ export default async function handler(
       }
       break;
     default:
-      res.setHeader("Allow", ["POST"]);
+      res.setHeader("Allow", ["GET"]);
       res.status(405).end(`Method ${method} Not Allowed`);
   }
 }

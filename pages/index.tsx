@@ -14,9 +14,7 @@ interface Props {
 	userId?: string | null;
 }
 
-const Home: NextPage<Props> = (props: Props) => {
-	// console.log(props.userId);
-	
+const Home: NextPage<Props> = (props: Props) => {	
 	
 	const data = [{
         id:1,
@@ -142,14 +140,5 @@ const Home: NextPage<Props> = (props: Props) => {
 		</div>
 	);
 };
-
-export const getServerSideProps: GetServerSideProps<Props> = async (context) => {
-	const cookies = parse(context.req.headers.cookie as string)	
-    return { 
-		props: { 
-			userId: cookies.userId || null 
-		}
-	}
-}
   
 export default Home;

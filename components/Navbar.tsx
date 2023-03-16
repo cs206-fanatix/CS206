@@ -2,10 +2,9 @@ import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import axios from "axios";
-
-interface props {
-  userId?: string;
-}
+import { serialize } from "cookie";
+import { useRouter } from "next/router";
+import setHeader from "next/router";
 
 interface IUser {
   id: string;
@@ -13,7 +12,9 @@ interface IUser {
   name: string;
 }
 
-const Navbar = (props: props) => {
+const Navbar = () => {
+  const router = useRouter();
+
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState<IUser>();
 
@@ -29,7 +30,7 @@ const Navbar = (props: props) => {
 
     const fetchUser = async () => {
       try {
-        const response = await axios.get("/api/users/" + props.userId);
+        const response = await axios.get("/api/user");
         console.log(response.data);
         setUser(response.data);
       } catch (error) {
@@ -37,10 +38,19 @@ const Navbar = (props: props) => {
       }
     };
     fetchUser();
-  }, [props.userId]);
+  }, []);
 
   function toggleDropdown() {
     setOpen(() => !open);
+  }
+
+  async function logout() {
+    try {
+      await axios.get("/api/logout");
+    } catch (e) {
+      console.log(e);
+    }
+    router.push("/");
   }
 
   return (
@@ -145,6 +155,13 @@ const Navbar = (props: props) => {
                   Profile Settings
                 </li>
                 {/* TODO: Handle destroy cookie */}
+                <li
+                  className="p-1 text-xs cursor-pointer rounded hover:bg-accent"
+                  key="View Tickets"
+                  onClick={logout}
+                >
+                  Log Out
+                </li>
               </ul>
             </div>
           )}
