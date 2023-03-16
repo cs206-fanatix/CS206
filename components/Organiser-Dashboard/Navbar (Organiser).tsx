@@ -14,7 +14,7 @@ const Navbar = (props: props) => {
   }
 
   return (
-    <nav className="items-center w-screen bg-primary fixed">
+    <nav className="items-center w-screen bg-primary fixed z-1">
       <div className="bg-primary flex items-center justify-between p-4 drop-shadow-md w-full">
         <div className="flex gap-10 w-full justify-start">
           
