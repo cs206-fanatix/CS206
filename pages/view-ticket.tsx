@@ -1,7 +1,13 @@
 import type { NextPage } from 'next';
 import { useState } from 'react';
 import Image from 'next/image';
+import { GetServerSideProps } from 'next'
+import { parse } from "cookie"
 import EventCard from '../components/EventCard';
+
+interface Props {
+	userId?: string | null;
+}
 
 const viewTicket: NextPage = () => {
 	const data = [{
@@ -98,5 +104,14 @@ const viewTicket: NextPage = () => {
 		</div>
 	);
 };
+
+export const getServerSideProps: GetServerSideProps<Props> = async (context) => {
+	const cookies = parse(context.req.headers.cookie as string)	
+    return { 
+		props: { 
+			userId: cookies.userId || null 
+		}
+	}
+}
 
 export default viewTicket;

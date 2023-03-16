@@ -1,8 +1,14 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { GetServerSideProps } from 'next'
+import { parse } from "cookie"
 import DetailDisclosure from '../../components/DetailDisclosure';
 import { Disclosure } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
+
+interface Props {
+	userId?: string | null;
+}
 
 const EventDetails = () => {
     const ticket = {
@@ -138,6 +144,15 @@ const EventDetails = () => {
             </div>
         </div>
     )
+}
+
+export const getServerSideProps: GetServerSideProps<Props> = async (context) => {
+	const cookies = parse(context.req.headers.cookie as string)	
+    return { 
+		props: { 
+			userId: cookies.userId || null 
+		}
+	}
 }
 
 export default EventDetails
