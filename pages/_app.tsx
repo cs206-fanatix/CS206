@@ -30,7 +30,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <Component/>
         </OrganiserLayout>;
     }
-
+    
     return <Layout {... pageProps}>
       <Component/>
       </Layout>;

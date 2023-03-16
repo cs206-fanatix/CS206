@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import { GetServerSideProps } from 'next'
+import { parse } from "cookie"
 import { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import styles from '../styles/Home.module.css';
@@ -143,11 +144,12 @@ const Home: NextPage<Props> = (props: Props) => {
 };
 
 export const getServerSideProps: GetServerSideProps<Props> = async (context) => {
-    const { req, res } = context
-    const { cookies } = req
-	// console.log(cookies)
-	
-    return { props: { userId: cookies.userId || null }}
+	const cookies = parse(context.req.headers.cookie as string)	
+    return { 
+		props: { 
+			userId: cookies.userId || null 
+		}
+	}
 }
   
   

@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
+import { serialize } from "cookie";
 
 export default async function handler(
   req: NextApiRequest,
@@ -9,6 +10,9 @@ export default async function handler(
   const { id } = req.query;
 
   switch (method) {
+    /**
+     * This api will set the userId as the cookie if login is successful or throw an error if login fails
+     */
     case "POST":
       try {
         if (body.email === undefined || body.password === undefined) {
@@ -24,7 +28,12 @@ export default async function handler(
           throw Error("Invalid email or password.");
         }
 
-        res.status(200).json(user);
+        const cookie = serialize("userId", user.id, {
+          httpOnly: true,
+          path: "/",
+        });
+        res.setHeader("Set-Cookie", cookie);
+        res.status(200).send("OK");
       } catch (e) {
         res.status(400).json((e as Error).message);
       }
