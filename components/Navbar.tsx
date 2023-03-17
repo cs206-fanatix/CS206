@@ -29,7 +29,7 @@ const Navbar = () => {
     // });
 
     userStore.fetch();
-  }, []);
+  }, [userStore]);
 
   function toggleDropdown() {
     setOpen(() => !open);
@@ -145,6 +145,16 @@ const Navbar = () => {
                 >
                   Profile Settings
                 </li>
+                {!userStore.user?.hasCompletedKyc && (
+                  <Link href="/kyc" passHref>
+                    <li
+                      className="p-1 text-xs cursor-pointer rounded hover:bg-accent"
+                      key="Get Verified"
+                    >
+                      Get Verified
+                    </li>
+                  </Link>
+                )}
                 <li
                   className="p-1 text-xs cursor-pointer rounded hover:bg-accent"
                   key="View Tickets"
