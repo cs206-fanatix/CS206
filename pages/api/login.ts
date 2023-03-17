@@ -6,8 +6,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { query, method, body } = req;
-  const { id } = req.query;
+  const { method, body } = req;
 
   switch (method) {
     /**

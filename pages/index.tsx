@@ -12,14 +12,8 @@ import { useUserStore } from '../stores/user-store';
 // test
 
 const Home: NextPage = () => {	
-
-	const fetchUser = useUserStore(state => state.fetch)
-	const user = useUserStore(state => state.user)
-
-	fetchUser()
-	console.log(user);
-	
-	
+	const userStore = useUserStore()
+		
 	const data = [{
         id:1,
         title: "Born Pink World Tour",
@@ -87,9 +81,13 @@ const Home: NextPage = () => {
 			/>
 		);
 	});
+
+	useEffect(() => {	
+		userStore.fetch()
+	}, [userStore])
+
 	return (
-		<div className="h-screen w-full bg-gradient-to-b from-primary via-secondary/20 to-primary overflow-auto">
-			
+		<div className="h-screen w-full bg-gradient-to-b from-primary via-secondary/20 to-primary overflow-auto">			
 				<div className="relative flex bg-gradient-to-tr from-gray-100 via-secondary to-black">
 					<div className="w-full h-104 overflow-hidden">
 						<Image

@@ -1,14 +1,14 @@
 import axios from "axios";
 import { create } from "zustand";
 
-export interface User {
+interface User {
   id: string;
   name: string;
   email: string;
   hasCompletedKyc: boolean;
 }
 
-export interface UserState {
+interface UserState {
   user: User | null;
   fetch: Function;
 }

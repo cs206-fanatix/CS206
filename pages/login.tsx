@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import axios, { AxiosError } from "axios";
+import { useUserStore } from "../stores/user-store";
 
 const LoginPage = () => {
   const router = useRouter();
+  const userStore = useUserStore();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -25,6 +27,7 @@ const LoginPage = () => {
         password: password,
       });
 
+      userStore.fetch();
       router.push("/");
     } catch (error) {
       setError((error as AxiosError).response?.data);

@@ -1,10 +1,9 @@
 import Link from "next/link";
-import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import axios from "axios";
-import { serialize } from "cookie";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/router";
-import setHeader from "next/router";
+import { useUserStore } from "../stores/user-store";
 
 interface IUser {
   id: string;
@@ -14,6 +13,7 @@ interface IUser {
 
 const Navbar = () => {
   const router = useRouter();
+  const userStore = useUserStore();
 
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState<IUser>();
@@ -28,13 +28,7 @@ const Navbar = () => {
     //   }
     // });
 
-    const fetchUser = async () => {
-      try {
-        const response = await axios.get("/api/user");
-        setUser(response.data);
-      } catch (error) {}
-    };
-    fetchUser();
+    userStore.fetch();
   }, []);
 
   function toggleDropdown() {
@@ -91,7 +85,7 @@ const Navbar = () => {
         <div className="px-4 flex gap-4 items-center relative">
           {/* display login and signup button if user is not logged in */}
 
-          {user == null && (
+          {userStore.user == null && (
             <Link href="/login" passHref>
               <a className="whitespace-nowrap w-auto items-center px-3 py-2 text-sm font-medium text-center text-white bg-accent rounded-lg hover:bg-red-900">
                 Log In
@@ -99,7 +93,7 @@ const Navbar = () => {
             </Link>
           )}
 
-          {user == null && (
+          {userStore.user == null && (
             <Link href="/signup" passHref>
               <a className="whitespace-nowrap w-auto items-center px-3 py-2 text-sm font-medium text-center text-white bg-accent rounded-lg hover:bg-red-900">
                 Sign Up
@@ -107,7 +101,7 @@ const Navbar = () => {
             </Link>
           )}
 
-          {user != null && (
+          {userStore.user != null && (
             <Link
               href="#"
               passHref
@@ -116,7 +110,7 @@ const Navbar = () => {
               <span className="material-symbols-outlined">shopping_cart</span>
             </Link>
           )}
-          {user != null && (
+          {userStore.user != null && (
             <div ref={imgRef}>
               <Image
                 src="/static/images/profile.png"
@@ -133,7 +127,7 @@ const Navbar = () => {
               ref={menuRef}
               className="bg-white p-2 w-40 shadow-lg absolute top-9 right-3"
             >
-              <h3>{user?.name}</h3>
+              <h3>{userStore.user?.name}</h3>
               <hr></hr>
               <ul>
                 <Link href="/view-ticket" passHref>
@@ -151,7 +145,6 @@ const Navbar = () => {
                 >
                   Profile Settings
                 </li>
-                {/* TODO: Handle destroy cookie */}
                 <li
                   className="p-1 text-xs cursor-pointer rounded hover:bg-accent"
                   key="View Tickets"
