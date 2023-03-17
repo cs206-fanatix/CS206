@@ -127,7 +127,19 @@ const Navbar = () => {
               ref={menuRef}
               className="bg-white p-2 w-40 shadow-lg absolute top-9 right-3"
             >
-              <h3>{userStore.user?.name}</h3>
+              <div className="p-2">
+                <span className="font-bold mx-2">{userStore.user?.name}</span>
+                {userStore.user?.hasCompletedKyc && (
+                  <span className="mr-2 bg-green-100 text-green-800 text-xs font-medium px-2 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
+                    Verified
+                  </span>
+                )}
+                {!userStore.user?.hasCompletedKyc && (
+                  <span className="mr-2 bg-red-100 text-red-800 text-xs font-medium  px-2 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
+                    Unverified
+                  </span>
+                )}
+              </div>
               <hr></hr>
               <ul>
                 <Link href="/view-ticket" passHref>
