@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import axios, { AxiosError } from "axios";
 import { useUserStore } from "../../stores/user-store";
 import Link from "next/link";
 
@@ -13,7 +12,7 @@ const KycPage = () => {
     if (userStore.user?.hasCompletedKyc) {
       router.push("/");
     }
-  }, [userStore, router]);
+  }, []);
 
   return (
     <div className="bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">

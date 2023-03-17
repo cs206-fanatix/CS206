@@ -16,6 +16,12 @@ const ApprovalPage = () => {
     }
   }, [userStore, router]);
 
+  const handleClick = async () => {
+    await axios.put("/api/users/" + userStore.user?.id, {
+      hasCompletedKyc: true,
+    });
+  };
+
   return (
     <div className="bg-gray-50 flex justify-center py-12 sm:px-6 lg:px-8">
       <div className="w-1/3 h-full bg-gray-100 px-8 py-10 rounded rounded-lg">
@@ -66,7 +72,10 @@ const ApprovalPage = () => {
 
           <div className="flex justify-between gap-5 mt-10">
             <Link href={"/"} passHref>
-              <button className="w-full flex justify-center content-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+              <button
+                onClick={handleClick}
+                className="w-full flex justify-center content-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              >
                 Return back to home
               </button>
             </Link>

@@ -13,7 +13,7 @@ const PaymentVerificationPage = () => {
     if (userStore.user?.hasCompletedKyc) {
       router.push("/");
     }
-  }, [userStore, router]);
+  }, [userStore]);
 
   return (
     <div className="bg-gray-50 flex justify-center py-12 sm:px-6 lg:px-8">
@@ -29,12 +29,14 @@ const PaymentVerificationPage = () => {
               your transactions are safe and secure, we require all users to
               complete a payment verification process. This process involves
               submitting proof of your identity and payment information to our
-              system. Payment verification is a one-time process that helps us
-              ensure the safety and security of all transactions on our
-              platform. Once you have completed the payment verification
-              process, you will be able to use all of Fanatix&apos;s features,
-              including buying and selling concert tickets, with confidence and
-              peace of mind.
+              system.
+            </span>
+            <span className="text-gray-500">
+              Payment verification is a one-time process that helps us ensure
+              the safety and security of all transactions on our platform. Once
+              you have completed the payment verification process, you will be
+              able to use all of Fanatix&apos;s features, including buying and
+              selling concert tickets, with confidence and peace of mind.
             </span>
           </div>
         </div>
