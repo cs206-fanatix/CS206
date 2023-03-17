@@ -1,18 +1,14 @@
 import type { NextPage } from 'next'
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from 'react'
-import { GetServerSideProps } from 'next'
-import { parse } from "cookie"
+import { useEffect, useState } from 'react'
 
 import Navbar from '../../components/Navbar'
-
-interface Props {
-	userId?: string | null;
-}
+import { useUserStore } from '../../stores/user-store';
 
 const SeatSelect: NextPage = () => {
     const [step, setStep] = useState(1)
+    const userStore = useUserStore()
     
     // test objects
     const testEvent = {
@@ -232,6 +228,10 @@ const SeatSelect: NextPage = () => {
         )
     }
 
+    useEffect(() => {
+        userStore.fetch()
+    }, [userStore])
+
     return (
         <div className='flex flex-col p-14 pt-24 bg-gradient-to-b from-primary via-secondary/20 to-primary gap-5 items-center'>
             {/* TODO: some checks for KYC here */}
@@ -240,15 +240,6 @@ const SeatSelect: NextPage = () => {
             : <NonVerified />}
         </div>
     )
-}
-
-export const getServerSideProps: GetServerSideProps<Props> = async (context) => {
-	const cookies = parse(context.req.headers.cookie as string)	
-    return { 
-		props: { 
-			userId: cookies.userId || null 
-		}
-	}
 }
 
 export default SeatSelect

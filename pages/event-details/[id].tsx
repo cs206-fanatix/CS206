@@ -5,12 +5,12 @@ import { parse } from "cookie"
 import DetailDisclosure from '../../components/DetailDisclosure';
 import { Disclosure } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
-
-interface Props {
-	userId?: string | null;
-}
+import { useUserStore } from '../../stores/user-store';
+import { useEffect } from 'react';
 
 const EventDetails = () => {
+    const userStore = useUserStore();
+
     const ticket = {
         id: 1,
         title: 'At Their Very Best',
@@ -59,6 +59,10 @@ const EventDetails = () => {
             />
         );
     });
+
+    useEffect(() => {
+        userStore.fetch()
+    }, [userStore])
 
     return (
         <div className="h-screen w-full bg-gradient-to-b from-primary via-secondary/20 to-primary overflow-auto">
@@ -144,15 +148,6 @@ const EventDetails = () => {
             </div>
         </div>
     )
-}
-
-export const getServerSideProps: GetServerSideProps<Props> = async (context) => {
-	const cookies = parse(context.req.headers.cookie as string)	
-    return { 
-		props: { 
-			userId: cookies.userId || null 
-		}
-	}
 }
 
 export default EventDetails

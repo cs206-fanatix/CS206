@@ -1,15 +1,12 @@
 import type { NextPage } from 'next';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { GetServerSideProps } from 'next'
-import { parse } from "cookie"
 import EventCard from '../components/EventCard';
-
-interface Props {
-	userId?: string | null;
-}
+import { useUserStore } from '../stores/user-store';
 
 const viewTicket: NextPage = () => {
+    const userStore = useUserStore();
+
 	const data = [{
         id:1,
         title: "Born Pink World Tour",
@@ -79,6 +76,10 @@ const viewTicket: NextPage = () => {
 		);
 	});
 
+    useEffect(() => {
+        userStore.fetch()
+    }, [userStore])
+
 	return (
 		<div className="flex flex-col h-screen w-full bg-gradient-to-b from-primary via-secondary/20 to-primary">
 			<div className="flex ml-40 mt-5 p-2 bg-secondary w-max rounded-lg">
@@ -104,14 +105,5 @@ const viewTicket: NextPage = () => {
 		</div>
 	);
 };
-
-export const getServerSideProps: GetServerSideProps<Props> = async (context) => {
-	const cookies = parse(context.req.headers.cookie as string)	
-    return { 
-		props: { 
-			userId: cookies.userId || null 
-		}
-	}
-}
 
 export default viewTicket;

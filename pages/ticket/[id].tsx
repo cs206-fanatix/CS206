@@ -1,19 +1,16 @@
 import { NextPage } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { GetServerSideProps } from 'next'
-import { parse } from "cookie"
 import { Disclosure } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import PriceHistoryChart from '../../components/PriceHistoryChart';
 import QRCode from 'react-qr-code';
-
-interface Props {
-	userId?: string | null;
-}
+import { useUserStore } from '../../stores/user-store';
+import { useEffect } from 'react';
 
 const TicketDetail: NextPage = () => {
 	const router = useRouter();
+	const userStore = useUserStore();
 	const { id } = router.query;
 	const ticket = {
 		id: 1,
@@ -31,6 +28,10 @@ const TicketDetail: NextPage = () => {
         { date: '2022-03-04', price: 150},
         { date: '2022-03-05', price: 100}
       ];
+
+	  useEffect(() => {
+        userStore.fetch()
+    }, [userStore])
 
 	return (
 		<div className="flex flex-col h-screen w-full bg-gradient-to-b from-primary via-secondary/20 to-primary overflow-auto">
@@ -169,14 +170,5 @@ const TicketDetail: NextPage = () => {
 		</div>
 	);
 };
-
-export const getServerSideProps: GetServerSideProps<Props> = async (context) => {
-	const cookies = parse(context.req.headers.cookie as string)	
-    return { 
-		props: { 
-			userId: cookies.userId || null 
-		}
-	}
-}
 
 export default TicketDetail;
