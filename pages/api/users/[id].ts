@@ -24,8 +24,24 @@ export default async function handler(
         res.status(400).json((e as Error).message);
       }
       break;
+    case "POST":
+      try {
+        const user = await prisma.user.findUnique({
+          where: {
+            id: id as string,
+          },
+          include: {
+            tickets: true,
+          },
+        });
+        res.status(200).json(user);
+      } catch (e) {
+        res.status(400).json((e as Error).message);
+      }
+      break;
+
     default:
-      res.setHeader("Allow", ["GET"]);
+      res.setHeader("Allow", ["GET", "POST"]);
       res.status(405).end(`Method ${method} Not Allowed`);
   }
 }
