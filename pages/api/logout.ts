@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
+import prisma from "../../utils/db-client";
 import { serialize, parse } from "cookie";
 
 export default async function handler(
@@ -16,12 +16,9 @@ export default async function handler(
     case "GET":
       try {
         const cookies = parse(headers.cookie as string);
-        const prisma = new PrismaClient();
-
         const user = await prisma.user.findUnique({
           where: { id: cookies.userId },
         });
-
         if (user == null) {
           throw Error("User does not exist.");
         }

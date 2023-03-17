@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
+import prisma from "../../utils/db-client";
 import { serialize } from "cookie";
 
 export default async function handler(
@@ -19,8 +19,6 @@ export default async function handler(
         if (body.email === undefined || body.password === undefined) {
           throw Error("Email and password are required");
         }
-        const prisma = new PrismaClient();
-
         const user = await prisma.user.findUnique({
           where: { email: body.email },
         });
