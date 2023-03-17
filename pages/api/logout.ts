@@ -32,7 +32,6 @@ export default async function handler(
           path: "/",
           expires: new Date(0),
         });
-        console.log(cookie);
 
         res.setHeader("Set-Cookie", cookie);
         res.status(200).send("OK");

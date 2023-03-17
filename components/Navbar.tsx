@@ -31,11 +31,8 @@ const Navbar = () => {
     const fetchUser = async () => {
       try {
         const response = await axios.get("/api/user");
-        console.log(response.data);
         setUser(response.data);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     };
     fetchUser();
   }, []);
@@ -50,7 +47,7 @@ const Navbar = () => {
     } catch (e) {
       console.log(e);
     }
-    router.push("/");
+    router.reload();
   }
 
   return (

@@ -8,13 +8,17 @@ import { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import styles from '../styles/Home.module.css';
 import Homecard from '../components/HomeCard';
+import { useUserStore } from '../stores/user-store';
 // test
 
-interface Props {
-	userId?: string | null;
-}
+const Home: NextPage = () => {	
 
-const Home: NextPage<Props> = (props: Props) => {	
+	const fetchUser = useUserStore(state => state.fetch)
+	const user = useUserStore(state => state.user)
+
+	fetchUser()
+	console.log(user);
+	
 	
 	const data = [{
         id:1,

@@ -20,7 +20,7 @@ const LoginPage = () => {
     event.preventDefault();
 
     try {
-      await axios.post("/api/authenticate", {
+      await axios.post("/api/login", {
         email: email,
         password: password,
       });
