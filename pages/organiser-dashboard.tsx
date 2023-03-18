@@ -45,44 +45,44 @@ const Home: NextPage = () => {
 
     return (
         <div className='flex flex-col h-auto w-full pt-20'>
-            <div className='flex h-auto w-full pt-1'>
+            <div className='flex h-auto w-full'>
                 {/* Side panel */}
                 <div className="px-3 pb-4 overflow-y-auto bg-secondary">
                 <ul className="space-y-2 pt-4 ">
                     <li>
                         <Link href="/organiser-dashboard" passHref>
-                            <div className="flex items-center p-2 pr-8 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                            <div className="flex items-center p-2 pr-8 text-base font-normal text-white rounded-lg hover:bg-gray-700">
                                 <span className="material-symbols-outlined">dataset</span>
                                 <span className="ml-3">Dashboard</span>
                             </div>
                         </Link>
                     </li>
                     <li>
-                        <a href="#" className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <a href="#" className="flex items-center p-2 text-base font-normal text-white rounded-lg hover:bg-gray-700">
                         <span className="material-symbols-outlined">person</span>
                         <span className="flex-1 ml-3 whitespace-nowrap">My Artists</span>
                         </a>
                     </li>                  
                     <li>
-                        <a href="#" className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <a href="#" className="flex items-center p-2 text-base font-normal text-white rounded-lg hover:bg-gray-700">
                         <span className="material-symbols-outlined">stadium</span>
                         <span className="flex-1 ml-3 whitespace-nowrap">My Events</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#" className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <a href="#" className="flex items-center p-2 text-base font-normal text-white rounded-lg hover:bg-gray-700">
                         <span className="material-symbols-outlined">confirmation_number</span>
                         <span className="flex-1 ml-3 whitespace-nowrap">Ticketing</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#" className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <a href="#" className="flex items-center p-2 text-base font-normal text-white rounded-lg hover:bg-gray-700">
                         <span className="material-symbols-outlined">credit_card</span>   
                         <span className="flex-1 ml-3 whitespace-nowrap">Payment</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#" className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <a href="#" className="flex items-center p-2 text-base font-normal text-white rounded-lg hover:bg-gray-700">
                         <span className="material-symbols-outlined">settings</span>                    
                         <span className="flex-1 ml-3 whitespace-nowrap">Settings</span>
                         </a>
@@ -119,15 +119,15 @@ const Home: NextPage = () => {
                             <div className='text-4xl font-semibold pt-10 pb-4 pl-2'>
                                 Ticket Sales
                             </div>
-                            <div className="h-1/3 w-2/3 p-4 border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+                            <div className="h-1/3 w-2/3 p-4 border rounded-lg shadow sm:p-8 bg-gray-800 border-gray-700">
                                 <div className="flex items-center justify-between">
-                                    <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">Latest Purchases</h5>
-                                    <a href="#" className="text-sm font-medium hover:underline dark:text-blue-400">
+                                    <h5 className="text-xl font-bold leading-none text-white">Latest Purchases</h5>
+                                    <a href="#" className="text-sm font-medium hover:underline text-blue-400">
                                         View all
                                     </a>
                                 </div>  
                                 <div className="h-full flex flow-root overflow-auto no-scroll-bar">
-                                    <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
+                                    <ul role="list" className="divide-y divide-gray-700">
                                         {generate_purchases()}
                                     </ul>
                                 </div>
