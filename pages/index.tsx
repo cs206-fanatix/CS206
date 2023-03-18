@@ -6,12 +6,9 @@ import { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import styles from '../styles/Home.module.css';
 import Homecard from '../components/HomeCard';
-import { useUserStore } from '../stores/user-store';
 // test
 
-const Home: NextPage = () => {	
-	const userStore = useUserStore()
-		
+const Home: NextPage = () => {
 	const data = [{
         id:1,
         title: "Born Pink World Tour",
@@ -79,13 +76,9 @@ const Home: NextPage = () => {
 			/>
 		);
 	});
-
-	useEffect(() => {	
-		userStore.fetch()
-	}, [userStore])
-
 	return (
-		<div className="h-screen w-full bg-gradient-to-b from-primary via-secondary/20 to-primary overflow-auto">			
+		<div className="h-screen w-full bg-gradient-to-b from-primary via-secondary/20 to-primary overflow-auto">
+			
 				<div className="relative flex bg-gradient-to-tr from-gray-100 via-secondary to-black">
 					<div className="w-full h-104 overflow-hidden">
 						<Image
@@ -140,5 +133,5 @@ const Home: NextPage = () => {
 		</div>
 	);
 };
-  
+
 export default Home;

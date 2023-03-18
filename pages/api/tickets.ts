@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import prisma from "../../utils/db-client";
+import { PrismaClient } from "@prisma/client";
 
 export default async function handler(
   req: NextApiRequest,
@@ -10,6 +10,7 @@ export default async function handler(
   switch (method) {
     case "GET":
       try {
+        const prisma = new PrismaClient();
         const tickets = await prisma.ticket.findMany();
         res.status(200).json(tickets);
       } catch (e) {
@@ -18,6 +19,7 @@ export default async function handler(
       break;
     case "POST":
       try {
+        const prisma = new PrismaClient();
         if (
           !(
             body.status === "unsold" ||
