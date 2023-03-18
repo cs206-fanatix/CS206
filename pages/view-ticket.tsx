@@ -4,7 +4,7 @@ import Image from 'next/image';
 import EventCard from '../components/EventCard';
 import { useUserStore } from '../stores/user-store';
 
-const ViewTicket: NextPage = () => {
+const viewTicket: NextPage = () => {
     const userStore = useUserStore();
 
 	const data = [{
@@ -106,4 +106,4 @@ const ViewTicket: NextPage = () => {
 	);
 };
 
-export default ViewTicket;
+export default viewTicket;
