@@ -1,16 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { GetServerSideProps } from 'next'
-import { parse } from "cookie"
 import DetailDisclosure from '../../components/DetailDisclosure';
 import { Disclosure } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
-import { useUserStore } from '../../stores/user-store';
-import { useEffect } from 'react';
 
 const EventDetails = () => {
-    const userStore = useUserStore();
-
     const ticket = {
         id: 1,
         title: 'At Their Very Best',
@@ -59,10 +53,6 @@ const EventDetails = () => {
             />
         );
     });
-
-    useEffect(() => {
-        userStore.fetch()
-    }, [userStore])
 
     return (
         <div className="h-screen w-full bg-gradient-to-b from-primary via-secondary/20 to-primary overflow-auto">

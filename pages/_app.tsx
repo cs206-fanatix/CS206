@@ -1,42 +1,39 @@
-import "../styles/globals.css";
-import "tailwindcss/tailwind.css";
-import Layout from "../components/Layout";
-import OrganiserLayout from "../components/Organiser-Dashboard/OrganiserLayout";
-import Head from "next/head";
-import { useRouter } from "next/router";
+import '../styles/globals.css'
+import 'tailwindcss/tailwind.css';
+import Layout from '../components/Layout';
+import OrganiserLayout from '../components/Organiser-Dashboard/OrganiserLayout';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
 
-import type { AppProps } from "next/app";
-import { QueryClient, QueryClientProvider } from "react-query";
+import type { AppProps } from 'next/app'
+import { QueryClient, QueryClientProvider } from 'react-query';
+
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const queryClient = new QueryClient();
+
+  const queryClient = new QueryClient()
 
   const organiserPaths = [
-    "/organiser-dashboard",
-    "/create-event",
-    "/edit-event",
-    "/event-details",
-    "/event-tickets",
-    "/event-attendees",
-    "/event-revenue",
-    "/event-settings",
-  ];
+    '/organiser-dashboard', 
+    '/create-event', 
+    '/edit-event', 
+    '/event-details', 
+    '/event-tickets', 
+    '/event-attendees', 
+    '/event-revenue', 
+    '/event-settings']
   const router = useRouter();
 
   const getLayout = () => {
     if (organiserPaths.includes(router.pathname)) {
-      return (
-        <OrganiserLayout {...pageProps}>
-          <Component />
-        </OrganiserLayout>
-      );
+      return <OrganiserLayout {... pageProps}>
+        <Component/>
+        </OrganiserLayout>;
     }
 
-    return (
-      <Layout {...pageProps}>
-        <Component />
-      </Layout>
-    );
+    return <Layout {... pageProps}>
+      <Component/>
+      </Layout>;
   };
 
   return (
@@ -49,4 +46,4 @@ function MyApp({ Component, pageProps }: AppProps) {
     </>
   );
 }
-export default MyApp;
+export default MyApp
