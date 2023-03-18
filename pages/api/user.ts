@@ -1,31 +1,37 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import prisma from "../../../utils/db-client";
+import prisma from "../../utils/db-client";
+import { parse } from "cookie";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { query, method } = req;
-  const { id } = req.query;
+  const { method, headers } = req;
 
   switch (method) {
+    /**
+     * This api will get user details from the cookie set by the login api
+     */
     case "GET":
       try {
+        // get cookie
+        const cookies = parse(headers.cookie as string);
+
         const user = await prisma.user.findUnique({
-          where: {
-            id: id as string,
-          },
-          include: {
-            tickets: true,
-          },
+          where: { id: cookies.userId },
         });
+
+        if (user == null) {
+          throw Error("User does not exist.");
+        }
+
         res.status(200).json(user);
       } catch (e) {
         res.status(400).json((e as Error).message);
       }
       break;
     default:
-      res.setHeader("Allow", ["GET"]);
+      res.setHeader("Allow", ["POST"]);
       res.status(405).end(`Method ${method} Not Allowed`);
   }
 }

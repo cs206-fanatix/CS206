@@ -1,9 +1,12 @@
 import type { NextPage } from 'next';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import EventCard from '../components/EventCard';
+import { useUserStore } from '../stores/user-store';
 
 const viewTicket: NextPage = () => {
+    const userStore = useUserStore();
+
 	const data = [{
         id:1,
         title: "Born Pink World Tour",
@@ -72,6 +75,10 @@ const viewTicket: NextPage = () => {
 			/>
 		);
 	});
+
+    useEffect(() => {
+        userStore.fetch()
+    }, [userStore])
 
 	return (
 		<div className="flex flex-col h-screen w-full bg-gradient-to-b from-primary via-secondary/20 to-primary">
