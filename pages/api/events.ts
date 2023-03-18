@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
+import prisma from "../../utils/db-client";
 
 export default async function handler(
   req: NextApiRequest,
@@ -9,13 +9,11 @@ export default async function handler(
 
   switch (method) {
     case "GET":
-      const prisma = new PrismaClient();
       const events = await prisma.event.findMany();
       res.status(200).json(events);
       break;
     case "POST":
       try {
-        const prisma = new PrismaClient();
         const event = await prisma.event.create({
           data: {
             name: body.name,

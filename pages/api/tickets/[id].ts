@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
+import prisma from "../../../utils/db-client";
 
 export default async function handler(
   req: NextApiRequest,
@@ -11,7 +11,6 @@ export default async function handler(
   switch (method) {
     case "GET":
       try {
-        const prisma = new PrismaClient();
         const user = await prisma.ticket.findUnique({
           where: {
             id: id as string,
