@@ -19,6 +19,7 @@
     "chart.js": "^4.2.1",
     "cookie": "^0.5.0",
     "flowbite": "^1.6.4",
+    "lodash-es": "^4.17.21",
     "moment": "^2.29.1",
     "next": "^12.3.4",
     "postcss": "^8.3.6",
@@ -37,6 +38,7 @@
   },
   "devDependencies": {
     "@types/cookie": "^0.5.1",
+    "@types/lodash-es": "^4.17.7",
     "@types/node": "18.14.6",
     "@types/react": "18.0.28",
     "eslint": "7.32.0",

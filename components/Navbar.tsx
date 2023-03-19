@@ -5,18 +5,11 @@ import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useUserStore } from "../stores/user-store";
 
-interface IUser {
-  id: string;
-  email: string;
-  name: string;
-}
-
 const Navbar = () => {
   const router = useRouter();
   const userStore = useUserStore();
 
   const [open, setOpen] = useState(false);
-  const [user, setUser] = useState<IUser>();
 
   const menuRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLDivElement>(null);
@@ -28,7 +21,9 @@ const Navbar = () => {
     //   }
     // });
 
-    userStore.fetch();
+    if (userStore.user == null) {
+      userStore.fetch();
+    }
   }, [userStore]);
 
   function toggleDropdown() {
@@ -38,10 +33,11 @@ const Navbar = () => {
   async function logout() {
     try {
       await axios.get("/api/logout");
+      userStore.deleteUser();
+      router.reload();
     } catch (e) {
       console.log(e);
     }
-    router.reload();
   }
 
   return (

@@ -10,7 +10,9 @@ const ApprovalPage = () => {
   const userStore = useUserStore();
 
   useEffect(() => {
-    userStore.fetch;
+    if (userStore.user == null) {
+      userStore.fetch();
+    }
     if (userStore.user?.hasCompletedKyc) {
       router.push("/");
     }

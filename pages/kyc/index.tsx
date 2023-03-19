@@ -8,11 +8,13 @@ const KycPage = () => {
   const userStore = useUserStore();
 
   useEffect(() => {
-    userStore.fetch;
+    if (userStore.user == null) {
+      userStore.fetch();
+    }
     if (userStore.user?.hasCompletedKyc) {
       router.push("/");
     }
-  }, []);
+  }, [userStore, router]);
 
   return (
     <div className="bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
