@@ -19,7 +19,7 @@ const IdentityVerificationPage = () => {
 
   return (
     <div className="bg-gray-50 flex justify-center py-12 sm:px-6 lg:px-8">
-      <div className="w-1/3 h-full bg-gray-100 px-8 py-10 rounded rounded-lg">
+      <div className="w-1/3 h-full bg-gray-100 px-8 py-10 rounded-lg">
         <span className="text-lg font-bold text-gray-400">
           Step 1/3: Identity Verification
         </span>
