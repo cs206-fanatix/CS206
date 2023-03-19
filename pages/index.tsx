@@ -47,6 +47,10 @@ const Home: NextPage = () => {
 		);
 	});
 
+	useEffect(() => {	
+		userStore.fetch()
+	}, [userStore])
+
 	return (
 		<div className="h-screen w-full bg-gradient-to-b from-primary via-secondary/20 to-primary overflow-auto">			
 				<div className="relative flex bg-gradient-to-tr from-gray-100 via-secondary to-black">
