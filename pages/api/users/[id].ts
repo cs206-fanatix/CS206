@@ -22,7 +22,11 @@ export default async function handler(
             id: id as string,
           },
           include: {
-            tickets: true,
+            tickets: {
+              include: {
+                event: true,
+              },
+            },
           },
         });
         res.status(200).json(user);
