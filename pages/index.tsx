@@ -1,88 +1,51 @@
 import type { NextPage } from 'next';
-import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import Navbar from '../components/Navbar';
-import styles from '../styles/Home.module.css';
 import Homecard from '../components/HomeCard';
 import { useUserStore } from '../stores/user-store';
-// test
+import { format } from 'date-fns';
+import axios from "axios";
 
 const Home: NextPage = () => {	
 	const userStore = useUserStore()
-		
-	const data = [{
-        id:1,
-        title: "Born Pink World Tour",
-        artist: "Blackpink",
-        imageURL: "/static/images/bp.jpg",
-        dateTime: "9/3/2023",
-        venue: "Singapore indoor stadium",
-        status: "listed"
+	const [allEvents, setAllEvents] = useState<any[]>([])
+	const [banner, setBanner] = useState<any>()
+	
+	useEffect(() => {	
+		userStore.fetch()
+	}, [])
 
-    },
-    {
-        id:2,
-        title: "Born Pink World Tour",
-        artist: "Blackpink",
-        imageURL: "/static/images/bp.jpg",
-        dateTime: "9/3/2023",
-        venue: "Singapore indoor stadium",
-        status: "unsold"
-    },
-    {
-        id:3,
-        title: "Born Pink World Tour",
-        artist: "Blackpink",
-        imageURL: "/static/images/bp.jpg",
-        dateTime: "9/3/2023",
-        venue: "Singapore indoor stadium",
-        status: "listed"
-    },
-    {
-        id:4,
-        title: "Born Pink World Tour",
-        artist: "Blackpink",
-        imageURL: "/static/images/bp.jpg",
-        dateTime: "9/3/2023",
-        venue: "Singapore indoor stadium",
-        status: "listed"
-    },
-    {
-        id:5,
-        title: "Born Pink World Tour",
-        artist: "Blackpink",
-        imageURL: "/static/images/bp.jpg",
-        dateTime: "9/3/2023",
-        venue: "Singapore indoor stadium",
-        status: "unsold"
-    },
-    {
-        id:6,
-        title: "Born Pink World Tour",
-        artist: "Blackpink",
-        imageURL: "/static/images/bp.jpg",
-        dateTime: "9/3/2023",
-        venue: "Singapore indoor stadium",
-        status: "unsold"
-    }]
-	const cards = data.map((item) => {
+	useEffect(() => {
+		async function getEvents() {
+			try {
+				let res = await axios.get("/api/events");
+				let data = await res.data
+				setBanner(data[2])
+				data.splice(2,1)
+				setAllEvents(data)
+			  } catch (error) {
+				console.log(error);
+			  }
+		}
+		getEvents()
+	}, [])
+
+
+	const cards = allEvents.map((item) => {
+		const date = item.eventDateTime
+		const dateFormatted = format(new Date(date), 'dd/MM/yyyy (EEE)')
 		return (
 			<Homecard
 			key={item.id}
 			id={item.id}
-			event_name={item.title}
+			event_name={item.name}
 			artist={item.artist}
-			event_start_date={item.dateTime}
-			image={item.imageURL}
+			event_start_date={dateFormatted}
+			image={"/static/images/bp.jpg"}
 			/>
 		);
 	});
-
-	useEffect(() => {	
-		userStore.fetch()
-	}, [userStore])
 
 	return (
 		<div className="h-screen w-full bg-gradient-to-b from-primary via-secondary/20 to-primary overflow-auto">			
@@ -115,12 +78,12 @@ const Home: NextPage = () => {
 							moments in Singapore in July!
 						</h1>
 						<div className='ml-auto pt-3 flex gap-2'>
-						<Link href="/event/1">
+						<Link href={`/event/${encodeURIComponent(banner?.id)}`}>
 							<a className="	text-white bg-accent rounded-xl px-4 py-1 text-xl items-center hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-red-300">
 								Buy Ticket
 							</a>
 						</Link>
-						<Link href="/event-details/1">
+						<Link href={`/event-details/${encodeURIComponent(banner?.id)}`}>
 							<a className="text-white border rounded-xl px-4 py-1 text-xl items-center">
 								Learn More
 							</a>
