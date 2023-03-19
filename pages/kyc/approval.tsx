@@ -31,7 +31,7 @@ const ApprovalPage = () => {
           Step 3/3: Pending Approval
         </span>
 
-        <div className="mt-10">
+        <div className="mt-5">
           <div className="w-all gap-3 mt-2">
             <p className="text-gray-500">
               Thank you for your interest in using Fanatix. We have received
@@ -53,13 +53,13 @@ const ApprovalPage = () => {
           </div>
         </div>
 
-        <div className="mt-10">
+        {/* <div className="mt-10">
           <span className="text-lg font-bold">Status</span>
           <div className="text-gray-500 mt-2">
             We are currently verifying your{" "}
             <span className="font-bold">address</span>
           </div>
-        </div>
+        </div> */}
       </div>
 
       <div className="w-2/3 h-full px-2">
@@ -74,12 +74,12 @@ const ApprovalPage = () => {
 
           <div className="flex justify-between gap-5 mt-10">
             <Link href={"/"} passHref>
-              <button
+              <a
                 onClick={handleClick}
                 className="w-full flex justify-center content-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
                 Return back to home
-              </button>
+              </a>
             </Link>
           </div>
         </div>

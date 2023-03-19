@@ -155,11 +155,8 @@ const Navbar = () => {
                 </li>
                 {!userStore.user?.hasCompletedKyc && (
                   <Link href="/kyc" passHref>
-                    <li
-                      className="p-1 text-xs cursor-pointer rounded hover:bg-accent"
-                      key="Get Verified"
-                    >
-                      Get Verified
+                    <li className="p-1 text-xs cursor-pointer rounded hover:bg-accent">
+                      <a key="Get Verified">Get Verified</a>
                     </li>
                   </Link>
                 )}
