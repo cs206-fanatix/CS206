@@ -11,22 +11,21 @@ const CategorySelect: NextPage = () => {
     // test objects
     const testEvent = {
         id: 1,
-        title: "Aimer Live",
+        name: "Aimer Live",
         artist: "Aimer",
         imageUrl: "/static/images/zankyosanka-banner.jpg",
-        dateTime: ['2023-02-21 6:00:00','2023-02-22 6:00:00','2023-02-23 6:00:00'],
+        eventDateTime: ['2023-02-21 6:00:00','2023-02-22 6:00:00','2023-02-23 6:00:00'],
         venue: "Star Theatre",
     }
     const testUser = {
         email: 'SolGod99',
         hasKYC: true
     }
-    const current = new Date()
 
     const RenderCatDiagram = () => {
         return (
             <div className='flex flex-col p-2 gap-5'>
-                <div className='border border-secondary bg-secondary p-3 rounded'>
+                <div className='bg-secondary p-3 rounded'>
                     <p className='text-accent text-lg  text-center font-semibold'>Level 1</p>
                     <h1 className='text-center p-2 bg-secondary/70 text-primary my-4 drop-shadow-sm font-semibold'> Stage </h1>
                     
@@ -76,13 +75,13 @@ const CategorySelect: NextPage = () => {
         <div className='flex flex-col p-14 pt-24 bg-gradient-to-b from-primary via-secondary/20 to-primary gap-5 items-center'>
             {/* TODO: some checks for KYC here */}
             <EventBanner
-                title={testEvent.title}
+                name={testEvent.name}
                 imageUrl={testEvent.imageUrl}
                 venue = {testEvent.venue} 
             />
             {testUser.hasKYC 
-            ? <RenderCategory /> 
-            : <NonVerified />}
+                ? <RenderCategory /> 
+                : <NonVerified />}
         </div>
     )
 } 
