@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import Router from 'next/router' 
 import { useEffect, useState } from 'react'
 import { Dropdown } from "@nextui-org/react";
+import { ChevronDoubleUpIcon,ChevronDoubleDownIcon } from '@heroicons/react/20/solid';
 
 import EventBanner from '../../../components/EventBanner'
 import NonVerified from '../../../components/NonVerified'
@@ -50,7 +51,7 @@ const SeatSelect: NextPage = () => {
         category: 2,
         seatNo: 2,
         price: 160,
-        status: "unsold",
+        status: "sold",
         ownerId: "78d14e9a-a891-4902-9850-4a2dc6e38e20",
         eventId: "2fa2b8ed-90ba-4f6d-9d1a-7f53ee4e240e"
     },{
@@ -78,46 +79,52 @@ const SeatSelect: NextPage = () => {
         seatNo: 5,
         price: 160.5,
         status: "unsold",
+        ownerId: "null",
+        eventId: "2fa2b8ed-90ba-4f6d-9d1a-7f53ee4e240e"
+    },{
+        id: 6,
+        level: 1,
+        category: 2,
+        seatNo: 6,
+        price: 170.5,
+        status: "sold",
         ownerId: "78d14e9a-a891-4902-9850-4a2dc6e38e20",
         eventId: "2fa2b8ed-90ba-4f6d-9d1a-7f53ee4e240e"
     },
     ];
 
-    const SeatButton = () => {
-        // id: "8315b749-cbac-4a8e-8c27-5f3982834888",
-        // level: 1,
-        // category: 2,
-        // seatNo: 5,
-        // price: 160.5,
-        // status: "unsold",
-        // ownerId: "78d14e9a-a891-4902-9850-4a2dc6e38e20",
-        // eventId: "2fa2b8ed-90ba-4f6d-9d1a-7f53ee4e240e"
-        const Id = 0
+    interface SeatButtonProps {
+        key: number
+        count: number
+    };
+    
+    const SeatButton = (props: SeatButtonProps) => {
+        const Id = props.count
+
         if (testTickets[Id].status == 'unsold'){
 
         }
         return (
-            <>
                 <Dropdown>
                     <Dropdown.Trigger><button className='bg-primary hover:bg-accent text-secondary hover:text-primary font-semibold rounded h-full w-full'> {testTickets[Id].seatNo} </button></Dropdown.Trigger>
-                    <Dropdown.Menu disabledKeys={["informaion", "add to cart"]} aria-label="Seat Details">
+                    <Dropdown.Menu disabledKeys={["level","cat","seat","price","status","owner", "add to cart"]} aria-label="Seat Details">
                         <Dropdown.Section title="Seat Details">
-                            <Dropdown.Item key="informaion" withDivider>
-                                <p className='text-secondary h-5'> Level: <b>{testTickets[Id].level}</b></p>
+                            <Dropdown.Item key="level" withDivider>
+                                <p className='text-secondary h-5'> Level: <b>{testTickets[Id].level} {props.key}</b></p>
                             </Dropdown.Item>
-                            <Dropdown.Item key="informaion">
+                            <Dropdown.Item key="cat">
                                 <p className='text-secondary h-5'> Category: <b>{testTickets[Id].category}</b></p>
                             </Dropdown.Item>
-                            <Dropdown.Item key="informaion">
+                            <Dropdown.Item key="seat">
                                 <p className='text-secondary h-5'> Seat No.: <b>{testTickets[Id].seatNo}</b></p>
                             </Dropdown.Item>
-                            <Dropdown.Item key="informaion">
+                            <Dropdown.Item key="price">
                                 <p className='text-secondary h-5'> Price: <b>S${testTickets[Id].price}</b></p>
                             </Dropdown.Item>
-                            <Dropdown.Item key="informaion">
+                            <Dropdown.Item key="status">
                                 <p className='text-secondary h-5'> Status: <b>{testTickets[Id].status}</b></p>
                             </Dropdown.Item>
-                            <Dropdown.Item key="informaion">
+                            <Dropdown.Item key="owner">
                                 <p className='text-secondary h-5 overflow-y-hidden'> Owner: <b>{testTickets[Id].ownerId}</b></p>
                             </Dropdown.Item>
                         </Dropdown.Section>
@@ -128,28 +135,35 @@ const SeatSelect: NextPage = () => {
                         </Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
-                
-            </>
         )
     }
 
     const RenderSeatDiagram = () => {
-        let count = 1;
+        let count = 0;
         let seatArray = testTickets.map(() => {
             return (
-                <SeatButton key={count++} />
+                <SeatButton key={count++} count={count} />
             )
         })
         return (
             <div className='flex flex-col p-2 gap-5'>
                 <div className='bg-secondary p-3 rounded'>
+                    <div className='flex justify-around'>
+                        <ChevronDoubleUpIcon className='h-5 w-5 text-accent'/>
+                        <ChevronDoubleUpIcon className='h-5 w-5 text-accent'/>
+                        <ChevronDoubleUpIcon className='h-5 w-5 text-accent'/>
+                    </div>
                     <h1 className='text-center p-2 bg-secondary/70 text-primary my-4 drop-shadow-sm font-semibold'>Towards Stage </h1>
                     
                     <div className='grid grid-cols-5 gap-3 '>
-                        
                         {seatArray}
                     </div>
                     <h1 className='text-center p-2 bg-secondary/70 text-primary my-4 drop-shadow-sm font-semibold'>Towards Exit </h1>
+                    <div className='flex justify-around'>
+                        <ChevronDoubleDownIcon className='h-5 w-5 text-accent'/>
+                        <ChevronDoubleDownIcon className='h-5 w-5 text-accent'/>
+                        <ChevronDoubleDownIcon className='h-5 w-5 text-accent'/>
+                    </div>
                 </div>
             </div>
         )
@@ -166,14 +180,14 @@ const SeatSelect: NextPage = () => {
     }
 
     // useeffect for change in cart
-    const RenderCart = () => {
+    const RenderCartItems = () => {
         let count = 1;
         let itemArray = cart.map((ticket: Ticket) => {
             return (
                 <div key={count} className='flex bg-primary rounded-lg drop-shadow
                  m-2 p-2 h-12 w-90 justify-around content-end'>
                     <p><b className='text-base'>{count++}.</b></p>
-                    <p className='text-base'>{`Seat No. :${ticket.seatNo} , Ticket id: ${ticket.id}`}</p>
+                    <p className='text-base'>{`Seat No. : ${ticket.seatNo} , Ticket id: ${ticket.id}`}</p>
                     <button onClick={() => removeFromCart(ticket)} className='bg-accent hover:bg-accent/90 text-primary hover:text-secondary/90 px-2 rounded font-semibold text-center content-center'>Remove from cart</button>
                 </div>
             )
@@ -189,8 +203,7 @@ const SeatSelect: NextPage = () => {
                 <div className='bg-secondary p-3 rounded'>
                     <h1 className='text-left p-2 bg-secondary/70 text-primary my-1 drop-shadow-sm font-semibold'>Cart: </h1>
                     <div className='flex flex-col bg-primary/90 h-72 gap-1 align-center overflow-auto p-3 rounded'>
-                            {/* show cart */}
-                            <RenderCart />
+                        {cart.length > 0 ? <RenderCartItems /> : <p className='font-bold text-center'>Cart is empty</p>}
                     </div>
                 </div>
             </div>
@@ -199,7 +212,7 @@ const SeatSelect: NextPage = () => {
 
     const RenderSeats = () => {
         return (
-            <div className='flex flex-col gap-2 h-200 w-120'>
+            <div className='flex flex-col gap-2 h-220 w-120'>
                 <h1 className='text-3xl font-semibold text-secondary'>3) Select Seat:</h1>
                 <div className='flex flex-col bg-primary h-full py-2 px-3 
                         rounded-lg drop-shadow-md gap-3 min-h-min overflow-y-auto'>
@@ -209,6 +222,8 @@ const SeatSelect: NextPage = () => {
                     <p className='text-secondary text-lg font-semibold'>Pick a category:</p>
                     <RenderSeatDiagram />
                     <RenderCartTable />
+                    {/* TODO: payment page after button click*/}
+                    <button onClick={() => Router.push('/')} className='text-primary font-bold w-full bg-accent/90 hover:bg-accent hover:text-secondary/70 rounded p-2'>Checkout</button>
                 </div>
             </div>
     )}
