@@ -1,5 +1,6 @@
 import axios from "axios";
 import { create } from "zustand";
+import omit from "lodash-es/omit";
 
 interface User {
   id: string;
@@ -11,6 +12,7 @@ interface User {
 interface UserState {
   user: User | null;
   fetch: Function;
+  deleteUser: Function;
 }
 
 export const useUserStore = create<UserState>()((set) => ({
@@ -23,4 +25,5 @@ export const useUserStore = create<UserState>()((set) => ({
       console.log(error);
     }
   },
+  deleteUser: () => set((state) => omit(state, ["user"]), true),
 }));

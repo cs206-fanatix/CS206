@@ -81,7 +81,9 @@ const Home: NextPage = () => {
 	});
 
 	useEffect(() => {	
-		userStore.fetch()
+		if (userStore.user === null) {
+			userStore.fetch();
+		}
 	}, [userStore])
 
 	return (
