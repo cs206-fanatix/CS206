@@ -99,7 +99,7 @@ const SeatSelect: NextPage = () => {
         return (
             <>
                 <Dropdown>
-                    <Dropdown.Trigger><button className='bg-primary rounded h-full w-full text-secondary font-semibold'> {testTickets[Id].seatNo} </button></Dropdown.Trigger>
+                    <Dropdown.Trigger><button className='bg-primary hover:bg-accent text-secondary hover:text-primary font-semibold rounded h-full w-full'> {testTickets[Id].seatNo} </button></Dropdown.Trigger>
                     <Dropdown.Menu disabledKeys={["informaion", "add to cart"]} aria-label="Seat Details">
                         <Dropdown.Section title="Seat Details">
                             <Dropdown.Item key="informaion" withDivider>
@@ -134,9 +134,10 @@ const SeatSelect: NextPage = () => {
     }
 
     const RenderSeatDiagram = () => {
+        let count = 1;
         let seatArray = testTickets.map(() => {
             return (
-                <SeatButton />
+                <SeatButton key={count++} />
             )
         })
         return (
@@ -169,7 +170,7 @@ const SeatSelect: NextPage = () => {
         let count = 1;
         let itemArray = cart.map((ticket: Ticket) => {
             return (
-                <div className='flex bg-primary rounded-lg drop-shadow
+                <div key={count} className='flex bg-primary rounded-lg drop-shadow
                  m-2 p-2 h-12 w-90 justify-around content-end'>
                     <p><b className='text-base'>{count++}.</b></p>
                     <p className='text-base'>{`Seat No. :${ticket.seatNo} , Ticket id: ${ticket.id}`}</p>
@@ -198,7 +199,7 @@ const SeatSelect: NextPage = () => {
 
     const RenderSeats = () => {
         return (
-            <div className='flex flex-col gap-2 h-180 w-120'>
+            <div className='flex flex-col gap-2 h-200 w-120'>
                 <h1 className='text-3xl font-semibold text-secondary'>3) Select Seat:</h1>
                 <div className='flex flex-col bg-primary h-full py-2 px-3 
                         rounded-lg drop-shadow-md gap-3 min-h-min overflow-y-auto'>
