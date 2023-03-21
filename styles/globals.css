@@ -29,6 +29,10 @@ a {
   box-sizing: border-box;
 }
 
+.evenRow{
+  flex-basis: 33.33%;
+}
+
 /* 
 .cardddd{
   background-color: red;
