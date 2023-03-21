@@ -14,7 +14,7 @@ const ViewTicket: NextPage = () => {
 
     useEffect(() => {
         userStore.fetch();
-    }, []);
+    }, [userStore]);
 
     useEffect(() => {
         async function getTickets() {

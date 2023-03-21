@@ -18,6 +18,7 @@ const TicketDetail: NextPage = () => {
 	const [blur, setBlur] = useState(true);
 	const [showConfirmation, setShowConfirmation] = useState(false);
 	const [password, setPassword] = useState("");
+	const [status, setStatus] = useState("Not Listed")
 	const passwordInput = useRef<HTMLInputElement>(null);
 	const data = [
 		{ date: '2022-03-01', price: 100 },
@@ -26,8 +27,6 @@ const TicketDetail: NextPage = () => {
 		{ date: '2022-03-04', price: 150 },
 		{ date: '2022-03-05', price: 100 }
 	];
-
-	let status = "Not Listed"
 
 	const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setPassword(event.target.value);
@@ -61,7 +60,7 @@ const TicketDetail: NextPage = () => {
 				let data = await res.data
 				data.eventDateTime = format(new Date(data.event.eventDateTime), 'dd/MM/yyyy (EEE)')
 				if (data.status === "listed") {
-					status = "Listed"
+					setStatus("Listed")
 				}
 				setTicket(data)
 			} catch (error) {
@@ -73,7 +72,7 @@ const TicketDetail: NextPage = () => {
 
 	useEffect(() => {
 		userStore.fetch()
-	}, [])
+	}, [userStore])
 
 	return (
 		<div className="flex flex-col h-screen w-full bg-gradient-to-b from-primary via-secondary/20 to-primary overflow-auto relative">

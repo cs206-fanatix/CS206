@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 interface event {
-    title: string;
+    name: string;
     imageUrl: string;
     venue: string;
 }
@@ -13,7 +13,7 @@ const EventBanner = (event: event) => {
                 className='absolute opacity-50' />
         </div>
         <div className='p-2'>
-            <h1 className='text-3xl text-primary relative m-3 font-semibold'>{event.title}</h1>
+            <h1 className='text-3xl text-primary relative m-3 font-semibold'>{event.name}</h1>
             <h2 className='text-xl text-primary relative m-3 font-light'>{event.venue}</h2>
         </div>
     </div>;
