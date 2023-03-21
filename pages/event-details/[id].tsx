@@ -115,7 +115,7 @@ const EventDetails = () => {
                     </div>
                     <div className='mt-auto py-2'>
                         <Link href={`/event/${encodeURIComponent(banner?.id)}`}>
-                            <a className="text-white bg-accent rounded-xl px-10 py-1 text-xl flex justify-center hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-red-300">
+                            <a className="text-white bg-accent rounded-xl px-10 py-1 text-xl flex justify-center hover:bg-red-900 hover:text-white focus:ring-4 focus:outline-none focus:ring-red-300">
                                 Buy Ticket
                             </a>
                         </Link>

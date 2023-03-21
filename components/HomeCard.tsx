@@ -28,7 +28,7 @@ const Homecard = (props: props) => {
                         </h6>
                 <p className="mb-3 font-normal text-gray-700">{props.event_start_date}</p>
                 <Link href={`/event-details/${encodeURIComponent(props.id)}`}>
-                <a className="ml-auto inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-accent rounded-lg hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-red-300">
+                <a className="ml-auto inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-accent rounded-lg hover:bg-red-900 hover:text-white focus:ring-4 focus:outline-none focus:ring-red-300">
                     Learn More
                 </a>
                 </Link>

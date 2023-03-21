@@ -47,10 +47,6 @@ const Home: NextPage = () => {
 		);
 	});
 
-	useEffect(() => {	
-		userStore.fetch()
-	}, [userStore])
-
 	return (
 		<div className="h-screen w-full bg-gradient-to-b from-primary via-secondary/20 to-primary overflow-auto">			
 				<div className="relative flex bg-gradient-to-tr from-gray-100 via-secondary to-black">
@@ -83,7 +79,7 @@ const Home: NextPage = () => {
 						</h1>
 						<div className='ml-auto pt-3 flex gap-2'>
 						<Link href={`/event/${encodeURIComponent(banner?.id)}`}>
-							<a className="	text-white bg-accent rounded-xl px-4 py-1 text-xl items-center hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-red-300">
+							<a className="	text-white bg-accent rounded-xl px-4 py-1 text-xl items-center hover:bg-red-900 hover:text-white focus:ring-4 focus:outline-none focus:ring-red-300">
 								Buy Ticket
 							</a>
 						</Link>
