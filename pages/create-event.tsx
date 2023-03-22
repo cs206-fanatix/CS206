@@ -2,9 +2,11 @@ import type { NextPage } from 'next'
 import Link from 'next/link'
 import Footer from '../components/Footer';
 import Navbar from '../components/Organiser-Dashboard/Navbar (Organiser)';
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Image from 'next/image'
+import { useUserStore } from '../stores/user-store';
+import { Breadcrumb } from 'antd';
 
 
 const steps = [  { id: 'firstName', label: 'First Name' },  { id: 'lastName', label: 'Last Name' },  { id: 'email', label: 'Email' },  { id: 'password', label: 'Password' },];
@@ -20,9 +22,6 @@ const CreateEvent: NextPage = () => {
     const [floating_artist_name, setArtist] = useState("");
     const [floating_date_time, setEventDateTime] = useState("");
     const [floating_venue, setVenue] = useState("");
-    
-
-    const router = useRouter();
 
     console.log("Submission status:", submissionStatus);
 
@@ -93,10 +92,35 @@ const CreateEvent: NextPage = () => {
         setFile(null);
         
     }
+    
+    const router = useRouter();
+    const userStore = useUserStore();
+    const [isLoggedIn, setisLoggedIn] = useState(true);
+    
+    useEffect(() => {	
+		userStore.fetch();
+        if (userStore.user) {
+            setisLoggedIn(false);
+        }
+	}, [userStore])
 
     
-      
-      
+    if (isLoggedIn) {
+        return (
+            <div className='flex justify-center items-center h-screen w-full'>
+                <div className='text-xl font-semibold'>You need to be logged in to access.</div>
+            </div>
+        );
+    }
+
+    if (userStore.user === null) {
+        router.push('/organiser-login');
+        return (
+            <div className='flex justify-center items-center h-screen w-full'>
+                <div className='text-xl font-semibold'>Redirecting...</div>
+            </div>
+        );
+    }
 
     return (<div className='flex min-h-screen w-full'>
             {/* Side panel */}
@@ -144,7 +168,7 @@ const CreateEvent: NextPage = () => {
                 </ul>
             </div>
             {/* Main content */}
-            <div className="flex flex-col w-full pt-28 px-20 py-20 h-screen bg-primary overflow-auto no-scroll-bar">
+            <div className="flex flex-col w-full pt-28 px-44 py-20 h-screen bg-primary overflow-auto no-scroll-bar">
                 <div className="select-none cursor-pointer">
                     <Link href='/organiser-dashboard' passHref>
                         <span className="material-symbols-outlined">arrow_back</span>

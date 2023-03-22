@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { Select } from 'antd';
+import Title from 'antd/lib/typography/Title';
+import Text from 'antd/lib/typography/Text';
+
+const { Option } = Select;
+const event = 'Reblooming Roses';
 
 const data = [
   { date: '2022-03-01', revenue: 5000, ticketsSold: 100 },
@@ -18,46 +24,44 @@ const RevenueChart = () => {
     setFilter(filter);
   };
 
-  const filteredData = filter === 'all' ? data : data.slice(data.length - parseInt(filter));
+  const filteredData = filter === 'All' ? data : data.slice(data.length - parseInt(filter));
+
+  const handleEventFilter = (value: string) => {
+    console.log(`Selected event filter: ${value}`);
+    // do something with the selected event filter
+  };
 
   return (
-    <div className='flex flex-col bg-primary'>
-        <h2>Total Revenue</h2>
-        <p>Total tickets sold: {filteredData.reduce((total, { ticketsSold }) => total + ticketsSold, 0)}</p>
-        <p>Total revenue: {filteredData.reduce((total, { revenue }) => total + revenue, 0)}</p>
-        <p>Filter by:</p>
-        <div className='flex flex-row space-x-2 rounded border'>
-            <button onClick={() => handleFilter('all')}>
-                <text className='text-sm font-medium hover:underline dark:text-blue-400'>All</text>
-            </button>
-            <button onClick={() => handleFilter('1')}>
-                <text className="text-sm font-light hover:underline dark:text-blue-400">Last 1 day </text>
-                </button>
-            <button onClick={() => handleFilter('3')}>
-                <text className="text-sm font-light hover:underline dark:text-blue-400">Last 3 days </text>
-                </button>
-            <button onClick={() => handleFilter('7')}>
-                <text className="text-sm font-light hover:underline dark:text-blue-400">Last 7 days </text>
-                </button>
-            <button onClick={() => handleFilter('14')}>
-                <text className="text-sm font-light hover:underline dark:text-blue-400">Last 14 days </text>
-                </button>
-            <button onClick={() => handleFilter('30')}>
-                <text className="text-sm font-light hover:underline dark:text-blue-400">Last 30 days </text>
-                </button>
-        </div>
-        <div className='flex flex-row space-x-2 rounded border'>
-            <LineChart width={600} height={300} data={filteredData}>
-                <XAxis dataKey="date" />
-                <YAxis />
-                <CartesianGrid strokeDasharray="3 3" />
-                <Tooltip />
-                <Legend />
-                <Line type="monotone" dataKey="revenue" stroke="#8884d8" activeDot={{ r: 8 }} />
-            </LineChart>
-        </div>
-    </div>
-  );
+    <div className='flex flex-col gap-4'>
+      <Title level={4}>Revenue</Title>
+      <div className='flex flex-col'>
+        <Title level={5}>Total Revenue</Title>
+        <Text type="secondary">Total tickets sold: {filteredData.reduce((total, { ticketsSold }) => total + ticketsSold, 0)}</Text>
+        <Text type="secondary">Total revenue: ${filteredData.reduce((total, { revenue }) => total + revenue, 0)}</Text>
+      </div>
+      <div className='flex flex-row space-x-2'>
+        <Select defaultValue={event} style={{ width: 200 }} onChange={handleEventFilter}>
+          <Option value='Reblooming Roses'>Reblooming Roses</Option>
+          <Option value='Spring Fling'>Spring Fling</Option>
+          <Option value='Summer Garden'>Summer Garden</Option>
+        </Select>
+        <Select defaultValue='all' style={{ width: 120 }} onChange={handleFilter}>
+            <Option value='All'>All time</Option>
+            <Option value='1'>Last 1 day</Option>
+            <Option value='3'>Last 3 days</Option>
+            <Option value='7'>Last 7 days</Option>
+        </Select>
+      </div>
+      <LineChart width={450} height={400} data={filteredData}>
+          <XAxis dataKey='date' />
+          <YAxis />
+          <CartesianGrid strokeDasharray='3 3' />
+          <Tooltip />
+          <Legend />
+          <Line type='monotone' dataKey='revenue' stroke='#8884d8' activeDot={{ r: 8 }} />
+          <Line type='monotone' dataKey='ticketsSold' stroke='#82ca9d' />
+      </LineChart>
+    </div>);
 };
 
 export default RevenueChart;

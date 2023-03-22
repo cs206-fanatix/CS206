@@ -1,22 +1,29 @@
-import Navbar from "./Navbar (Organiser)"
-import Footer from "../Footer"
-import { useRouter } from "next/router"
+import React, { ReactNode } from 'react';
+import { useRouter } from "next/router";
+import Navbar from "../Organiser-Dashboard/Navbar (Organiser)";
 
-type LayoutProps = {
-  children: React.ReactNode
+
+import { useEffect } from "react";
+import Head from "next/head";
+
+interface Props {
+  children: ReactNode;
 }
 
-const OrganiserLayout: React.FC<LayoutProps> = ({ children }) => {
-  const router = useRouter()
-  const pathname = router.pathname
+const OrganiserLayout = ({children}: Props) => {
+  useEffect(() => {
+    document.body.style.overflow = "hidden"; // set overflow: hidden for body
+    return () => {
+      document.body.style.overflow = "visible"; // reset overflow on unmount
+    };
+  }, []); // run this effect only once when the component mounts
 
   return (
     <>
-      <Navbar username="Organiser 1" />
-      <main>{children}</main>
+      <Navbar />
+      {children}
     </>
-    
-  )
-}
+  );
+};
 
-export default OrganiserLayout
+export default OrganiserLayout;
