@@ -11,10 +11,10 @@ interface props {
 const EarlyAccess: NextPage = () => {
     const testEvent = {
         id: 1,
-        title: "Aimer Live",
+        name: "Aimer Live",
         artist: "Aimer",
         imageUrl: "/static/images/zankyosanka-banner.jpg",
-        dateTime: ['2023-02-21 6:00:00','2023-02-22 6:00:00','2023-02-23 6:00:00'],
+        eventDateTime: ['2023-02-21 6:00:00','2023-02-22 6:00:00','2023-02-23 6:00:00'],
         venue: "Star Theatre",
     }
     const currentDate = new Date()
@@ -23,7 +23,7 @@ const EarlyAccess: NextPage = () => {
             rounded-lg drop-shadow-md gap-3 justify-between min-h-min overflow-y-auto'>
             <div className='p-6 text-center'>
                 <svg aria-hidden="true" className="mx-auto mb-4 text-accent w-14 h-14 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                <p>The buying of tickets starts at: <b>{testEvent.dateTime[0]}</b> </p>
+                <p>The buying of tickets starts at: <b>{testEvent.eventDateTime[0]}</b> </p>
                 <p>The current date time is: <b>{currentDate.getFullYear()}-{currentDate.getMonth()+1}-{currentDate.getDate()} {String(currentDate.getHours()).padStart(2, '0')}:{currentDate.getMinutes()}:{currentDate.getSeconds()}</b> </p>
                 <h3 className='mb-5 text-lg font-normal text-accent dark:text-primary'>You have to be verified to get early access.</h3>
                 

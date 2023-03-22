@@ -5,31 +5,30 @@ import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useUserStore } from "../stores/user-store";
 
-interface IUser {
-  id: string;
-  email: string;
-  name: string;
-}
-
 const Navbar = () => {
   const router = useRouter();
   const userStore = useUserStore();
 
   const [open, setOpen] = useState(false);
-  const [user, setUser] = useState<IUser>();
 
-  const menuRef = useRef<HTMLDivElement>(null);
+  let menuRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // window.addEventListener("click", (e) => {
-    //   if (e.target !== menuRef.current && e.target !== imgRef.current){
-    //     setOpen(false);
-    //   }
-    // });
+    let handler = (e : any) => {
+      if(!menuRef.current?.contains(e?.target)){
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handler)
+  });
 
-    userStore.fetch();
-  }, []);
+  useEffect(() => {
+   
+    if (userStore.user == null) {
+      userStore.fetch();
+    }
+  }, [userStore]);
 
   function toggleDropdown() {
     setOpen(() => !open);
@@ -38,10 +37,11 @@ const Navbar = () => {
   async function logout() {
     try {
       await axios.get("/api/logout");
+      userStore.deleteUser();
+      router.reload();
     } catch (e) {
       console.log(e);
     }
-    router.reload();
   }
 
   return (
@@ -87,7 +87,7 @@ const Navbar = () => {
 
           {userStore.user == null && (
             <Link href="/login" passHref>
-              <a className="whitespace-nowrap w-auto items-center px-3 py-2 text-sm font-medium text-center text-white bg-accent rounded-lg hover:bg-red-900">
+              <a className="whitespace-nowrap w-auto items-center px-3 py-2 text-sm font-medium text-center text-white bg-accent rounded-lg hover:bg-red-900 hover:text-white">
                 Log In
               </a>
             </Link>
@@ -95,7 +95,7 @@ const Navbar = () => {
 
           {userStore.user == null && (
             <Link href="/signup" passHref>
-              <a className="whitespace-nowrap w-auto items-center px-3 py-2 text-sm font-medium text-center text-white bg-accent rounded-lg hover:bg-red-900">
+              <a className="whitespace-nowrap w-auto items-center px-3 py-2 text-sm font-medium text-center text-white bg-accent rounded-lg hover:bg-red-900 hover:text-white">
                 Sign Up
               </a>
             </Link>
@@ -127,7 +127,19 @@ const Navbar = () => {
               ref={menuRef}
               className="bg-white p-2 w-40 shadow-lg absolute top-9 right-3"
             >
-              <h3>{userStore.user?.name}</h3>
+              <div className="p-2">
+                <span className="font-bold mx-2">{userStore.user?.name}</span>
+                {userStore.user?.hasCompletedKyc && (
+                  <span className="mr-2 bg-green-100 text-green-800 text-xs font-medium px-2 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
+                    Verified
+                  </span>
+                )}
+                {!userStore.user?.hasCompletedKyc && (
+                  <span className="mr-2 bg-red-100 text-red-800 text-xs font-medium  px-2 py-0.5 rounded dark:bg-red-900 dark:text-red-300">
+                    Unverified
+                  </span>
+                )}
+              </div>
               <hr></hr>
               <ul>
                 <Link href="/view-ticket" passHref>
@@ -145,6 +157,13 @@ const Navbar = () => {
                 >
                   Profile Settings
                 </li>
+                {!userStore.user?.hasCompletedKyc && (
+                  <Link href="/kyc" passHref>
+                    <li className="p-1 text-xs cursor-pointer rounded hover:bg-accent">
+                      <a key="Get Verified">Get Verified</a>
+                    </li>
+                  </Link>
+                )}
                 <li
                   className="p-1 text-xs cursor-pointer rounded hover:bg-accent"
                   key="View Tickets"

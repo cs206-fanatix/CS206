@@ -6,19 +6,30 @@ import DetailDisclosure from '../../components/DetailDisclosure';
 import { Disclosure } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { useUserStore } from '../../stores/user-store';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import axios from "axios";
+import { useRouter } from 'next/router';
+import { format } from 'date-fns';
 
 const EventDetails = () => {
-    const userStore = useUserStore();
-
-    const ticket = {
-        id: 1,
-        title: 'At Their Very Best',
-        artist: 'THE 1975',
-        imageURL: '/static/images/bp.jpg',
-        dateTime: '9/3/2023',
-        venue: 'Singapore indoor stadium',
-    };
+    const router = useRouter();
+	const userStore = useUserStore();
+	const { id } = router.query;
+    const [banner, setBanner] = useState<any>()
+    
+    useEffect(() => {
+		async function getEvent() {
+			try {
+				let res = await axios.get("/api/events/" + id);
+				let data = await res.data
+                data.eventDateTime = format(new Date(data.eventDateTime), 'dd/MM/yyyy (EEE)')
+				setBanner(data)
+			  } catch (error) {
+				console.log(error);
+			  }
+		}
+		getEvent()
+	}, [])
 
     const data = [{
         id: 1,
@@ -66,14 +77,14 @@ const EventDetails = () => {
 
     return (
         <div className="h-screen w-full bg-gradient-to-b from-primary via-secondary/20 to-primary overflow-auto">
-            <div className="relative flex bg-gradient-to-tr from-gray-100 via-secondary to-black w-full">
+            <div className="relative flex bg-gradient-to-tr from-black to-black w-full">
                 <div className="w-full h-104 overflow-hidden">
                     <Image
                         src="/static/images/1975.jpg"
                         layout="fill"
                         objectFit="cover"
                         objectPosition="right"
-                        className="opacity-55 blur-sm"
+                        className="opacity-40 blur-sm"
                     ></Image>
                     <div className='mt-8 ml-28'>
                         <Image
@@ -88,23 +99,23 @@ const EventDetails = () => {
 
                 <div className="z-1 flex flex-col bg-secondary p-3 w-176 ">
                     <h1 className="text-white text-3xl font-bold pl-1">
-                        {ticket.title}
+                        {banner?.name}
                     </h1>
                     <h2 className="text-gray-400 text-sm font-semibold pt-1 pl-1">
-                        By {ticket.artist}
+                        By {banner?.artist}
                     </h2>
                     <div className='text-white items-center flex pt-3 pl-1'>
-                        <span className="material-symbols-outlined pr-1">calendar_month</span><span className='pl-2 text-base'>{ticket.dateTime}</span>
+                        <span className="material-symbols-outlined pr-1">calendar_month</span><span className='pl-2 text-base'>{banner?.eventDateTime}</span>
                     </div>
                     <div className='text-white items-center flex pt-3 pl-1'>
-                        <span className="material-symbols-outlined pr-1">pin_drop</span><span className='pl-2 text-base'>{ticket.venue}</span>
+                        <span className="material-symbols-outlined pr-1">pin_drop</span><span className='pl-2 text-base'>{banner?.venue}</span>
                     </div>
                     <div className='text-white items-center flex pt-3 pl-1'>
                         <span className="material-symbols-outlined pr-1">request_quote</span><span className='pl-2 text-base'>S$100 - S$400</span>
                     </div>
                     <div className='mt-auto py-2'>
-                        <Link href="/event/1">
-                            <a className="text-white bg-accent rounded-xl px-10 py-1 text-xl flex justify-center hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-red-300">
+                        <Link href={`/event/${encodeURIComponent(banner?.id)}`}>
+                            <a className="text-white bg-accent rounded-xl px-10 py-1 text-xl flex justify-center hover:bg-red-900 hover:text-white focus:ring-4 focus:outline-none focus:ring-red-300">
                                 Buy Ticket
                             </a>
                         </Link>

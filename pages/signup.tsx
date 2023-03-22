@@ -34,7 +34,7 @@ const LoginPage = () => {
 
       console.log(response.data);
 
-      await axios.post("/api/authenticate", {
+      await axios.post("/api/login", {
         email: email,
         password: password,
       });
@@ -52,6 +52,9 @@ const LoginPage = () => {
         <h2 className="text-center text-3xl font-extrabold text-gray-900">
           Sign Up
         </h2>
+        <p className="text-center mt-4">
+          Welcome to Fanatix. Get started by creating an account now!
+        </p>
         {error && <p className="text-red-500 text-center">{error}</p>}
       </div>
 
