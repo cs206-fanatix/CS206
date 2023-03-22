@@ -55,9 +55,8 @@ const Home: NextPage = () => {
         if (userStore.user) {
             setisLoggedIn(false);
         }
+        
 	}, [userStore])
-
-    
 
     const generate_event_cards=()=> {
         // fetch events from backend and generate event cards
@@ -74,24 +73,6 @@ const Home: NextPage = () => {
     }
 
     const [data, setData] = useState<UserItem[]>([]);
-    const appendData = () => {
-        fetch(fakeDataUrl)
-          .then((res) => res.json())
-          .then((body) => {
-            setData(data.concat(body.results));
-            message.success(`${body.results.length} more items loaded!`);
-          });
-      };
-    
-      useEffect(() => {
-        appendData();
-      }, []);
-
-    const onScroll = (e: React.UIEvent<HTMLElement, UIEvent>) => {
-    if (e.currentTarget.scrollHeight - e.currentTarget.scrollTop === ContainerHeight) {
-        appendData();
-    }
-    };
 
     const generate_purchases=()=> {
         var purchases = []
@@ -274,28 +255,9 @@ const Home: NextPage = () => {
                                     {/* Latest Sales */}
                                     <div className='flex flex-col h-1/2 bg-gray-100 shadow rounded border p-4'>
                                         <div className='flex flex-col'>
-                                            <div className="flex justify-between">
+                                            <div className="w-full w-full flex justify-between">
                                                 <Title level={4}> Latest Sales</Title>
-                                                <List>
-                                                    <VirtualList
-                                                        data={data}
-                                                        height={ContainerHeight}
-                                                        itemHeight={47}
-                                                        itemKey="email"
-                                                        onScroll={onScroll}
-                                                    >
-                                                        {(item: UserItem) => (
-                                                        <List.Item key={item.email}>
-                                                            <List.Item.Meta
-                                                            avatar={<Avatar src={item.picture.large} />}
-                                                            title={<a href="https://ant.design">{item.name.last}</a>}
-                                                            description={item.email}
-                                                            />
-                                                            <div>Content</div>
-                                                        </List.Item>
-                                                        )}
-                                                    </VirtualList>
-                                                </List>
+                                                
                                             </div>
                                         </div>  
                                     </div>
