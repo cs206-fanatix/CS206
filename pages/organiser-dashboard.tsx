@@ -22,6 +22,8 @@ import Title from 'antd/lib/typography/Title';
 import Text from 'antd/lib/typography/Text';
 import { Avatar, List, message } from 'antd';
 import VirtualList from 'rc-virtual-list';
+import { size } from 'lodash-es'
+import Paragraph from 'antd/lib/skeleton/Paragraph'
 
 interface UserItem {
     email: string;
@@ -90,6 +92,48 @@ const Home: NextPage = () => {
         return purchases
     }
 
+    const purchases = [
+        {
+            user: 'SOLgod99',
+            event: 'Aimer - Live',
+        },
+        {
+            user: 'SOLgod99',
+            event: 'Aimer - Live',
+        },
+        {
+            user: 'SOLgod99',
+            event: 'Aimer - Live',
+        },
+        {
+            user: 'SOLgod99',
+            event: 'Aimer - Live',
+        },
+      ];
+
+    const artists = [
+        {
+            name: 'YOASOBI',
+            ranking: 1,
+        },
+        {
+            name: 'One ok rock',
+            ranking: 2,
+        },
+        {
+            name: 'SOL GOD',
+            ranking: 3,
+        },
+        {
+            name: 'LISA',
+            ranking: 4,
+        },
+        {
+            name: 'Aimer',
+            ranking: 5,
+        },
+    ];
+    
     if (isLoggedIn) {
         return (
             <div className='flex justify-center items-center h-screen w-full'>
@@ -163,9 +207,9 @@ const Home: NextPage = () => {
                             <div className='flex flex-row justify-between items-center pt-4'>
                                 <div className='flex flex-row items-center'>
                                     <div className='flex flex-col'>
-                                        <div className='text-2xl font-semibold text-black'>Hello, {userStore.user.name}!</div>
-                                        <br/>
-                                        <div className='text-xl font-normal text-black'>Welcome back to your dashboard.</div>
+                                        <Title level={3}> Hello, {userStore.user.name}! </Title>
+                                        <Text> Welcome back to your dashboard. </Text>
+                                        
                                     </div>
                                 </div>
                                 <div className='flex flex-col justify-end gap-4'>
@@ -193,7 +237,7 @@ const Home: NextPage = () => {
                                     </div>
                                     <div className='flex w-full justify-end'>
                                         {/* current time for now */}
-                                        <div className='text-l font-normal text-black'>Today is {new Date().toDateString()}</div>
+                                        <Text type="secondary">Today is {new Date().toDateString()}</Text>
                                     </div>
                                 </div>
                             </div>
@@ -209,7 +253,6 @@ const Home: NextPage = () => {
                                 <div className='flex flex-col w-1/2 gap-8'>
                                     {/* Login Detail Summary - Last logged in, Notifications, etc */}
                                     <div className='flex flex-col h-1/2 bg-gray-100 shadow rounded border p-4'>
-                                        
                                         <div className='flex flex-col'>
                                             <div className="flex justify-between">
                                                 {/* <div className='text-2xl font-semibold text-black'>Login Details</div> */}
@@ -253,76 +296,136 @@ const Home: NextPage = () => {
                                     </div>
 
                                     {/* Latest Sales */}
-                                    <div className='flex flex-col h-1/2 bg-gray-100 shadow rounded border p-4'>
+                                    {/* <div className='flex flex-col h-1/2 bg-gray-100 shadow rounded border p-4'>
                                         <div className='flex flex-col'>
                                             <div className="w-full w-full flex justify-between">
                                                 <Title level={4}> Latest Sales</Title>
                                                 
                                             </div>
                                         </div>  
+                                    </div> */}
+
+                                    {/* Latest upcoming event */}
+                                    <div className="flex flex-col h-3/4 bg-gray-100 shadow rounded border p-4">
+                                        <text className='text-2xl font-semibold pb-4 bg-primary'>
+                                        Latest Upcoming Event
+                                        </text>
+                                        <div className="grid grid-cols-1 w-full bg-opacity-10 content-between">
+                                        
+                                            {/* Top left event name */}
+                                            <div className="flex w-full justify-between items-center px-8 bg-black bg-opacity-50 py-4">
+                                                <div className="text-xl font-semibold text-white">Reblooming Roses</div>
+                                                <div className="text-xl text-white bg-red-600 py-1 px-4 rounded-full">Live</div>
+                                            </div>
+                                            
+                                            <Image
+                                                src="/static/images/events/2.jpg"
+                                                alt="Picture of the author"
+                                                width={1920}
+                                                height={529}
+                                                layout="responsive"
+                                                objectFit="cover"
+                                            />
+
+                                            {/* Bottom left event details */}
+                                            <div className="flex flex-col w-1/2 justify-start px-12 py-1 bg-black bg-opacity-50">
+                                                <div className="text-sm font-normal text-white">2:30pm on 20/3/2023</div>
+                                                <div className="text-sm font-semibold text-white">Ryogoku Kokugikan</div>
+                                            </div>
+                                        </div>  
+                                        <div className='flex justify-end'>
+                                            <div className='flex flex-col w-full py-2'>
+                                                <Row gutter={16}>
+                                                    <Col span={12}>
+                                                    <Statistic title="Total Revenue" value={57000} prefix={"$"} valueStyle={{fontSize: 12}}/>
+                                                    </Col>
+                                                    <Col span={12}>
+                                                    <Statistic title="Tickets Sold" value={1120} suffix="/ 1520" valueStyle={{fontSize: 12}}/>
+                                                    </Col>
+                                                </Row>
+                                            </div>
+                                            {/* Bottom right event actions */}
+                                            <div className="flex flex-row w-full justify-end align-bottom gap-2 mt-4">
+                                                <button className="flex flex-row justify-center items-center h-10 w-32 bg-accent text-white rounded-lg hover:bg-gray-700">
+                                                    <span className="material-symbols-outlined">edit</span>
+                                                    <span className="ml-2">Edit</span>
+                                                </button>
+                                                <button className="flex flex-row justify-center items-center h-10 w-32 bg-accent text-white rounded-lg hover:bg-gray-700">
+                                                    <span className="material-symbols-outlined">delete</span>
+                                                    <span className="ml-2">Delete</span>
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
+
                                 </div>
                             </div>
+                            
+                            {/* Recent Sales order and Artist Top ranking */}
 
-                            
-                            
-                            {/* Latest upcoming event */}
-                            <div className="flex flex-col w-full bg-gray-100 shadow rounded border p-4">
-                                <text className='text-2xl font-semibold pb-4 bg-primary'>
-                                Latest Upcoming Event
-                                </text>
-                                <div className="grid grid-cols-1 w-full bg-opacity-10 content-between">
-                                
-                                    {/* Top left event name */}
-                                    <div className="flex w-full justify-between items-center px-8 bg-black bg-opacity-50 py-4">
-                                        <div className="text-xl font-semibold text-white">Reblooming Roses</div>
-                                        <div className="text-xl text-white bg-red-600 py-1 px-4 rounded-full">Live</div>
+                            <div className='flex justify-between gap-4'>
+                                {/* Recent Sales order */}
+                                <div className='flex flex-col w-3/5 pt-10 bg-gray-100 rounded shadow border py-4 px-8'>
+                                    <div className='flex flex-col w-full'>
+                                        <div className="flex justify-between">
+                                            <Title level={4}> Recent Sales Orders</Title>
+                                            <Link href="/#">
+                                                <a className='flex flex-row justify-center items-center h-10 w-32 bg-accent text-white rounded-lg hover:bg-gray-700'>
+                                                    <span className="material-symbols-outlined">Edit</span>
+                                                    <span className="ml-2">Edit</span>
+                                                </a>
+                                            </Link>
+                                        </div>
                                     </div>
-                                    
-                                    <Image
-                                        src="/static/images/events/2.jpg"
-                                        alt="Picture of the author"
-                                        width={1920}
-                                        height={529}
-                                        layout="responsive"
-                                        objectFit="cover"
+                                    <div className='flex flex-col w-full'>
+                                    <List
+                                        itemLayout="horizontal"
+                                        dataSource={purchases}
+                                        renderItem={(item, index) => (
+                                        <List.Item>
+                                            <List.Item.Meta
+                                            avatar={<Avatar src={`https://joesch.moe/api/v1/random?key=${index}`} />}
+                                            title={<a href="https://ant.design">{item.user}</a>}
+                                            description={item.event}
+                                            />
+                                        </List.Item>
+                                        )}
                                     />
-
-                                    {/* Bottom left event details */}
-                                    <div className="flex flex-col w-1/3 justify-start px-12 py-1 bg-black bg-opacity-50">
-                                        <div className="text-sm font-normal text-white">2:30pm on 20/3/2023</div>
-                                        <div className="text-sm font-semibold text-white">Ryogoku Kokugikan</div>
                                     </div>
-                                </div>  
-                                <div className='flex justify-end'>
-                                    <div className='flex flex-col w-full bg-gray-100 p-4'>
-                                        <Row gutter={16}>
-                                            <Col span={12}>
-                                            <Statistic title="Total Revenue" value={112382} prefix={"$"} />
-                                            </Col>
-                                            <Col span={12}>
-                                            <Statistic title="Tickets Sold" value={93} suffix="/ 520" />
-                                            </Col>
-                                        </Row>
+                                </div>
+                                
+                                {/* Artist Top ranking */}
+                                <div className='flex flex-col w-2/5 pt-10 bg-gray-100 rounded shadow border py-4 px-8'>
+                                    <div className='flex flex-col w-full'>
+                                        <div className="flex justify-between select-none cursor-pointer">
+                                            <Title level={4}> Artist Top Ranking</Title>
+                                            <Link href="/organiser-dashboard">
+                                                {/* View all */}
+                                                <Text type='secondary'> View all </Text>
+                                            </Link>
+                                        </div>
                                     </div>
-                                    {/* Bottom right event actions */}
-                                    <div className="flex flex-row w-full justify-end align-bottom gap-2 mt-4">
-                                        <button className="flex flex-row justify-center items-center h-10 w-32 bg-accent text-white rounded-lg hover:bg-gray-700">
-                                            <span className="material-symbols-outlined">edit</span>
-                                            <span className="ml-2">Edit</span>
-                                        </button>
-                                        <button className="flex flex-row justify-center items-center h-10 w-32 bg-accent text-white rounded-lg hover:bg-gray-700">
-                                            <span className="material-symbols-outlined">delete</span>
-                                            <span className="ml-2">Delete</span>
-                                        </button>
+                                    <div className='flex flex-col w-full'>
+                                    <List
+                                        itemLayout="horizontal"
+                                        dataSource={artists}
+                                        renderItem={(item, index) => (
+                                        <List.Item>
+                                            <List.Item.Meta
+                                            avatar={<Avatar src={`https://joesch.moe/api/v1/random?key=${index}`} />}
+                                            title={<a href="https://ant.design">#{item.ranking}. {item.name}</a>}
+                                            />
+                                        </List.Item>
+                                        )}
+                                    />
                                     </div>
                                 </div>
                             </div>
-
                             
 
                             
                         </div>
+
                     </div>
                     <Footer/> 
                 </div>
