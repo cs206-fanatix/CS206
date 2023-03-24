@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 
 import EventBanner from '../../../components/EventBanner'
 import NonVerified from '../../../components/NonVerified'
+import NotLogin from '../../../components/NotLogin'
 import { useUserStore } from '../../../stores/user-store';
 
 const DateSelect: NextPage = () => {
@@ -83,7 +84,7 @@ const DateSelect: NextPage = () => {
         const formattedDateTime = 
             `${dateTime.getFullYear()}-${dateTime.getMonth()+1}-${dateTime.getDate()} 
             ${String(dateTime.getHours()).padStart(2, '0')}:${String(dateTime.getMinutes()).padStart(2, '0')}:${String(dateTime.getSeconds()).padStart(2, '0')}`
-            
+
         return (
             <div className='flex gap-3 bg-secondary h-full p-4 rounded-lg drop-shadow m-1 justify-center'>
                 <button onClick={() => Router.push('/event/' + router.query.id + '/category-selection')} className='bg-primary rounded-lg drop-shadow
@@ -110,13 +111,15 @@ const DateSelect: NextPage = () => {
         )
     }
 
-    // if (userStore.user == null) {
-    //     return (
-    //         <div className="flex items-center justify-center gap-2 h-120 max-w-4xl">
-    //             <NonVerified />
-    //         </div>
-    //     )
-    // }
+    if (userStore.user == null) {
+        const eventId = router.query.id as string
+        return (
+            <div className="flex flex-col p-14 pt-24 bg-gradient-to-b from-primary via-secondary/20 to-primary gap-5 items-center">
+                {/* TODO: change to static if josh doesnt wants static */}
+                <NotLogin eventId={eventId} />
+            </div>
+        )
+    }
 
     if (HTTPStatus != 200) {
         return (
@@ -139,8 +142,8 @@ const DateSelect: NextPage = () => {
                 {userStore.user?.hasCompletedKyc 
                     ? <RenderDateTime />
                     : <NonVerified 
-                        eventId={String(testEvent.id)} 
-                        dateTime={testEvent.eventDateTime[0]}/>}
+                        eventId={String(eventDetails.id)} 
+                        dateTime={eventDetails.eventDateTime}/>}
                 
             </div>
         )
