@@ -12,7 +12,7 @@ const SeatSelect: NextPage = () => {
     const userStore = useUserStore()
     
     interface Ticket {
-        id: number;
+        id: string;
         level: number;
         category: number;
         seatNo: number;
@@ -37,7 +37,7 @@ const SeatSelect: NextPage = () => {
         hasKYC: true
     }
     const testTickets:Ticket[] = [{
-        id: 1,
+        id: "8315b749-cbac-4a8e-8c27-5f3982834888",
         level: 1,
         category: 2,
         seatNo: 1,
@@ -46,7 +46,7 @@ const SeatSelect: NextPage = () => {
         ownerId: "78d14e9a-a891-4902-9850-4a2dc6e38e20",
         eventId: "2fa2b8ed-90ba-4f6d-9d1a-7f53ee4e240e"
     },{
-        id: 2,
+        id: "8315b749-cbac-4a8e-8c27-5f3982834888",
         level: 1,
         category: 2,
         seatNo: 2,
@@ -55,7 +55,7 @@ const SeatSelect: NextPage = () => {
         ownerId: "78d14e9a-a891-4902-9850-4a2dc6e38e20",
         eventId: "2fa2b8ed-90ba-4f6d-9d1a-7f53ee4e240e"
     },{
-        id: 3,
+        id: "8315b749-cbac-4a8e-8c27-5f3982834888",
         level: 1,
         category: 2,
         seatNo: 3,
@@ -64,7 +64,7 @@ const SeatSelect: NextPage = () => {
         ownerId: "78d14e9a-a891-4902-9850-4a2dc6e38e20",
         eventId: "2fa2b8ed-90ba-4f6d-9d1a-7f53ee4e240e"
     },{
-        id: 4,
+        id: "8315b749-cbac-4a8e-8c27-5f3982834888",
         level: 1,
         category: 2,
         seatNo: 4,
@@ -73,7 +73,7 @@ const SeatSelect: NextPage = () => {
         ownerId: "78d14e9a-a891-4902-9850-4a2dc6e38e20",
         eventId: "2fa2b8ed-90ba-4f6d-9d1a-7f53ee4e240e"
     },{
-        id: 5,
+        id: "8315b749-cbac-4a8e-8c27-5f3982834888",
         level: 1,
         category: 2,
         seatNo: 5,
@@ -82,7 +82,7 @@ const SeatSelect: NextPage = () => {
         ownerId: "null",
         eventId: "2fa2b8ed-90ba-4f6d-9d1a-7f53ee4e240e"
     },{
-        id: 6,
+        id: "8315b749-cbac-4a8e-8c27-5f3982834888",
         level: 1,
         category: 2,
         seatNo: 6,
@@ -96,53 +96,60 @@ const SeatSelect: NextPage = () => {
     interface SeatButtonProps {
         key: number
         count: number
+        ticket: Ticket
     };
     
     const SeatButton = (props: SeatButtonProps) => {
-        const Id = props.count
-
-        if (testTickets[Id].status == 'unsold'){
-
+        const index = props.count
+        let isSold = false
+        if (props.ticket.status == 'sold'){
+            isSold = true
         }
+
         return (
+            <>{
+                isSold ?
+                <p className='bg-primary/40  text-secondary font-semibold rounded h-full w-full text-center'> sold </p>
+                : 
                 <Dropdown>
-                    <Dropdown.Trigger><button className='bg-primary hover:bg-accent text-secondary hover:text-primary font-semibold rounded h-full w-full'> {testTickets[Id].seatNo} </button></Dropdown.Trigger>
+                    <Dropdown.Trigger><button className='bg-primary hover:bg-accent text-secondary hover:text-primary font-semibold rounded h-full w-full'> {testTickets[index].seatNo} </button></Dropdown.Trigger>
                     <Dropdown.Menu disabledKeys={["level","cat","seat","price","status","owner", "add to cart"]} aria-label="Seat Details">
                         <Dropdown.Section title="Seat Details">
                             <Dropdown.Item key="level" withDivider>
-                                <p className='text-secondary h-5'> Level: <b>{testTickets[Id].level} {props.key}</b></p>
+                                <p className='text-secondary h-5'> Level: <b>{props.ticket.level}</b></p>
                             </Dropdown.Item>
                             <Dropdown.Item key="cat">
-                                <p className='text-secondary h-5'> Category: <b>{testTickets[Id].category}</b></p>
+                                <p className='text-secondary h-5'> Category: <b>{props.ticket.category}</b></p>
                             </Dropdown.Item>
                             <Dropdown.Item key="seat">
-                                <p className='text-secondary h-5'> Seat No.: <b>{testTickets[Id].seatNo}</b></p>
+                                <p className='text-secondary h-5'> Seat No.: <b>{props.ticket.seatNo}</b></p>
                             </Dropdown.Item>
                             <Dropdown.Item key="price">
-                                <p className='text-secondary h-5'> Price: <b>S${testTickets[Id].price}</b></p>
+                                <p className='text-secondary h-5'> Price: <b>S${props.ticket.price}</b></p>
                             </Dropdown.Item>
                             <Dropdown.Item key="status">
-                                <p className='text-secondary h-5'> Status: <b>{testTickets[Id].status}</b></p>
+                                <p className='text-secondary h-5'> Status: <b>{props.ticket.status}</b></p>
                             </Dropdown.Item>
                             <Dropdown.Item key="owner">
-                                <p className='text-secondary h-5 overflow-y-hidden'> Owner: <b>{testTickets[Id].ownerId}</b></p>
+                                <p className='text-secondary h-5 overflow-y-hidden'> Owner: <b>{props.ticket.ownerId}</b></p>
                             </Dropdown.Item>
                         </Dropdown.Section>
                         
                         <Dropdown.Item key="add to cart" color="error" withDivider>
                                 {/* onclick add to cart */}
-                            <button onClick={() => addToCart(testTickets[Id])} className='text-primary font-bold w-full bg-accent/90 hover:bg-accent hover:text-secondary/70 rounded p-2'>Add to Cart</button>
+                            <button onClick={() => addToCart(testTickets[index])} className='text-primary font-bold w-full bg-accent/90 hover:bg-accent hover:text-secondary/70 rounded p-2'>Add to Cart</button>
                         </Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
+            }</>
         )
     }
 
     const RenderSeatDiagram = () => {
         let count = 0;
-        let seatArray = testTickets.map(() => {
+        let seatArray = testTickets.map((ticket) => {
             return (
-                <SeatButton key={count++} count={count} />
+                <SeatButton key={count++} count={count} ticket={ticket} />
             )
         })
         return (
@@ -185,10 +192,10 @@ const SeatSelect: NextPage = () => {
         let itemArray = cart.map((ticket: Ticket) => {
             return (
                 <div key={count} className='flex bg-primary rounded-lg drop-shadow
-                 m-2 p-2 h-12 w-90 justify-around content-end'>
-                    <p><b className='text-base'>{count++}.</b></p>
-                    <p className='text-base'>{`Seat No. : ${ticket.seatNo} , Ticket id: ${ticket.id}`}</p>
-                    <button onClick={() => removeFromCart(ticket)} className='bg-accent hover:bg-accent/90 text-primary hover:text-secondary/90 px-2 rounded font-semibold text-center content-center'>Remove from cart</button>
+                 m-2 p-2 h-15 w-90 justify-around content-end'>
+                    <p className='px-2'><b className='text-base'>{count++}.</b></p>
+                    <p className='text-base'>Seat Number: <b>{ticket.seatNo}</b> </p>
+                    <button onClick={() => removeFromCart(ticket)} className='bg-accent hover:bg-accent/90 text-primary hover:text-secondary/90 px-2 rounded font-semibold text-center'>Remove from cart</button>
                 </div>
             )
         })
@@ -230,7 +237,7 @@ const SeatSelect: NextPage = () => {
 
     useEffect(() => {
         userStore.fetch()
-    }, [userStore])
+    }, [])
 
     return (
         <div className='flex flex-col p-14 pt-24 bg-gradient-to-b from-primary via-secondary/20 to-primary gap-5 items-center'>
@@ -242,7 +249,9 @@ const SeatSelect: NextPage = () => {
             />
             {testUser.hasKYC 
                 ? <RenderSeats /> 
-                : <NonVerified />}
+                : <NonVerified 
+                    eventId={String(testEvent.id)} 
+                    dateTime={testEvent.eventDateTime[0]} />}
             
         </div>
     )
