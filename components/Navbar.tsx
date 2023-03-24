@@ -11,20 +11,23 @@ const Navbar = () => {
 
   const [open, setOpen] = useState(false);
 
-  const menuRef = useRef<HTMLDivElement>(null);
+  let menuRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // window.addEventListener("click", (e) => {
-    //   if (e.target !== menuRef.current && e.target !== imgRef.current){
-    //     setOpen(false);
-    //   }
-    // });
+    let handler = (e : any) => {
+      if(!menuRef.current?.contains(e?.target)){
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handler)
+  });
 
+  useEffect(() => {
     if (userStore.user == null) {
       userStore.fetch();
     }
-  }, [userStore]);
+  }, [userStore.user]);
 
   function toggleDropdown() {
     setOpen(() => !open);
@@ -83,7 +86,7 @@ const Navbar = () => {
 
           {userStore.user == null && (
             <Link href="/login" passHref>
-              <a className="whitespace-nowrap w-auto items-center px-3 py-2 text-sm font-medium text-center text-white bg-accent rounded-lg hover:bg-red-900">
+              <a className="whitespace-nowrap w-auto items-center px-3 py-2 text-sm font-medium text-center text-white bg-accent rounded-lg hover:bg-red-900 hover:text-white">
                 Log In
               </a>
             </Link>
@@ -91,7 +94,7 @@ const Navbar = () => {
 
           {userStore.user == null && (
             <Link href="/signup" passHref>
-              <a className="whitespace-nowrap w-auto items-center px-3 py-2 text-sm font-medium text-center text-white bg-accent rounded-lg hover:bg-red-900">
+              <a className="whitespace-nowrap w-auto items-center px-3 py-2 text-sm font-medium text-center text-white bg-accent rounded-lg hover:bg-red-900 hover:text-white">
                 Sign Up
               </a>
             </Link>

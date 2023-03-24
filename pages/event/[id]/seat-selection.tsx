@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import Router from 'next/router' 
+import Router, { useRouter } from 'next/router' 
 import { useEffect, useState } from 'react'
 import { Dropdown } from "@nextui-org/react";
 import { ChevronDoubleUpIcon,ChevronDoubleDownIcon } from '@heroicons/react/20/solid';
@@ -9,6 +9,8 @@ import NonVerified from '../../../components/NonVerified'
 import { useUserStore } from '../../../stores/user-store';
 
 const SeatSelect: NextPage = () => {
+
+    const router = useRouter()
     const userStore = useUserStore()
     
     interface Ticket {
@@ -92,6 +94,12 @@ const SeatSelect: NextPage = () => {
         eventId: "2fa2b8ed-90ba-4f6d-9d1a-7f53ee4e240e"
     },
     ];
+    
+    useEffect(() => {
+        if (userStore.user == null) {
+            userStore.fetch()
+        }
+    }, [userStore.user])
 
     interface SeatButtonProps {
         key: number
@@ -223,7 +231,7 @@ const SeatSelect: NextPage = () => {
                 <h1 className='text-3xl font-semibold text-secondary'>3) Select Seat:</h1>
                 <div className='flex flex-col bg-primary h-full py-2 px-3 
                         rounded-lg drop-shadow-md gap-3 min-h-min overflow-y-auto'>
-                    <button onClick={() => Router.push('/event/' + testEvent.id + '/category-selection')} className='self-start text-secondary text-md 
+                    <button onClick={() => Router.push('/event/' + router.query.id + '/category-selection')} className='self-start text-secondary text-md 
                         bg-primary px-4 py-2 rounded-lg drop-shadow hover:bg-accent/90 hover:text-primary'>&lt; Back
                     </button>
                     <p className='text-secondary text-lg font-semibold'>Pick a category:</p>
@@ -234,10 +242,6 @@ const SeatSelect: NextPage = () => {
                 </div>
             </div>
     )}
-
-    useEffect(() => {
-        userStore.fetch()
-    }, [])
 
     return (
         <div className='flex flex-col p-14 pt-24 bg-gradient-to-b from-primary via-secondary/20 to-primary gap-5 items-center'>

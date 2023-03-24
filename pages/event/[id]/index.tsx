@@ -8,6 +8,17 @@ import NonVerified from '../../../components/NonVerified'
 import { useUserStore } from '../../../stores/user-store';
 
 const DateSelect: NextPage = () => {
+    interface Ticket {
+        id: string;
+        level: number;
+        category: number;
+        seatNo: number;
+        price: number;
+        status: string;
+        ownerId: string;
+        eventId: string;
+    }
+
     interface Event{
         id: number
         name: string
@@ -15,6 +26,7 @@ const DateSelect: NextPage = () => {
         imageUrl: string
         eventDateTime: string
         venue: string
+        tickets: Array<Ticket>
     }
 
 
@@ -24,8 +36,10 @@ const DateSelect: NextPage = () => {
     const [HTTPStatus, setHTTPStatus] = useState<any>(null);
     
     useEffect(() => {
-        userStore.fetch()
-    }, [])
+        if (userStore.user == null) {
+            userStore.fetch()
+        }
+    }, [userStore.user])
 
     useEffect(() => {
         async function fetchEvent() {
@@ -34,6 +48,7 @@ const DateSelect: NextPage = () => {
                 if (result.data == null){
                     setHTTPStatus(404)
                 } else {
+                    console.log(result.data)
                     setEventDetails(result.data);
                     setHTTPStatus(200)
                 }
@@ -47,7 +62,7 @@ const DateSelect: NextPage = () => {
                 }
             }
         }
-      
+    
         fetchEvent();
     }, [router])
 
@@ -61,25 +76,25 @@ const DateSelect: NextPage = () => {
         eventDateTime: '2023-02-21 6:00:00',
         venue: "Star Theatre",
     }
-
-    
-    type EventButtonDetails = {
-        dates: string,
-        cat: any[];
-    }
     
 
-    const RenderDateButtons = ({Dates}: { Dates: EventButtonDetails["dates"] }) => {
-        
+    const RenderDateButtons = ({eventDateTime}: { eventDateTime: Event["eventDateTime"] }) => {
+        const dateTime = new Date(eventDateTime)
+        const formattedDateTime = 
+            `${dateTime.getFullYear()}-${dateTime.getMonth()+1}-${dateTime.getDate()} 
+            ${String(dateTime.getHours()).padStart(2, '0')}:${String(dateTime.getMinutes()).padStart(2, '0')}:${String(dateTime.getSeconds()).padStart(2, '0')}`
+            
         return (
-            <div className='flex gap-3 bg-secondary h-full p-2 rounded-lg drop-shadow m-1 justify-center'>
+            <div className='flex gap-3 bg-secondary h-full p-4 rounded-lg drop-shadow m-1 justify-center'>
                 <button onClick={() => Router.push('/event/' + router.query.id + '/category-selection')} className='bg-primary rounded-lg drop-shadow
-                 hover:bg-accent/90 hover:text-primary m-2 p-2 h-10 w-70'>{`${Dates}`}</button>
+                 hover:bg-accent/90 hover:text-primary m-2 p-2 h-10 w-70'> {`${formattedDateTime}`} </button>
             </div>
         )
     }
 
     const RenderDateTime = () => {
+        const eventDate = eventDetails?.eventDateTime as string
+
         return (
             <div className='flex flex-col gap-2 h-120 max-w-4xl'>
                 <h1 className='text-3xl font-semibold text-secondary '>1) Select Event Date:</h1>
@@ -89,7 +104,7 @@ const DateSelect: NextPage = () => {
                         bg-primary px-4 py-2 rounded-lg drop-shadow hover:bg-accent/90 hover:text-primary'>&lt; Back
                     </button>
                     <p className='text-secondary text-lg font-semibold'>Pick an available date & time:</p>
-                    <RenderDateButtons Dates={testEvent.eventDateTime} />
+                    <RenderDateButtons eventDateTime={eventDate} />
                 </div>
             </div>
         )
@@ -126,7 +141,7 @@ const DateSelect: NextPage = () => {
                     : <NonVerified 
                         eventId={String(testEvent.id)} 
                         dateTime={testEvent.eventDateTime[0]}/>}
-                {eventDetails.eventDateTime}
+                
             </div>
         )
     }

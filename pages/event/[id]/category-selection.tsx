@@ -20,8 +20,10 @@ const CategorySelect: NextPage = () => {
     const userStore = useUserStore()
     
     useEffect(() => {
-        userStore.fetch()
-    }, [])
+        if (userStore.user == null) {
+            userStore.fetch()
+        }
+    }, [userStore.user])
 
     // test objects
     const testEvent = {

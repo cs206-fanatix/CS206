@@ -1,24 +1,32 @@
-import Link from 'next/link'
-import Image from 'next/image'
+import Image from 'next/image';
 
-interface props {
-    event_name: string,
-    event_start_date: string,
-    event_end_date: string,
-    image: string
+interface Props {
+  name: string;
+  artist: string;
+  eventDateTime: string;
+  venue: string;
+  image: string;
 }
 
-const Event_Card = (props: props) => {
-    return (
-        <a href="#" className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-            {/* <img className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg" src={props.image} alt=""/> */}
-            <Image src={props.image} alt="Event Image" width={1000} height={750} />
-            <div className="flex flex-col justify-between p-4 leading-normal">
-                <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{props.event_name}</h5>
-                <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{props.event_start_date} to {props.event_end_date}</p>
-            </div>
-        </a>
-    );
+const EventCard = ({ name, artist, eventDateTime, venue, image }: Props) => {
+  return (
+    <div className="relative rounded shadow">
+      <Image src={image} alt="Event Image" width={1000} height={350} className="object-cover w-full h-full" />
+
+      <div className="absolute inset-0 rounded shadow" style={{ backgroundImage: "linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8))" }}>
+        <div className="flex items-center justify-end pr-4 text-sm text-white sm:text-base">
+          <button className="hover:text-gray-400">...</button>
+        </div>
+        <div className="px-4 py-6">
+          <h3 className="text-lg font-medium text-white">{name}</h3>
+          <p className="mt-2 text-sm text-gray-300">
+            {artist} | {eventDateTime} | {venue}
+          </p>
+        </div>                   
+        
+      </div>
+    </div>
+  );
 };
 
-export default Event_Card;
+export default EventCard;
