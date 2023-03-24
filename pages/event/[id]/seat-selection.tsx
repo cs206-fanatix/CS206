@@ -229,8 +229,10 @@ const SeatSelect: NextPage = () => {
     )}
 
     useEffect(() => {
-        userStore.fetch()
-    }, [userStore])
+        if (userStore.user == null) {
+            userStore.fetch()
+        }
+    }, [userStore.user])
 
     return (
         <div className='flex flex-col p-14 pt-24 bg-gradient-to-b from-primary via-secondary/20 to-primary gap-5 items-center'>

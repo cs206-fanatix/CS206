@@ -15,7 +15,7 @@ const IdentityVerificationPage = () => {
     if (userStore.user?.hasCompletedKyc) {
       router.push("/");
     }
-  }, [userStore, router]);
+  }, [userStore.user, router]);
 
   return (
     <div className="bg-gray-50 flex justify-center py-12 sm:px-6 lg:px-8">

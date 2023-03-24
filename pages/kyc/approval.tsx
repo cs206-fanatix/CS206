@@ -16,7 +16,7 @@ const ApprovalPage = () => {
     if (userStore.user?.hasCompletedKyc) {
       router.push("/");
     }
-  }, [userStore, router]);
+  }, [userStore.user, router]);
 
   const handleClick = async () => {
     await axios.put("/api/users/" + userStore.user?.id, {
