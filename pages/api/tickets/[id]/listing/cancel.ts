@@ -1,16 +1,16 @@
 /**
- * This API creates a new listing for a ticket
+ * This API cancels the current active listing for a ticket
  */
 
 import type { NextApiRequest, NextApiResponse } from "next";
-import prisma from "../../../../utils/db-client";
+import prisma from "../../../../../utils/db-client";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { method, body } = req;
-  const { id } = req.query;
+  const { query, method, body } = req;
+  const { id } = query;
 
   switch (method) {
     case "POST":
@@ -18,11 +18,9 @@ export default async function handler(
         const ticket = await prisma.ticket.findUnique({
           where: { id: id as string },
         });
+
         if (ticket == null) {
           throw Error("Ticket cannot be found.");
-        }
-        if (ticket?.status === "unsold" || ticket?.ownerId == null) {
-          throw Error("Ticket cannot be listed as it is unsold.");
         }
 
         const existingActiveListings = await prisma.listing.findMany({
@@ -32,32 +30,37 @@ export default async function handler(
           },
         });
 
-        if (existingActiveListings.length > 0) {
-          throw Error("Ticket cannot be listed as it is already listed.");
+        if (existingActiveListings.length == 0) {
+          throw Error("No existing active listing.");
         }
 
-        const listing = await prisma.listing.create({
-          data: {
-            createdAt: new Date(),
-            ticketId: ticket.id,
-            price: body.price,
-            status: "active",
-            buyerUserId: null,
-            sellerUserId: ticket.ownerId,
-          },
-        });
-
-        await prisma.ticket.update({
+        const updatedTicket = await prisma.ticket.update({
           where: {
             id: ticket.id,
           },
           data: {
-            status: "listed",
+            status: "sold",
+            listings: {
+              update: {
+                where: {
+                  createdAt_ticketId: {
+                    createdAt: existingActiveListings[0].createdAt,
+                    ticketId: ticket.id,
+                  },
+                },
+                data: {
+                  status: "cancelled",
+                },
+              },
+            },
+          },
+          include: {
+            listings: true,
           },
         });
 
         res.status(200).json({
-          listing,
+          updatedTicket,
         });
       } catch (e) {
         res.status(400).json((e as Error).message);

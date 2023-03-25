@@ -50,7 +50,7 @@ model Listing {
   buyer User? @relation("buyerUserListing", fields: [buyerUserId], references: [id])
   seller User @relation("sellerUserListing", fields: [sellerUserId], references: [id])
 
-  tickets Ticket @relation(fields: [ticketId], references: [id])
+  ticket Ticket @relation(fields: [ticketId], references: [id])
   @@id([createdAt, ticketId])
 }
 
