@@ -18,7 +18,8 @@ model User {
 
   tickets Ticket[]
 
-  bids Bid[]
+  listingsBought Listing[] @relation("buyerUserListing")
+  listingsSold Listing[] @relation("sellerUserListing")
 }
 
 model Ticket {
@@ -43,25 +44,14 @@ model Listing {
   ticketId String 
   price Float
   status String
+  buyerUserId String?
+  sellerUserId String
 
-  bids Bid[]
+  buyer User? @relation("buyerUserListing", fields: [buyerUserId], references: [id])
+  seller User @relation("sellerUserListing", fields: [sellerUserId], references: [id])
 
-  tickets Ticket @relation(fields: [ticketId], references: [id])
+  ticket Ticket @relation(fields: [ticketId], references: [id])
   @@id([createdAt, ticketId])
-}
-
-model Bid {
-  createdAt DateTime
-  listingDateTime DateTime
-  ticketId String
-  userId String
-
-  askingPrice Float
-
-  user User @relation(fields: [userId], references: [id])
-
-  listing Listing @relation(fields: [listingDateTime, ticketId], references: [createdAt, ticketId])
-  @@id([createdAt, listingDateTime, ticketId, userId])
 }
 
 model Event {

@@ -14,7 +14,7 @@ const Home: NextPage = () => {
 	
 	useEffect(() => {	
 		userStore.fetch()
-	}, [userStore])
+	}, [userStore.user])
 
 	useEffect(() => {
 		async function getEvents() {

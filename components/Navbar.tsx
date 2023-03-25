@@ -24,11 +24,10 @@ const Navbar = () => {
   });
 
   useEffect(() => {
-   
     if (userStore.user == null) {
       userStore.fetch();
     }
-  }, [userStore]);
+  }, [userStore.user]);
 
   function toggleDropdown() {
     setOpen(() => !open);

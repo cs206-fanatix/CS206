@@ -21,8 +21,6 @@ const Navbar = () => {
   const menuRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLDivElement>(null);
 
-  
-
   useEffect(() => {
     // window.addEventListener("click", (e) => {
     //   if (e.target !== menuRef.current && e.target !== imgRef.current){
@@ -30,8 +28,10 @@ const Navbar = () => {
     //   }
     // });
 
-    userStore.fetch();
-  }, []);
+    if (userStore.user == null) {
+      userStore.fetch();
+    }
+  }, [userStore.user]);
 
   function toggleDropdown() {
     setOpen(() => !open);
@@ -60,7 +60,7 @@ const Navbar = () => {
               />
             </Link>
           </div>
-          
+
           <div className="flex gap-10 p-4">
             <Link href="#" className="text-secondary font-semibold">
               Integration
@@ -68,7 +68,6 @@ const Navbar = () => {
             <Link href="#" className="text-secondary font-semibold">
               Reports
             </Link>
-            
           </div>
           <form className="flex h-2/3 mb-auto mt-auto w-[40%]">
             <div className="flex relative w-full">
@@ -104,7 +103,7 @@ const Navbar = () => {
               </a>
             </Link>
           )}
-          
+
           {/* live chat */}
           {userStore.user != null && (
             <Link href="#" passHref>
@@ -112,22 +111,20 @@ const Navbar = () => {
                 Live Chat
               </a>
             </Link>
-          )
-          
-          }
+          )}
 
           {/* notifications */}
           {userStore.user != null && (
-          <span className="material-symbols-outlined cursor-pointer select-none">
-            notifications
-          </span>
+            <span className="material-symbols-outlined cursor-pointer select-none">
+              notifications
+            </span>
           )}
 
           {/* mail */}
           {userStore.user != null && (
-          <span className="material-symbols-outlined cursor-pointer select-none">
-            mail
-          </span>
+            <span className="material-symbols-outlined cursor-pointer select-none">
+              mail
+            </span>
           )}
 
           {/* settings */}
@@ -150,8 +147,6 @@ const Navbar = () => {
               />
             </div>
           )}
-
-          
 
           {open && (
             <div

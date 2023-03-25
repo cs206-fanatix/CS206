@@ -58,7 +58,7 @@ const Home: NextPage = () => {
             setisLoggedIn(false);
         }
         
-	}, [userStore])
+	}, [userStore.user])
 
     const generate_event_cards=()=> {
         // fetch events from backend and generate event cards

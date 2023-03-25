@@ -98,11 +98,13 @@ const CreateEvent: NextPage = () => {
     const [isLoggedIn, setisLoggedIn] = useState(true);
     
     useEffect(() => {	
-		userStore.fetch();
+        if (userStore.user == null) {
+            userStore.fetch();
+        }
         if (userStore.user) {
             setisLoggedIn(false);
         }
-	}, [userStore])
+	}, [userStore.user])
 
     
     if (isLoggedIn) {

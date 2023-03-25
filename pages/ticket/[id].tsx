@@ -76,8 +76,10 @@ const TicketDetail: NextPage = () => {
 	}, [])
 
 	useEffect(() => {
-		userStore.fetch()
-	}, [userStore])
+		if (userStore.user == null) {
+			userStore.fetch()
+		}
+	}, [userStore.user])
 
 	return (
 		<div className="flex flex-col h-screen w-full bg-gradient-to-b from-primary via-secondary/20 to-primary overflow-auto relative">
