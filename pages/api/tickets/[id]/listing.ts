@@ -13,6 +13,42 @@ export default async function handler(
   const { id } = req.query;
 
   switch (method) {
+    case "PUT":
+      try {
+        const ticket = await prisma.ticket.findUnique({
+          where: { id: id as string },
+        });
+        if (ticket == null) {
+          throw Error("Ticket cannot be found.");
+        }
+        const existingActiveListings = await prisma.listing.findMany({
+          where: {
+            ticketId: ticket.id,
+            status: "active",
+          },
+        });
+        if (existingActiveListings.length == 0) {
+          throw Error("No active listing found to update.");
+        }
+        const updatedListing = await prisma.listing.update({
+          where: {
+            createdAt_ticketId: {
+              createdAt: existingActiveListings[0].createdAt,
+              ticketId: ticket.id,
+            },
+          },
+          data: {
+            price: body.price,
+          },
+        });
+        res.status(200).json({
+          updatedListing,
+        });
+      } catch (e) {
+        res.status(400).json((e as Error).message);
+      }
+      break;
+
     case "POST":
       try {
         const ticket = await prisma.ticket.findUnique({
@@ -64,7 +100,7 @@ export default async function handler(
       }
       break;
     default:
-      res.setHeader("Allow", ["POST"]);
+      res.setHeader("Allow", ["POST", "PUT"]);
       res.status(405).end(`Method ${method} Not Allowed`);
   }
 }

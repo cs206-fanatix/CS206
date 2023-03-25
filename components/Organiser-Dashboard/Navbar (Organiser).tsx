@@ -4,6 +4,8 @@ import axios from "axios";
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useUserStore } from "../../stores/user-store";
+import { Dropdown } from "antd";
+import type { MenuProps } from 'antd';
 
 interface IUser {
   id: string;
@@ -45,6 +47,41 @@ const Navbar = () => {
     }
     router.reload();
   }
+
+  const items: MenuProps['items'] = [
+    {
+      key: '1',
+      label: (
+        <a target="_blank" rel="noopener noreferrer" href="#">
+          Profile
+        </a>
+      ),
+    },
+    {
+      key: '2',
+      label: (
+        <a target="_blank" rel="noopener noreferrer" href="#">
+          Settings
+        </a>
+      ),
+    },
+    {
+      key: '3',
+      label: (
+        <a target="_blank" rel="noopener noreferrer" href="#">
+          Help
+        </a>
+      ),
+    },
+    {
+      key: '4',
+      label: (
+        <a target="_blank" rel="noopener noreferrer" href="#" onClick={logout}>
+          Logout
+        </a>
+      ),
+    },
+  ];
 
   return (
     <nav className="items-center w-screen sticky top-0 z-50">
@@ -127,60 +164,23 @@ const Navbar = () => {
             </span>
           )}
 
-          {/* settings */}
-          {/* notifications */}
-          {userStore.user != null && (
-            <span className="material-symbols-outlined cursor-pointer select-none">
-              settings
-            </span>
-          )}
 
+          {/* profile */}
           {userStore.user != null && (
             <div ref={imgRef}>
+              <Dropdown menu={{ items }} placement="bottomRight">
               <Image
+
                 src="/static/images/profile.png"
                 alt="Profile"
-                width={100}
-                height={100}
+                width={75}
+                height={75}
                 className="rounded-full cursor-pointer select-none"
                 onClick={toggleDropdown}
               />
+              </Dropdown>
             </div>
-          )}
-
-          {open && (
-            <div
-              ref={menuRef}
-              className="bg-white p-2 w-40 shadow-lg absolute top-9 right-3"
-            >
-              <h3>{userStore.user?.name}</h3>
-              <hr></hr>
-              <ul>
-                <Link href="/view-ticket" passHref>
-                  <li
-                    className="p-1 text-xs cursor-pointer rounded hover:bg-accent"
-                    key="View Tickets"
-                    onClick={toggleDropdown}
-                  >
-                    View Tickets
-                  </li>
-                </Link>
-                <li
-                  className="p-1 text-xs cursor-pointer rounded hover:bg-accent"
-                  key="Profile Settings"
-                >
-                  Profile Settings
-                </li>
-                <li
-                  className="p-1 text-xs cursor-pointer rounded hover:bg-accent"
-                  key="View Tickets"
-                  onClick={logout}
-                >
-                  Log Out
-                </li>
-              </ul>
-            </div>
-          )}
+          )}          
         </div>
       </div>
     </nav>
