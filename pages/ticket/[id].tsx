@@ -18,6 +18,7 @@ const TicketDetail: NextPage = () => {
 	const [blur, setBlur] = useState(true);
 	const [showConfirmation, setShowConfirmation] = useState(false);
 	const [password, setPassword] = useState("");
+	const [listPrice, setListPrice] = useState("");
 	const [status, setStatus] = useState("Not Listed")
 	const passwordInput = useRef<HTMLInputElement>(null);
 	const data = [
@@ -30,7 +31,11 @@ const TicketDetail: NextPage = () => {
 
 	const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setPassword(event.target.value);
-	  };
+	};
+
+	const handleListPriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setListPrice(event.target.value);
+	};
 
 	const handlePasswordSubmit = () => {
 		setShowConfirmation(!showConfirmation)
@@ -42,9 +47,9 @@ const TicketDetail: NextPage = () => {
 		}, 10000)
 
 		return () => clearTimeout(timer)
-	};  
+	};
 
-	useEffect(()=>{
+	useEffect(() => {
 		passwordInput?.current?.focus()
 	})
 
@@ -76,51 +81,51 @@ const TicketDetail: NextPage = () => {
 
 	return (
 		<div className="flex flex-col h-screen w-full bg-gradient-to-b from-primary via-secondary/20 to-primary overflow-auto relative">
-			{showConfirmation && 
-			<div className="z-1 sm:mx-auto sm:w-full sm:max-w-md">
-				<div className="absolute w-96 mt-32 bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-					<form className="space-y-6" onSubmit={handlePasswordSubmit}>
-						<div>
-							<label
-								htmlFor="password"
-								className="block text-sm font-medium text-gray-700"
-							>
-								Confirm Password
-							</label>
-							<div className="mt-1">
-								<input
-									id="password"
-									ref={passwordInput}
-									name="password"
-									type="password"
-									autoComplete="current-password"
-									value={password}
-                  					onChange={handlePasswordChange}
-									required
-									className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-								/>
+			{showConfirmation &&
+				<div className="z-1 sm:mx-auto sm:w-full sm:max-w-md">
+					<div className="absolute w-96 mt-32 bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+						<form className="space-y-6" onSubmit={handlePasswordSubmit}>
+							<div>
+								<label
+									htmlFor="password"
+									className="block text-sm font-medium text-gray-700"
+								>
+									Confirm Password
+								</label>
+								<div className="mt-1">
+									<input
+										id="password"
+										ref={passwordInput}
+										name="password"
+										type="password"
+										autoComplete="current-password"
+										value={password}
+										onChange={handlePasswordChange}
+										required
+										className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+									/>
+								</div>
 							</div>
-						</div>
 
-						<div className='flex gap-4'>
-						<button
-								type="button"
-								onClick={showConfirmationBox}
-								className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-							>
-								Cancel
-							</button>
-							<button
-								type="submit"
-								className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-							>
-								Confirm
-							</button>
-						</div>
-					</form>
-				</div>
-			</div>}
-			<div className={`flex mt-8 justify-center ${showConfirmation? "blur-md":""}`}>
+							<div className='flex gap-4'>
+								<button
+									type="button"
+									onClick={showConfirmationBox}
+									className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+								>
+									Cancel
+								</button>
+								<button
+									type="submit"
+									className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+								>
+									Confirm
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>}
+			<div className={`flex mt-8 justify-center ${showConfirmation ? "blur-md" : ""}`}>
 				<div className="flex">
 					<div>
 						<Image
@@ -163,18 +168,24 @@ const TicketDetail: NextPage = () => {
 							<h3 className="text-accent pl-4">{ticket?.event.artist}</h3>
 							<hr className="h-px w-11/12 mx-auto my-2 bg-primary"></hr>
 							<h3 className="text-white pl-5">{status}</h3>
-							<div className="flex pt-3">
-								<input
-									placeholder="List Price (SGD)"
-									className="w-1/2 h-6 p-2 ml-4 rounded-md"
-								></input>
-								<button
-									type="button"
-									className="w-1/2 h-6 mx-4 text-white bg-accent hover:bg-pink-900 focus:ring-4 font-medium rounded-md text-sm"
-								>
-									List Now
-								</button>
-							</div>
+							<form>
+								<div className="flex pt-3">
+									<input
+										id="listedPrice"
+										name="listedPrice"
+										placeholder="List Price (SGD)"
+										className="w-1/2 h-6 p-2 ml-4 rounded-md"
+										value={listPrice}
+										onChange={handleListPriceChange}
+									></input>
+									<button
+										type="button"
+										className="w-1/2 h-6 mx-4 text-white bg-accent hover:bg-pink-900 focus:ring-4 font-medium rounded-md text-sm"
+									>
+										List Now
+									</button>
+								</div>
+							</form>
 						</div>
 						<div className="ml-6 pt-2">
 							<Disclosure defaultOpen={true}>
