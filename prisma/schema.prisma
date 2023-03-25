@@ -44,10 +44,10 @@ model Listing {
   ticketId String 
   price Float
   status String
-  buyerUserId String
+  buyerUserId String?
   sellerUserId String
 
-  buyer User @relation("buyerUserListing", fields: [buyerUserId], references: [id])
+  buyer User? @relation("buyerUserListing", fields: [buyerUserId], references: [id])
   seller User @relation("sellerUserListing", fields: [sellerUserId], references: [id])
 
   tickets Ticket @relation(fields: [ticketId], references: [id])
