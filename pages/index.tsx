@@ -14,8 +14,8 @@ const Home: NextPage = () => {
 
 	useEffect(() => {
 		if (userStore.user == null) {
-            userStore.fetch();
-        }
+			userStore.fetch()
+		}
 	}, [userStore.user])
 
 	useEffect(() => {
