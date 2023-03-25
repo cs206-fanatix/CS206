@@ -1,90 +1,82 @@
 import type { NextPage } from 'next'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import Event_Card from '../components/Organiser-Dashboard/Event_Card'
-import Purchases from '../components/Organiser-Dashboard/Purchases'
 import Footer from '../components/Footer'
 import { useRouter } from 'next/router'
 import { useUserStore } from "../stores/user-store";
 import Image from 'next/image'
 import RevenueChart from '../components/Organiser-Dashboard/RevenueChart'
-import { LikeOutlined } from '@ant-design/icons';
 import React from 'react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
-
 import dayLocaleData from 'dayjs/plugin/localeData';
-import { Calendar, theme } from 'antd';
-import { Col, Radio, Row, Select, Typography, Statistic} from 'antd';
-import type { CalendarMode } from 'antd/es/calendar/generateCalendar';
-import type { Dayjs } from 'dayjs';
 import Title from 'antd/lib/typography/Title';
 import Text from 'antd/lib/typography/Text';
-import { Avatar, List, message } from 'antd';
-import VirtualList from 'rc-virtual-list';
-import { size } from 'lodash-es'
-import Paragraph from 'antd/lib/skeleton/Paragraph'
-import axios from 'axios'
+import { Avatar, List, Space, Tag, Col, Row, Statistic } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
 
-interface UserItem {
-    email: string;
-    gender: string;
-    name: {
-      first: string;
-      last: string;
-      title: string;
-    };
-    nat: string;
-    picture: {
-      large: string;
-      medium: string;
-      thumbnail: string;
-    };
-}
+import {
+    FacebookOutlined,
+    LinkedinOutlined,
+    TwitterOutlined,
+    YoutubeOutlined,
+  } from '@ant-design/icons';
 
-const fakeDataUrl ='https://randomuser.me/api/?results=20&inc=name,gender,email,nat,picture&noinfo';
-const ContainerHeight = 400;
-
+interface Event {
+    id: string;
+    name: string;
+    artist: string;
+    imageUrl: string | null;
+    eventDateTime: Date;
+    venue: string;
+  }
 
 dayjs.extend(dayLocaleData);
 const Home: NextPage = () => {
     const router = useRouter();
     const userStore = useUserStore();
     const [isLoggedIn, setisLoggedIn] = useState(true);
-    const [allEvents, setAllEvents] = useState<any[]>([])
-
+    const [allEvents, setAllEvents] = useState<Event[] | null>(null);
+    const [recentEvent, setRecentEvent] = useState<Event[] | null>(null);
+    
     useEffect(() => {	
-		userStore.fetch();
+        if (userStore.user == null) {
+            userStore.fetch();
+        }
         if (userStore.user) {
             setisLoggedIn(false);
         }
-        
 	}, [userStore.user])
 
-    useEffect(() => {
-		async function getEvents() {
-			try {
-				let res = await axios.get("/api/events");
-				let data = await res.data;
-				setAllEvents(data);
-                
-			  } catch (error) {
-				console.log(error);
-			  }
-		}
-		getEvents()
-	}, [])
 
-    // Sort and get event closest to today
-    const today = dayjs();
-    const sortedEvents = allEvents.sort((a, b) => {
-        const aDate = dayjs(a.date);
-        const bDate = dayjs(b.date);
-        return aDate.diff(today) - bDate.diff(today);
+useEffect(() => {
+  // Fetch events data from an API endpoint
+  fetch("/api/events")
+    .then((res) => res.json())
+    .then((data) => {
+      // Parse date strings in events array to JavaScript Date objects
+      const parsedEvents = data.map((event: Event) => ({
+        ...event,
+        eventDateTime: new Date(event.eventDateTime),
+      }));
+
+      // Sort events array in ascending order based on eventDateTime
+      parsedEvents.sort(
+        (a: { eventDateTime: { getTime: () => number } }, b: { eventDateTime: { getTime: () => number } }) => a.eventDateTime.getTime() - b.eventDateTime.getTime()
+      );
+    
+        setAllEvents(parsedEvents);
+
+      // Find the first event whose eventDateTime is greater than or equal to today's date
+      const today = new Date();
+      const closestEvent = parsedEvents.find(
+        (event: { eventDateTime: { getTime: () => number } }) => event.eventDateTime.getTime() >= today.getTime()
+      );
+
+      // Set the closestEvent in state
+      setRecentEvent(closestEvent ? [closestEvent] : null);
     });
-
-    // Most recent event
-    const recentEvent = sortedEvents[0];
+}, []);
 
     const purchases = [
         {
@@ -202,7 +194,7 @@ const Home: NextPage = () => {
                                 <div className='flex flex-row items-center'>
                                     <div className='flex flex-col'>
                                         <Title level={3}> Hello, {userStore.user.name}! </Title>
-                                        <Text> Welcome back to your dashboard. </Text>
+                                        <Text type='secondary'> Welcome back to your dashboard. </Text>
                                         
                                     </div>
                                 </div>
@@ -252,11 +244,13 @@ const Home: NextPage = () => {
                                                 {/* <div className='text-2xl font-semibold text-black'>Login Details</div> */}
                                                 <Title level={4}> Login Details</Title>
                                                 {/* Edit */}
-                                                <div className='flex flex-row justify-end'>
-                                                    <button className='flex flex-row justify-center items-center h-10 w-32 bg-accent text-white rounded-lg hover:bg-gray-700'>
-                                                        <span className="material-symbols-outlined">edit</span>
-                                                        <span className="ml-2">Edit</span>
-                                                    </button>   
+                                                <div className='flex flex-row justify-end pr-4'>
+                                                    <div className='select-none cursor-pointer'>
+                                                        <Link href="/organiser-dashboard">
+                                                            <Text type='secondary'> Edit </Text>
+                                                        </Link>    
+                                                    </div>
+                                                    
                                                 </div>
                                             </div>
                                             <br/>
@@ -289,44 +283,55 @@ const Home: NextPage = () => {
                                         </div>
                                     </div>
 
-                                    {/* Latest Sales */}
-                                    {/* <div className='flex flex-col h-1/2 bg-gray-100 shadow rounded border p-4'>
-                                        <div className='flex flex-col'>
-                                            <div className="w-full w-full flex justify-between">
-                                                <Title level={4}> Latest Sales</Title>
-                                                
-                                            </div>
-                                        </div>  
-                                    </div> */}
-
                                     {/* Latest upcoming event */}
                                     <div className="flex flex-col h-3/4 bg-gray-100 shadow rounded border p-4">
-                                        <text className='text-2xl font-semibold pb-4 bg-primary'>
+                                        <text className='text-2xl font-semibold pb-4'>
                                         Latest Upcoming Event
                                         </text>
                                         <div className="grid grid-cols-1 w-full bg-opacity-10 content-between">
-                                        
-                                            {/* Top left event name */}
-                                            <div className="flex w-full justify-between items-center px-8 bg-black bg-opacity-50 py-4">
-                                                <div className="text-xl font-semibold text-white">{recentEvent}</div>
-                                                <div className="text-xl text-white bg-red-600 py-1 px-4 rounded-full">Live</div>
+                                        {recentEvent && recentEvent[0] && (
+                                            <div className="grid grid-cols-1 w-full bg-opacity-10 content-between">
+                                                {/* Top left event name */}
+                                                <div className="flex w-full justify-between items-center px-8 bg-black bg-opacity-40 py-4 rounded-t-lg">
+                                                    <div className="text-xl font-semibold text-white">{recentEvent[0].name}</div>
+                                                    <Tag color="error">Live</Tag>
+                                                </div>
+                                                                                        
+                                                {recentEvent[0].imageUrl ? (
+                                                <Image
+                                                    src={recentEvent[0].imageUrl}
+                                                    alt="Missing image. Please refresh the page."
+                                                    width={1920}
+                                                    height={529}
+                                                    layout="responsive"
+                                                    objectFit="cover"
+                                                />
+                                                ) : (
+                                                    <Image
+                                                    src={"/static/images/events/3.webp"}
+                                                    alt="Missing image. Please refresh the page."
+                                                    width={2560}
+                                                    height={1431}
+                                                    layout="responsive"
+                                                    objectFit="cover"
+                                                />
+                                                )}
+
+                                                {/* Bottom left event details */}
+                                                <div className="flex flex-col justify-start px-12 py-2 bg-black bg-opacity-40 rounded-b-lg">
+                                                    {recentEvent && (
+                                                    <div className="text-sm font-normal text-white">{recentEvent[0].eventDateTime.toLocaleTimeString('en-US', {hour: 'numeric', minute: 'numeric'})} on {recentEvent[0].eventDateTime.toLocaleDateString()}</div>
+                                                    )}
+                                                    <div className="text-sm font-semibold text-white">{recentEvent[0].venue}</div>
+                                                </div>
+                                                
                                             </div>
                                             
-                                            <Image
-                                                src="/static/images/events/2.jpg"
-                                                alt="Picture of the author"
-                                                width={1920}
-                                                height={529}
-                                                layout="responsive"
-                                                objectFit="cover"
-                                            />
+                                            )}
 
-                                            {/* Bottom left event details */}
-                                            <div className="flex flex-col w-1/2 justify-start px-12 py-1 bg-black bg-opacity-50">
-                                                <div className="text-sm font-normal text-white">2:30pm on 20/3/2023</div>
-                                                <div className="text-sm font-semibold text-white">Ryogoku Kokugikan</div>
-                                            </div>
-                                        </div>  
+                                        </div>
+                                        
+
                                         <div className='flex justify-end'>
                                             <div className='flex flex-col w-full py-2'>
                                                 <Row gutter={16}>
@@ -339,17 +344,52 @@ const Home: NextPage = () => {
                                                 </Row>
                                             </div>
                                             {/* Bottom right event actions */}
-                                            <div className="flex flex-row w-full justify-end align-bottom gap-2 mt-4">
-                                                <button className="flex flex-row justify-center items-center h-10 w-32 bg-accent text-white rounded-lg hover:bg-gray-700">
-                                                    <span className="material-symbols-outlined">edit</span>
-                                                    <span className="ml-2">Edit</span>
-                                                </button>
-                                                <button className="flex flex-row justify-center items-center h-10 w-32 bg-accent text-white rounded-lg hover:bg-gray-700">
-                                                    <span className="material-symbols-outlined">delete</span>
-                                                    <span className="ml-2">Delete</span>
-                                                </button>
+                                            <div className="flex flex-row w-full justify-end align-bottom gap-4 mt-4">
+                                                <div className="select-none cursor-pointer">
+                                                    <Link href="/organiser-dashboard">
+                                                        <Text type='secondary'> Edit </Text>
+                                                    </Link>
+                                                </div>
+
+                                                <div className="select-none cursor-pointer">
+                                                    <Link href="/organiser-dashboard">
+                                                        <Text type='secondary'> Delete </Text>
+                                                    </Link>
+                                                </div>
                                             </div>
                                         </div>
+                                        
+                                        <Space size={[0, 8]} wrap>
+                                        <Link href="https://twitter.com">
+                                            <a>
+                                            <Tag icon={<TwitterOutlined />} color="#55acee" style={{ display: "flex", alignItems: "center" }}>
+                                                Twitter
+                                            </Tag>
+                                            </a>
+                                        </Link>
+                                        <Link href="https://youtube.com">
+                                            <a>
+                                            <Tag icon={<YoutubeOutlined />} color="#cd201f" style={{ display: "flex", alignItems: "center" }}>
+                                                Youtube
+                                            </Tag>
+                                            </a>
+                                        </Link>
+                                        <Link href="https://facebook.com">
+                                            <a>
+                                            <Tag icon={<FacebookOutlined />} color="#3b5999" style={{ display: "flex", alignItems: "center" }}>
+                                                Facebook
+                                            </Tag>
+                                            </a>
+                                        </Link>
+                                        <Link href="https://linkedin.com">
+                                            <a>
+                                            <Tag icon={<LinkedinOutlined />} color="#55acee" style={{ display: "flex", alignItems: "center" }}>
+                                                LinkedIn
+                                            </Tag>
+                                            </a>
+                                        </Link>
+                                        </Space>
+                                        
                                     </div>
 
                                 </div>
@@ -363,12 +403,13 @@ const Home: NextPage = () => {
                                     <div className='flex flex-col w-full'>
                                         <div className="flex justify-between">
                                             <Title level={4}> Recent Sales Orders</Title>
-                                            <Link href="/#">
-                                                <a className='flex flex-row justify-center items-center h-10 w-32 bg-accent text-white rounded-lg hover:bg-gray-700'>
-                                                    <span className="material-symbols-outlined">Edit</span>
-                                                    <span className="ml-2">Edit</span>
-                                                </a>
-                                            </Link>
+
+                                            <div className="select-none cursor-pointer">
+                                                <Link href="/organiser-dashboard">
+                                                    <Text type='secondary'> View all </Text>
+                                                </Link>
+                                            </div>
+                                            
                                         </div>
                                     </div>
                                     <div className='flex flex-col w-full'>
@@ -378,8 +419,8 @@ const Home: NextPage = () => {
                                         renderItem={(item, index) => (
                                         <List.Item>
                                             <List.Item.Meta
-                                            avatar={<Avatar src={`https://joesch.moe/api/v1/random?key=${index}`} />}
-                                            title={<a href="https://ant.design">{item.user}</a>}
+                                            avatar={<Avatar icon={<UserOutlined />} />}
+                                            title={<a href="#">{item.user}</a>}
                                             description={item.event}
                                             />
                                         </List.Item>
@@ -391,12 +432,16 @@ const Home: NextPage = () => {
                                 {/* Artist Top ranking */}
                                 <div className='flex flex-col w-2/5 pt-10 bg-gray-100 rounded shadow border py-4 px-8'>
                                     <div className='flex flex-col w-full'>
-                                        <div className="flex justify-between select-none cursor-pointer">
+                                        <div className="flex justify-between">
                                             <Title level={4}> Artist Top Ranking</Title>
-                                            <Link href="/organiser-dashboard">
-                                                {/* View all */}
-                                                <Text type='secondary'> View all </Text>
-                                            </Link>
+
+                                            <div className="select-none cursor-pointer">
+                                                <Link href="/organiser-dashboard">
+                                                    {/* View all */}
+                                                    <Text type='secondary'> View all </Text>
+                                                </Link>
+                                            </div>
+                                            
                                         </div>
                                     </div>
                                     <div className='flex flex-col w-full'>
@@ -406,8 +451,8 @@ const Home: NextPage = () => {
                                         renderItem={(item, index) => (
                                         <List.Item>
                                             <List.Item.Meta
-                                            avatar={<Avatar src={`https://joesch.moe/api/v1/random?key=${index}`} />}
-                                            title={<a href="https://ant.design">#{item.ranking}. {item.name}</a>}
+                                            avatar={<Avatar icon={<UserOutlined/>}/>}
+                                            title={<a href="#">#{item.ranking}. {item.name}</a>}
                                             />
                                         </List.Item>
                                         )}
@@ -415,8 +460,38 @@ const Home: NextPage = () => {
                                     </div>
                                 </div>
                             </div>
-                            
+                            {/* All other events coming */}
+                            <div className='flex flex-col w-full pt-10 bg-gray-100 rounded shadow border py-4 px-8'>
+                                <div className='flex flex-col w-full'>
+                                    <div className="flex justify-between">
+                                        <Title level={4}> My Events</Title>
+                                        <div className="select-none cursor-pointer">
+                                            <Link href="/organiser-dashboard">
+                                                {/* View all */}
+                                                <Text type='secondary'> View all </Text>
+                                            </Link>
+                                        </div>
+                                        
+                                    </div>
 
+                                    <div className='flex flex-col w-full'>
+                                    <List
+                                    itemLayout="horizontal"
+                                    dataSource={allEvents ? allEvents : []} // add a conditional check here
+                                    renderItem={(item, index) => (
+                                        <List.Item>
+                                        <List.Item.Meta
+                                            avatar={<Avatar icon={<UserOutlined />} />}
+                                            title={<a href="#">{item.name}</a>}
+                                            description={item.eventDateTime.toLocaleDateString()}
+                                        />
+                                        </List.Item>
+                                    )}
+                                    />
+
+                                    </div>
+                                </div>
+                            </div>
                             
                         </div>
 
@@ -430,11 +505,3 @@ const Home: NextPage = () => {
 }
 
 export default Home;
-function setBanner(arg0: any) {
-    throw new Error('Function not implemented.')
-}
-
-function setAllEvents(data: any) {
-    throw new Error('Function not implemented.')
-}
-
