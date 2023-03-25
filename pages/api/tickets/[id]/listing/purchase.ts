@@ -1,5 +1,5 @@
 /**
- * This API purchases the currently listed ticket
+ * This API cancels the current active listing for a ticket
  */
 
 import type { NextApiRequest, NextApiResponse } from "next";
@@ -21,12 +21,23 @@ export default async function handler(
         const buyer = await prisma.user.findUnique({
           where: { id: body.buyer },
         });
-        const seller = await prisma.user.findUnique({
-          where: { id: body.seller },
+
+        if (ticket == null) {
+          throw Error("Ticket cannot be found.");
+        }
+        if (buyer == null) {
+          throw Error("Buyer cannot be found.");
+        }
+
+        const existingActiveListings = await prisma.listing.findMany({
+          where: {
+            ticketId: ticket.id,
+            status: "active",
+          },
         });
 
-        if (ticket?.status !== "listed") {
-          throw Error("Ticket cannot be purchased, not listed.");
+        if (existingActiveListings.length == 0) {
+          throw Error("No existing active listing to purchase.");
         }
 
         const updatedTicket = await prisma.ticket.update({
@@ -34,8 +45,25 @@ export default async function handler(
             id: ticket.id,
           },
           data: {
-            ownerId: body.ownerId,
+            ownerId: buyer.id,
             status: "sold",
+            listings: {
+              update: {
+                where: {
+                  createdAt_ticketId: {
+                    createdAt: existingActiveListings[0].createdAt,
+                    ticketId: ticket.id,
+                  },
+                },
+                data: {
+                  buyerUserId: buyer.id,
+                  status: "sold",
+                },
+              },
+            },
+          },
+          include: {
+            listings: true,
           },
         });
 
