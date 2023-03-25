@@ -59,7 +59,7 @@ const Home: NextPage = () => {
             setisLoggedIn(false);
         }
         
-	}, [userStore])
+	}, [userStore.user])
 
     useEffect(() => {
 		async function getEvents() {

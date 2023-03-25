@@ -18,11 +18,7 @@ export default async function handler(
           include: {
             event: true,
             owner: true,
-            listings: {
-              include: {
-                bids: true,
-              },
-            },
+            listings: true,
           },
         });
         res.status(200).json(user);
