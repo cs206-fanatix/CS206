@@ -13,23 +13,25 @@ import { format } from 'date-fns';
 
 const EventDetails = () => {
     const router = useRouter();
-	const userStore = useUserStore();
-	const { id } = router.query;
+    const userStore = useUserStore();
+    const { id } = router.query;
     const [banner, setBanner] = useState<any>()
-    
+
     useEffect(() => {
-		async function getEvent() {
-			try {
-				let res = await axios.get("/api/events/" + id);
-				let data = await res.data
-                data.eventDateTime = format(new Date(data.eventDateTime), 'dd/MM/yyyy (EEE)')
-				setBanner(data)
-			  } catch (error) {
-				console.log(error);
-			  }
-		}
-		getEvent()
-	}, [])
+        async function getEvent() {
+            try {
+                let res = await axios.get("/api/events/" + id);
+                let data = await res.data
+                if (data !== null) {
+                    data.eventDateTime = format(new Date(data.eventDateTime), 'dd/MM/yyyy (EEE)')
+                }
+                setBanner(data)
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        getEvent()
+    }, [router])
 
     const data = [{
         id: 1,

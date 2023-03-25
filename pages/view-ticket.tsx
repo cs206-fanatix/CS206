@@ -9,32 +9,36 @@ import { format } from 'date-fns';
 const ViewTicket: NextPage = () => {
     const userStore = useUserStore();
     const [allTickets, setAllTickets] = useState<any[]>([])
+    //const [listedCount, setListedCount] = useState(0)
 
     let listedCount = 0
 
     useEffect(() => {
         userStore.fetch();
-    }, [userStore.user]);
+    }, []);
 
     useEffect(() => {
         async function getTickets() {
             try {
                 let res = await axios.get("/api/users/" + userStore?.user?.id.toString());
                 let data = await res.data
-                setAllTickets(data.tickets)
+                if (data !== null){
+                    setAllTickets(data.tickets)
+                }
             } catch (error) {
                 console.log(error);
             }
         }
         getTickets()
-    }, [])
+    }, [allTickets.length])
 
+    console.log(allTickets.length)
     const cards = allTickets.map((item) => {
         const date = item.event.eventDateTime
-		const dateFormatted = format(new Date(date), 'dd/MM/yyyy (EEE)')
+        const dateFormatted = format(new Date(date), 'dd/MM/yyyy (EEE)')
 
-        if(item.status === "listed"){
-            console.log("hello")
+        if (item.status === "listed") {
+            //console.log("hello")
             listedCount++
         }
 
