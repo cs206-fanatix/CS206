@@ -1,9 +1,11 @@
+import axios from 'axios'
 import type { NextPage } from 'next'
 import Router, { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import EventBanner from '../../../components/EventBanner'
 import NonVerified from '../../../components/NonVerified'
+import NotLogin from '../../../components/NotLogin'
 import { useUserStore } from '../../../stores/user-store';
 
 const CategorySelect: NextPage = () => {
@@ -18,12 +20,39 @@ const CategorySelect: NextPage = () => {
 
     const router = useRouter()
     const userStore = useUserStore()
+    const [eventDetails, setEventDetails] = useState<Event>();
+    const [HTTPStatus, setHTTPStatus] = useState<any>(null);
     
     useEffect(() => {
         if (userStore.user == null) {
             userStore.fetch()
         }
     }, [userStore.user])
+
+    useEffect(() => {
+        async function fetchEvent() {
+            try {
+                const result = await axios.get('/api/events/' + router.query.id);
+                if (result.data == null){
+                    setHTTPStatus(404)
+                } else {
+                    console.log(result.data)
+                    setEventDetails(result.data);
+                    setHTTPStatus(200)
+                }
+            } catch (error: any) {
+                if (error.response.status === 404) {
+                    setHTTPStatus(error.response.status)
+                    console.log('Data not found');
+                } else {
+                    setHTTPStatus(error.response.status)
+                    console.log('An error occurred', error);
+                }
+            }
+        }
+    
+        fetchEvent();
+    }, [router])
 
     // test objects
     const testEvent = {
@@ -80,21 +109,55 @@ const CategorySelect: NextPage = () => {
             </div>
     )}
 
+    if (userStore.user == null) {
+        const eventId = router.query.id as string
+        return (
+            <div className="flex flex-col p-14 pt-24 bg-gradient-to-b from-primary via-secondary/20 to-primary gap-5 items-center">
+                {/* TODO: change to static if josh doesnt wants static */}
+                <NotLogin eventId={eventId} />
+            </div>
+        )
+    }
+
+    if (HTTPStatus != 200) {
+        return (
+            <div className="flex flex-col items-center justify-center gap-2 h-120 max-w-4xl">
+                <p className='text-red-500 text-xl font-semibold'>Error {HTTPStatus}</p>
+                <p className='text-secondary text-lg font-semibold'>Something went wrong...</p>
+            </div>
+        )
+    }
+
+    if (eventDetails){
+        return (
+            <div className='flex flex-col p-14 pt-24 bg-gradient-to-b from-primary via-secondary/20 to-primary gap-5 items-center'>
+                {/* TODO: some checks for KYC here */}
+                <EventBanner
+                    name={testEvent.name}
+                    imageUrl={testEvent.imageUrl}
+                    venue = {testEvent.venue} 
+                />
+                {userStore.user?.hasCompletedKyc 
+                    ? <RenderCategory /> 
+                    : <NonVerified
+                        eventId={String(eventDetails.id)} 
+                        dateTime={eventDetails.eventDateTime} />}
+            </div>
+        )
+    }
     return (
-        <div className='flex flex-col p-14 pt-24 bg-gradient-to-b from-primary via-secondary/20 to-primary gap-5 items-center'>
-            {/* TODO: some checks for KYC here */}
-            <EventBanner
-                name={testEvent.name}
-                imageUrl={testEvent.imageUrl}
-                venue = {testEvent.venue} 
-            />
-            {userStore.user?.hasCompletedKyc 
-                ? <RenderCategory /> 
-                : <NonVerified
-                    eventId={String(testEvent.id)} 
-                    dateTime={testEvent.eventDateTime[0]} />}
+        <div className="flex items-center justify-center gap-2 h-120 max-w-4xl">
+            <div
+                className="inline-block h-10 w-10 animate-spin rounded-full border-4 text-accent border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                role="status"> 
+                <span
+                className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+                >Loading...</span>
+            </div>
+            <p className='text-secondary text-lg font-semibold'>Loading</p>
         </div>
     )
+
 } 
 export default CategorySelect
 
