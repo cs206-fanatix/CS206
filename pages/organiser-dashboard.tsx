@@ -24,6 +24,7 @@ import { Avatar, List, message } from 'antd';
 import VirtualList from 'rc-virtual-list';
 import { size } from 'lodash-es'
 import Paragraph from 'antd/lib/skeleton/Paragraph'
+import axios from 'axios'
 
 interface UserItem {
     email: string;
@@ -50,7 +51,7 @@ const Home: NextPage = () => {
     const router = useRouter();
     const userStore = useUserStore();
     const [isLoggedIn, setisLoggedIn] = useState(true);
-    
+    const [allEvents, setAllEvents] = useState<any[]>([])
 
     useEffect(() => {	
 		userStore.fetch();
@@ -60,37 +61,30 @@ const Home: NextPage = () => {
         
 	}, [userStore])
 
-    const generate_event_cards=()=> {
-        // fetch events from backend and generate event cards
-        var event_cards = []
-        for (var i = 0; i < 10; i++) {
-            event_cards.push(<Event_Card 
-                name="Polaris" 
-                artist="Aimer" 
-                eventDateTime="2021-01-01" 
-                venue='Ryogoku Kokugikan' 
-                image="/static/images/zankyosanka-photo.jpg" />)
-        }
-        return event_cards
-    }
+    useEffect(() => {
+		async function getEvents() {
+			try {
+				let res = await axios.get("/api/events");
+				let data = await res.data;
+				setAllEvents(data);
+                
+			  } catch (error) {
+				console.log(error);
+			  }
+		}
+		getEvents()
+	}, [])
 
-    const [data, setData] = useState<UserItem[]>([]);
+    // Sort and get event closest to today
+    const today = dayjs();
+    const sortedEvents = allEvents.sort((a, b) => {
+        const aDate = dayjs(a.date);
+        const bDate = dayjs(b.date);
+        return aDate.diff(today) - bDate.diff(today);
+    });
 
-    const generate_purchases=()=> {
-        var purchases = []
-        for (var i = 0; i < 10; i++) {
-            // Generate random profit
-            var profit_amt = (Math.random() * 1000).toString()
-            // round off to 2 decimal places
-            profit_amt = profit_amt.substring(0, profit_amt.indexOf('.') + 3)
-
-            purchases.push(
-            <li className="py-3 sm:py-4">
-                <Purchases image="/static/images/profile.png" username="SOLgod99" event="Aimer Live" profit={profit_amt} />
-            </li>)
-        }
-        return purchases
-    }
+    // Most recent event
+    const recentEvent = sortedEvents[0];
 
     const purchases = [
         {
@@ -113,7 +107,7 @@ const Home: NextPage = () => {
 
     const artists = [
         {
-            name: 'YOASOBI',
+            name: 'Ado',
             ranking: 1,
         },
         {
@@ -314,7 +308,7 @@ const Home: NextPage = () => {
                                         
                                             {/* Top left event name */}
                                             <div className="flex w-full justify-between items-center px-8 bg-black bg-opacity-50 py-4">
-                                                <div className="text-xl font-semibold text-white">Reblooming Roses</div>
+                                                <div className="text-xl font-semibold text-white">{recentEvent}</div>
                                                 <div className="text-xl text-white bg-red-600 py-1 px-4 rounded-full">Live</div>
                                             </div>
                                             
@@ -436,3 +430,11 @@ const Home: NextPage = () => {
 }
 
 export default Home;
+function setBanner(arg0: any) {
+    throw new Error('Function not implemented.')
+}
+
+function setAllEvents(data: any) {
+    throw new Error('Function not implemented.')
+}
+
