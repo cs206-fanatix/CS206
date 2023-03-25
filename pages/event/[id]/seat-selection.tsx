@@ -1,14 +1,16 @@
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import type { NextPage } from 'next'
 import Router, { useRouter } from 'next/router' 
 import { useEffect, useState } from 'react'
 import { Dropdown } from "@nextui-org/react";
 import { ChevronDoubleUpIcon,ChevronDoubleDownIcon,ShoppingCartIcon } from '@heroicons/react/20/solid';
+import { CheckCircleTwoTone } from '@ant-design/icons';
 
 import EventBanner from '../../../components/EventBanner'
 import NonVerified from '../../../components/NonVerified'
 import { useUserStore } from '../../../stores/user-store';
 import NotLogin from '../../../components/NotLogin';
+import Link from 'next/link';
 
 const SeatSelect: NextPage = () => {
 
@@ -33,87 +35,10 @@ const SeatSelect: NextPage = () => {
         tickets: Array<Ticket>
     }
 
-
     const router = useRouter()
     const userStore = useUserStore()
     const [eventDetails, setEventDetails] = useState<Event>();
     const [HTTPStatus, setHTTPStatus] = useState<any>(null);
-
-    // test objects
-    const testEvent = {
-        id: 1,
-        name: "Aimer Live",
-        artist: "Aimer",
-        imageUrl: "/static/images/zankyosanka-banner.jpg",
-        eventDateTime: ['2023-02-21 6:00:00','2023-02-22 6:00:00','2023-02-23 6:00:00'],
-        venue: "Star Theatre",
-        tickets: [],
-    }
-    const testTickets:Ticket[] = [{
-        id: "8315b749-cbac-4a8e-8c27-5f3982834881",
-        level: 1,
-        category: 2,
-        seatNo: 1,
-        price: 160.5,
-        status: "unsold",
-        ownerId: "78d14e9a-a891-4902-9850-4a2dc6e38e20",
-        eventId: "2fa2b8ed-90ba-4f6d-9d1a-7f53ee4e240e"
-    },{
-        id: "8315b749-cbac-4a8e-8c27-5f3982834882",
-        level: 1,
-        category: 2,
-        seatNo: 2,
-        price: 160,
-        status: "sold",
-        ownerId: "78d14e9a-a891-4902-9850-4a2dc6e38e20",
-        eventId: "2fa2b8ed-90ba-4f6d-9d1a-7f53ee4e240e"
-    },{
-        id: "8315b749-cbac-4a8e-8c27-5f3982834838",
-        level: 1,
-        category: 2,
-        seatNo: 3,
-        price: 161,
-        status: "unsold",
-        ownerId: "78d14e9a-a891-4902-9850-4a2dc6e38e20",
-        eventId: "2fa2b8ed-90ba-4f6d-9d1a-7f53ee4e240e"
-    },{
-        id: "8315b749-cbac-4a8e-8c27-5f3982834688",
-        level: 1,
-        category: 2,
-        seatNo: 4,
-        price: 163.5,
-        status: "unsold",
-        ownerId: "78d14e9a-a891-4902-9850-4a2dc6e38e20",
-        eventId: "2fa2b8ed-90ba-4f6d-9d1a-7f53ee4e240e"
-    },{
-        id: "8315b749-cbac-4a8e-8c27-5f3982534888",
-        level: 1,
-        category: 2,
-        seatNo: 5,
-        price: 160.5,
-        status: "unsold",
-        ownerId: "null",
-        eventId: "2fa2b8ed-90ba-4f6d-9d1a-7f53ee4e240e"
-    },{
-        id: "8315b749-cbac-4a8e-8c27-5f3482834888",
-        level: 1,
-        category: 2,
-        seatNo: 6,
-        price: 170.5,
-        status: "sold",
-        ownerId: "78d14e9a-a891-4902-9850-4a2dc6e38e20",
-        eventId: "2fa2b8ed-90ba-4f6d-9d1a-7f53ee4e240e"
-    },{
-        id: "8315b749-cbac-4a8e-8c27-5f3482834188",
-        level: 1,
-        category: 2,
-        seatNo: 7,
-        price: 170.5,
-        status: "unsold",
-        ownerId: "78d14e9a-a891-4902-9850-4a2dc6e38e20",
-        eventId: "2fa2b8ed-90ba-4f6d-9d1a-7f53ee4e240e"
-    },
-    ];
     
     useEffect(() => {
         if (userStore.user == null) {
@@ -128,7 +53,6 @@ const SeatSelect: NextPage = () => {
                 if (result.data == null){
                     setHTTPStatus(404)
                 } else {
-                    console.log(result.data)
                     setEventDetails(result.data);
                     setHTTPStatus(200)
                 }
@@ -145,6 +69,17 @@ const SeatSelect: NextPage = () => {
     
         fetchEvent();
     }, [router])
+
+    function SeatNoCompare( a : Ticket, b : Ticket ) {
+        if ( a.seatNo < b.seatNo ){
+          return -1;
+        }
+        if ( a.seatNo > b.seatNo ){
+          return 1;
+        }
+        return 0;
+    }
+    eventDetails?.tickets.sort(SeatNoCompare)
 
     const [cart, setCart] = useState<Ticket[]>([])
 
@@ -168,13 +103,14 @@ const SeatSelect: NextPage = () => {
         if (props.ticket.status == 'sold'){
             isSold = true
         }
-        console.log(cart.includes(props.ticket), cart, props.ticket )
 
+        const definedEvent = eventDetails as Event
+        
         return (
             <>{isSold 
                 ? <p className='bg-primary/40  text-secondary font-semibold rounded h-full w-full text-center'> Sold </p>
                 : <Dropdown>
-                    <Dropdown.Trigger><button className='bg-primary hover:bg-accent text-secondary hover:text-primary font-semibold rounded h-full w-full'> {testTickets[index].seatNo} </button></Dropdown.Trigger>
+                    <Dropdown.Trigger><button className='bg-primary hover:bg-accent text-secondary hover:text-primary font-semibold rounded h-full w-full'> {definedEvent.tickets[index].seatNo} </button></Dropdown.Trigger>
                     <Dropdown.Menu disabledKeys={["level","cat","seat","price","status","owner", "add to cart"]} aria-label="Seat Details">
                         <Dropdown.Section title="Seat Details">
                             <Dropdown.Item key="level" withDivider>
@@ -190,10 +126,10 @@ const SeatSelect: NextPage = () => {
                                 <p className='text-secondary h-5'> Price: <b>S${props.ticket.price}</b></p>
                             </Dropdown.Item>
                             <Dropdown.Item key="status">
-                                <p className='text-secondary h-5'> Status: <b>{props.ticket.status}</b></p>
+                                <p className='text-secondary h-5'> Status: <b>{props.ticket.status.charAt(0).toUpperCase() + props.ticket.status.slice(1)}</b></p>
                             </Dropdown.Item>
                             <Dropdown.Item key="owner">
-                                <p className='text-secondary h-5 overflow-y-hidden'> Owner: <b>{props.ticket.ownerId === 'null' ? 'Not owned' : props.ticket.ownerId}</b></p>
+                                <p className='text-secondary h-5 overflow-y-hidden'> Owner: <b>{props.ticket.ownerId == null ? 'Not owned' : props.ticket.ownerId}</b></p>
                             </Dropdown.Item>
                         </Dropdown.Section>
                         
@@ -202,7 +138,7 @@ const SeatSelect: NextPage = () => {
                                 ? <p>Cart is full! For each event, you can only buy 4 tickets.</p>
                                 : cart.some(ticketInCart => ticketInCart.id == props.ticket.id)
                                     ? <p>Added to cart.</p>
-                                    :<button onClick={() => addToCart(testTickets[index])} className='text-primary font-bold w-full bg-accent/90 hover:bg-accent hover:text-secondary/70 rounded p-2'>Add to Cart</button> 
+                                    :<button onClick={() => addToCart(definedEvent.tickets[index])} className='text-primary font-bold w-full bg-accent/90 hover:bg-accent hover:text-secondary/70 rounded p-2'>Add to Cart</button> 
                                 
                                 }
                             
@@ -215,7 +151,7 @@ const SeatSelect: NextPage = () => {
 
     const RenderSeatDiagram = () => {
         let count = 0;
-        let seatArray = testTickets.map((ticket) => {
+        let seatArray = eventDetails?.tickets.map((ticket) => {
             return (
                 <SeatButton key={count++} count={count} ticket={ticket} />
             )
@@ -291,6 +227,40 @@ const SeatSelect: NextPage = () => {
             </div>
         )
     }
+    const [isCheckedOut, setIsCheckedOut] = useState(false)
+    const [failedPurchases, setfailedPurchases] = useState<Ticket[]>([])
+    const [completedPurchases, setCompletedPurchases] = useState<Ticket[]>([])
+    const handleCheckout = async () => {
+        const checkoutIndividual = async (ticketId: string, isUnsold: boolean) => {
+            try {
+                let response;
+                if (isUnsold) {
+                    response = await axios.post(`/api/tickets/${ticketId}/purchase`, {
+                        ownerId: userStore.user?.id
+                    });
+                } else {
+                    response = await axios.post(`/api/tickets/${ticketId}/transfer`, {
+                        newOwnerId: userStore.user?.id
+                    });
+                }
+                console.log(response.data);
+                if (response.status === 200) {
+                    const matchedTicket = cart.find(item => item.id == ticketId) as Ticket
+                    setCompletedPurchases([...completedPurchases, matchedTicket])
+                } else {
+                    const matchedTicket = cart.find(item => item.id == ticketId) as Ticket
+                    setfailedPurchases([...failedPurchases, matchedTicket])
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        cart.forEach((ticket) => {
+            checkoutIndividual(ticket.id, ticket.status == 'unsold')
+        })
+
+        setIsCheckedOut(!isCheckedOut)
+    }
 
     const RenderSeats = () => {
         return (
@@ -305,7 +275,7 @@ const SeatSelect: NextPage = () => {
                     <RenderSeatDiagram />
                     <RenderCartTable />
                     {/* TODO: payment page after button click*/}
-                    <button onClick={() => Router.push('/')} className='text-primary font-bold w-full bg-accent/90 hover:bg-accent hover:text-secondary/70 rounded p-2'>Checkout</button>
+                    <button onClick={() => handleCheckout()} className='text-primary font-bold w-full bg-accent/90 hover:bg-accent hover:text-secondary/70 rounded p-2'>Checkout</button>
                 </div>
             </div>
     )}
@@ -329,14 +299,35 @@ const SeatSelect: NextPage = () => {
         )
     }
     
+    if (isCheckedOut){
+        return (
+            <div className='flex flex-col p-14 pt-24 bg-gradient-to-b from-primary via-secondary/20 to-primary gap-5 items-center'>
+                <div className='flex flex-col bg-primary h-60 w-120 py-2 px-3
+                    rounded-lg drop-shadow-md gap-3 justify-between min-h-min overflow-y-auto'>
+                    <div className='p-6 text-center'>
+                        <CheckCircleTwoTone twoToneColor="#52c41a" style={{ fontSize: '52px' }}/>
+                        <h3 className='mb-5 text-lg font-normal text-accent dark:text-primary my-5'>Purchase completed</h3>
+                        
+                        <Link href="../../view-ticket">
+                            <a className="text-semibold text-white bg-red-600 hover:bg-red-800 hover:text-white focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 rounded-lg border text-sm font-medium px-5 py-2.5 text-md mr-2">View Tickets</a>
+                        </Link>
+                        <Link href='../../'>
+                            <a className="text-semibold text-gray-500 bg-white hover:bg-gray-100 hover:text-gray-500 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 text-md">Home</a>
+                        </Link>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
     if (eventDetails){
         return (
             <div className='flex flex-col p-14 pt-24 bg-gradient-to-b from-primary via-secondary/20 to-primary gap-5 items-center'>
                 {/* TODO: some checks for KYC here */}
                 <EventBanner
-                    name={testEvent.name}
-                    imageUrl={testEvent.imageUrl}
-                    venue = {testEvent.venue} 
+                    name={eventDetails.name}
+                    imageUrl={eventDetails.imageUrl}
+                    venue = {eventDetails.venue} 
                 />
                 {userStore.user?.hasCompletedKyc 
                     ? <RenderSeats /> 

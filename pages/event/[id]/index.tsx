@@ -67,18 +67,6 @@ const DateSelect: NextPage = () => {
         fetchEvent();
     }, [router])
 
-
-    // test objects
-    const testEvent = {
-        id: 1,
-        name: "Aimer Live",
-        artist: "Aimer",
-        imageUrl: "/static/images/zankyosanka-banner.jpg",
-        eventDateTime: '2023-02-21 6:00:00',
-        venue: "Star Theatre",
-    }
-    
-
     const RenderDateButtons = ({eventDateTime}: { eventDateTime: Event["eventDateTime"] }) => {
         const dateTime = new Date(eventDateTime)
         const formattedDateTime = 
@@ -135,9 +123,9 @@ const DateSelect: NextPage = () => {
             <div className='flex flex-col p-14 pt-24 bg-gradient-to-b from-primary via-secondary/20 to-primary gap-5 items-center'>
                 
                 <EventBanner
-                    name={testEvent.name}
-                    imageUrl={testEvent.imageUrl}
-                    venue = {testEvent.venue} 
+                    name={eventDetails.name}
+                    imageUrl={eventDetails.imageUrl}
+                    venue = {eventDetails.venue} 
                 />
                 {userStore.user?.hasCompletedKyc 
                     ? <RenderDateTime />

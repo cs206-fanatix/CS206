@@ -54,16 +54,6 @@ const CategorySelect: NextPage = () => {
         fetchEvent();
     }, [router])
 
-    // test objects
-    const testEvent = {
-        id: 1,
-        name: "Aimer Live",
-        artist: "Aimer",
-        imageUrl: "/static/images/zankyosanka-banner.jpg",
-        eventDateTime: ['2023-02-21 6:00:00','2023-02-22 6:00:00','2023-02-23 6:00:00'],
-        venue: "Star Theatre",
-    }
-
     const RenderCatDiagram = () => {
         return (
             <div className='flex flex-col p-2 gap-5'>
@@ -133,9 +123,9 @@ const CategorySelect: NextPage = () => {
             <div className='flex flex-col p-14 pt-24 bg-gradient-to-b from-primary via-secondary/20 to-primary gap-5 items-center'>
                 {/* TODO: some checks for KYC here */}
                 <EventBanner
-                    name={testEvent.name}
-                    imageUrl={testEvent.imageUrl}
-                    venue = {testEvent.venue} 
+                    name={eventDetails.name}
+                    imageUrl={eventDetails.imageUrl}
+                    venue = {eventDetails.venue} 
                 />
                 {userStore.user?.hasCompletedKyc 
                     ? <RenderCategory /> 

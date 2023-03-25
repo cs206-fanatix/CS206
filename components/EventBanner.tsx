@@ -9,7 +9,7 @@ interface event {
 const EventBanner = (event: event) => {
     return <div className='bg-black overflow-hidden rounded-lg drop-shadow-md w-full min-w-fit  '>
         <div className=''>
-            <Image src={event.imageUrl} alt="Banner" layout='fill' objectFit='cover'
+            <Image src={event.imageUrl == null ? '/static/images/logo-inverse.png' : event.imageUrl} alt="Banner" layout='fill' objectFit='cover'
                 className='absolute opacity-50' />
         </div>
         <div className='p-2'>
