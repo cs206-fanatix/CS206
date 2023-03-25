@@ -3,7 +3,7 @@ import type { NextPage } from 'next'
 import Router, { useRouter } from 'next/router' 
 import { useEffect, useState } from 'react'
 import { Dropdown } from "@nextui-org/react";
-import { ChevronDoubleUpIcon,ChevronDoubleDownIcon } from '@heroicons/react/20/solid';
+import { ChevronDoubleUpIcon,ChevronDoubleDownIcon,ShoppingCartIcon } from '@heroicons/react/20/solid';
 
 import EventBanner from '../../../components/EventBanner'
 import NonVerified from '../../../components/NonVerified'
@@ -109,7 +109,7 @@ const SeatSelect: NextPage = () => {
         category: 2,
         seatNo: 7,
         price: 170.5,
-        status: "sold",
+        status: "unsold",
         ownerId: "78d14e9a-a891-4902-9850-4a2dc6e38e20",
         eventId: "2fa2b8ed-90ba-4f6d-9d1a-7f53ee4e240e"
     },
@@ -199,7 +199,7 @@ const SeatSelect: NextPage = () => {
                         
                         <Dropdown.Item key="add to cart" withDivider>
                             {cart.length >= 4 
-                                ? <p>Cart is full! You can only buy 4 tickets per account.</p>
+                                ? <p>Cart is full! For each event, you can only buy 4 tickets.</p>
                                 : cart.some(ticketInCart => ticketInCart.id == props.ticket.id)
                                     ? <p>Added to cart.</p>
                                     :<button onClick={() => addToCart(testTickets[index])} className='text-primary font-bold w-full bg-accent/90 hover:bg-accent hover:text-secondary/70 rounded p-2'>Add to Cart</button> 
@@ -277,7 +277,10 @@ const SeatSelect: NextPage = () => {
         return (
             <div className='flex flex-col p-2 gap-3'>
                 <div className='bg-secondary p-3 rounded'>
-                    <h1 className='text-left text-lg p-2 bg-secondary/70 text-primary my-1 drop-shadow-sm font-semibold'>Cart: </h1>
+                    <div className='flex items-center'>
+                        <ShoppingCartIcon className='h-5 w-5 m-2 text-accent'/>
+                        <h1 className='text-left text-lg p-2 bg-secondary/70 text-primary my-1 drop-shadow-sm font-semibold'>Cart: </h1>
+                    </div>
                     <h1 className='text-left p-2 bg-secondary/70 text-primary my-1 drop-shadow-sm font-semibold'>Total cost: 
                         <h1 className='bg-primary text-secondary text-right font-bold rounded px-2 py-0.5 m-2'>{formatPrice(cart.reduce((partialSum, individualTicket) => partialSum + individualTicket.price, 0))} </h1> 
                     </h1>

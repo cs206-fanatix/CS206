@@ -13,7 +13,9 @@ const Home: NextPage = () => {
 	const [banner, setBanner] = useState<any>()
 	
 	useEffect(() => {	
-		userStore.fetch()
+		if (userStore.user == null) {
+            userStore.fetch()
+        }
 	}, [userStore.user])
 
 	useEffect(() => {
