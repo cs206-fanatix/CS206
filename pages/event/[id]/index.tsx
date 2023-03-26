@@ -104,8 +104,12 @@ const DateSelect: NextPage = () => {
         const eventId = router.query.id as string
         return (
             <div className="flex flex-col p-14 pt-24 bg-gradient-to-b from-primary via-secondary/20 to-primary gap-5 items-center">
-                {/* TODO: change to static if josh doesnt wants static */}
-                <NotLogin eventId={eventId} />
+                
+                <NotLogin 
+                    loginLink="../../login"
+                    signupLink="../../signup" 
+                    backLink={`../../event-details/${eventId}`}
+                />
             </div>
         )
     }
@@ -158,8 +162,9 @@ const DateSelect: NextPage = () => {
                 {userStore.user?.hasCompletedKyc 
                     ? <RenderDateTime />
                     : <NonVerified 
-                        eventId={String(eventDetails.id)} 
-                        dateTime={eventDetails.eventDateTime}/>}
+                        dateTime={eventDetails.eventDateTime}
+                        kycLink="../kyc"
+                        backLink={`../event-details/${eventDetails.id}`} />}
                 
             </div>
         )

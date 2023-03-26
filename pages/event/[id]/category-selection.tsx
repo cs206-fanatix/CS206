@@ -75,12 +75,12 @@ const CategorySelect: NextPage = () => {
                     <h1 className='text-center p-2 bg-secondary/70 text-primary my-4 drop-shadow-sm font-semibold'> Stage </h1>
                     
                     <div className='grid grid-cols-3 gap-3'>
-                        <button onClick={() => Router.push('/event/' + router.query.id + '/seat-selection')} className='text-secondary font-medium text-md bg-primary hover:bg-blue-500 hover:text-primary p-1 h-20 rounded-lg drop-shadow-md'>cat 2</button>
-                        <button onClick={() => Router.push('/event/' + router.query.id + '/seat-selection')} className='text-secondary font-medium text-md bg-primary hover:bg-accent hover:text-primary p-1 h-20 rounded-lg drop-shadow-md'>cat 1</button>
-                        <button onClick={() => Router.push('/event/' + router.query.id + '/seat-selection')} className='text-secondary font-medium text-md bg-primary hover:bg-blue-500 hover:text-primary p-1 h-20 rounded-lg drop-shadow-md'>cat 2</button>
-                        <button onClick={() => Router.push('/event/' + router.query.id + '/seat-selection')} className='text-secondary font-medium text-md bg-primary hover:bg-green-500 hover:text-primary p-1 h-20 rounded-lg drop-shadow-md'>cat 3</button>
-                        <button onClick={() => Router.push('/event/' + router.query.id + '/seat-selection')} className='text-secondary font-medium text-md bg-primary hover:bg-green-500 hover:text-primary p-1 h-20 rounded-lg drop-shadow-md'>cat 3</button>
-                        <button onClick={() => Router.push('/event/' + router.query.id + '/seat-selection')} className='text-secondary font-medium text-md bg-primary hover:bg-green-500 hover:text-primary p-1 h-20 rounded-lg drop-shadow-md'>cat 3</button>
+                        <button onClick={() => Router.push(`/event/${router.query.id}/seat-selection/2`)} className='text-secondary font-medium text-md bg-primary hover:bg-blue-500 hover:text-primary p-1 h-20 rounded-lg drop-shadow-md'>cat 2</button>
+                        <button onClick={() => Router.push(`/event/${router.query.id}/seat-selection/1`)} className='text-secondary font-medium text-md bg-primary hover:bg-accent hover:text-primary p-1 h-20 rounded-lg drop-shadow-md'>cat 1</button>
+                        <button onClick={() => Router.push(`/event/${router.query.id}/seat-selection/2`)} className='text-secondary font-medium text-md bg-primary hover:bg-blue-500 hover:text-primary p-1 h-20 rounded-lg drop-shadow-md'>cat 2</button>
+                        <button onClick={() => Router.push(`/event/${router.query.id}/seat-selection/3`)} className='text-secondary font-medium text-md bg-primary hover:bg-green-500 hover:text-primary p-1 h-20 rounded-lg drop-shadow-md'>cat 3</button>
+                        <button onClick={() => Router.push(`/event/${router.query.id}/seat-selection/3`)} className='text-secondary font-medium text-md bg-primary hover:bg-green-500 hover:text-primary p-1 h-20 rounded-lg drop-shadow-md'>cat 3</button>
+                        <button onClick={() => Router.push(`/event/${router.query.id}/seat-selection/3`)} className='text-secondary font-medium text-md bg-primary hover:bg-green-500 hover:text-primary p-1 h-20 rounded-lg drop-shadow-md'>cat 3</button>
                     </div>
                 </div>
 
@@ -88,10 +88,10 @@ const CategorySelect: NextPage = () => {
                     <p className='text-accent text-lg  text-center font-semibold'>Level 2</p>
                     
                     <div className='grid grid-cols-5  gap-3'>
-                        <button onClick={() => Router.push('/event/' + router.query.id + '/seat-selection')} className='row-start-1 row-end-3 text-secondary font-medium text-md bg-primary hover:bg-green-500 hover:text-primary p-1 h-20 rounded-lg drop-shadow-md'>cat 3</button>
+                        <button onClick={() => Router.push(`/event/${router.query.id}/seat-selection/3`)} className='row-start-1 row-end-3 text-secondary font-medium text-md bg-primary hover:bg-green-500 hover:text-primary p-1 h-20 rounded-lg drop-shadow-md'>cat 3</button>
                         <h1 className='col-span-3 text-center p-2 bg-secondary/70 text-primary my-4 drop-shadow-sm font-semibold'>Stage</h1>
-                        <button onClick={() => Router.push('/event/' + router.query.id + '/seat-selection')} className='text-secondary font-medium text-md bg-primary hover:bg-green-500 hover:text-primary p-1 h-20 rounded-lg drop-shadow-md'>cat 3</button>
-                        <button onClick={() => Router.push('/event/' + router.query.id + '/seat-selection')} className='col-span-5 text-secondary font-medium text-md bg-primary hover:bg-blue-500 hover:text-primary p-1 h-20 rounded-lg drop-shadow-md'>cat 2</button>
+                        <button onClick={() => Router.push(`/event/${router.query.id}/seat-selection/3`)} className='text-secondary font-medium text-md bg-primary hover:bg-green-500 hover:text-primary p-1 h-20 rounded-lg drop-shadow-md'>cat 3</button>
+                        <button onClick={() => Router.push(`/event/${router.query.id}/seat-selection/2`)} className='col-span-5 text-secondary font-medium text-md bg-primary hover:bg-blue-500 hover:text-primary p-1 h-20 rounded-lg drop-shadow-md'>cat 2</button>
                     </div>
                 </div>
             </div>
@@ -116,8 +116,12 @@ const CategorySelect: NextPage = () => {
         const eventId = router.query.id as string
         return (
             <div className="flex flex-col p-14 pt-24 bg-gradient-to-b from-primary via-secondary/20 to-primary gap-5 items-center">
-                {/* TODO: change to static if josh doesnt wants static */}
-                <NotLogin eventId={eventId} />
+                
+                <NotLogin 
+                    loginLink="../../login"
+                    signupLink="../../signup" 
+                    backLink={`../../event-details/${eventId}`}
+                />
             </div>
         )
     }
@@ -161,7 +165,7 @@ const CategorySelect: NextPage = () => {
     if (eventDetails){
         return (
             <div className='flex flex-col p-14 pt-24 bg-gradient-to-b from-primary via-secondary/20 to-primary gap-5 items-center'>
-                {/* TODO: some checks for KYC here */}
+                
                 <EventBanner
                     name={eventDetails.name}
                     imageUrl={eventDetails.imageUrl}
@@ -169,9 +173,10 @@ const CategorySelect: NextPage = () => {
                 />
                 {userStore.user?.hasCompletedKyc 
                     ? <RenderCategory /> 
-                    : <NonVerified
-                        eventId={String(eventDetails.id)} 
-                        dateTime={eventDetails.eventDateTime} />}
+                    : <NonVerified 
+                        dateTime={eventDetails.eventDateTime}
+                        kycLink="../../kyc"
+                        backLink={`../../event-details/${eventDetails.id}`} />}
             </div>
         )
     }

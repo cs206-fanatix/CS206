@@ -4,12 +4,12 @@ import Router, { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { Dropdown } from "@nextui-org/react";
 import { ChevronDoubleUpIcon,ChevronDoubleDownIcon,ShoppingCartIcon } from '@heroicons/react/20/solid';
-import { CheckCircleTwoTone } from '@ant-design/icons';
+import { CheckCircleTwoTone, FrownTwoTone } from '@ant-design/icons';
 
-import EventBanner from '../../../components/EventBanner'
-import NonVerified from '../../../components/NonVerified'
-import { useUserStore } from '../../../stores/user-store';
-import NotLogin from '../../../components/NotLogin';
+import EventBanner from '../../../../components/EventBanner'
+import NonVerified from '../../../../components/NonVerified'
+import { useUserStore } from '../../../../stores/user-store';
+import NotLogin from '../../../../components/NotLogin';
 import Link from 'next/link';
 
 const SeatSelect: NextPage = () => {
@@ -40,8 +40,6 @@ const SeatSelect: NextPage = () => {
     const [eventDetails, setEventDetails] = useState<Event>();
     const [HTTPStatus, setHTTPStatus] = useState<any>(null);
     const [boughtTickets, setBoughtTickets] = useState<Ticket[]>([])
-
-    console.log(1, router.query)
 
     useEffect(() => {
         if (userStore.user == null) {
@@ -137,8 +135,8 @@ const SeatSelect: NextPage = () => {
                         </Dropdown.Section>
                         
                         <Dropdown.Item key="add to cart" withDivider>
-                            {cart.length >= 4 
-                                ? <p>Cart is full! For each event, you can only buy 4 tickets.</p>
+                            {(cart.length + boughtTickets.length) >= 4 
+                                ? <p>You have hit the limit! For each event, you can only buy 4 tickets.</p>
                                 : cart.some(ticketInCart => ticketInCart.id == props.ticket.id)
                                     ? <p>Added to cart.</p>
                                     :<button onClick={() => addToCart(definedEvent.tickets[index])} className='text-primary font-bold w-full bg-accent/90 hover:bg-accent hover:text-secondary/70 rounded p-2'>Add to Cart</button> 
@@ -153,8 +151,10 @@ const SeatSelect: NextPage = () => {
     }
 
     const RenderSeatDiagram = () => {
+        const currentCategory = parseInt(router.query.category as string, 10)
+        
         const catN = eventDetails?.tickets.filter((ticket) => {
-            return ticket.category == 1
+            return ticket.category == currentCategory
         }) as Array<Ticket>
 
         let count = 0;
@@ -248,7 +248,7 @@ const SeatSelect: NextPage = () => {
                         newOwnerId: userStore.user?.id
                     });
                 }
-
+                
                 if (response.status === 200) {
                     const matchedTicket = cart.find(item => item.id == ticketId) as Ticket
                     setCompletedPurchases([...completedPurchases, matchedTicket])
@@ -289,8 +289,12 @@ const SeatSelect: NextPage = () => {
         const eventId = router.query.id as string
         return (
             <div className="flex flex-col p-14 pt-24 bg-gradient-to-b from-primary via-secondary/20 to-primary gap-5 items-center">
-                {/* TODO: change to static if josh doesnt wants static */}
-                <NotLogin eventId={eventId} />
+                
+                <NotLogin 
+                    loginLink="../../../login"
+                    signupLink="../../../signup" 
+                    backLink={`../../../event-details/${eventId}`}
+                />
             </div>
         )
     }
@@ -305,6 +309,27 @@ const SeatSelect: NextPage = () => {
     }
 
     if (isCheckedOut){
+        
+        if (failedPurchases.length != 0){
+            return (
+                <div className='flex flex-col p-14 pt-24 bg-gradient-to-b from-primary via-secondary/20 to-primary gap-5 items-center'>
+                <div className='flex flex-col bg-primary h-60 w-120 py-2 px-3
+                    rounded-lg drop-shadow-md gap-3 justify-between min-h-min overflow-y-auto'>
+                    <div className='p-6 text-center'>
+                        <FrownTwoTone twoToneColor="#e01414" style={{ fontSize: '52px' }}/>
+                        <h3 className='mb-5 text-lg font-normal text-accent dark:text-primary my-5'>Purchase failed</h3>
+                        
+                        <Link href="../../../view-ticket">
+                            <a className="text-semibold text-white bg-red-600 hover:bg-red-800 hover:text-white focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 rounded-lg border text-sm font-medium px-5 py-2.5 text-md mr-2">View Tickets</a>
+                        </Link>
+                        <Link href='.'>
+                            <a className="text-semibold text-gray-500 bg-white hover:bg-gray-100 hover:text-gray-500 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 text-md">Back</a>
+                        </Link>
+                    </div>
+                </div>
+            </div>
+            )
+        }
         return (
             <div className='flex flex-col p-14 pt-24 bg-gradient-to-b from-primary via-secondary/20 to-primary gap-5 items-center'>
                 <div className='flex flex-col bg-primary h-60 w-120 py-2 px-3
@@ -313,10 +338,10 @@ const SeatSelect: NextPage = () => {
                         <CheckCircleTwoTone twoToneColor="#52c41a" style={{ fontSize: '52px' }}/>
                         <h3 className='mb-5 text-lg font-normal text-accent dark:text-primary my-5'>Purchase completed</h3>
                         
-                        <Link href="../../view-ticket">
+                        <Link href="../../../view-ticket">
                             <a className="text-semibold text-white bg-red-600 hover:bg-red-800 hover:text-white focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 rounded-lg border text-sm font-medium px-5 py-2.5 text-md mr-2">View Tickets</a>
                         </Link>
-                        <Link href='../../'>
+                        <Link href='../../../'>
                             <a className="text-semibold text-gray-500 bg-white hover:bg-gray-100 hover:text-gray-500 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 text-md">Home</a>
                         </Link>
                     </div>
@@ -340,10 +365,10 @@ const SeatSelect: NextPage = () => {
                         <svg aria-hidden="true" className="mx-auto mb-4 text-accent w-14 h-14 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                         <h3 className='mb-5 text-lg font-normal text-accent dark:text-primary my-5'>You have reached the maximum amount of tickets one can buy</h3>
                         
-                        <Link href="../../view-ticket">
+                        <Link href="../../../view-ticket">
                             <a className="text-semibold text-white bg-red-600 hover:bg-red-800 hover:text-white focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 rounded-lg border text-sm font-medium px-5 py-2.5 text-md mr-2">View Tickets</a>
                         </Link>
-                        <Link href='../../'>
+                        <Link href='../../../'>
                             <a className="text-semibold text-gray-500 bg-white hover:bg-gray-100 hover:text-gray-500 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 text-md">Home</a>
                         </Link>
                     </div>
@@ -355,7 +380,7 @@ const SeatSelect: NextPage = () => {
     if (eventDetails){
         return (
             <div className='flex flex-col p-14 pt-24 bg-gradient-to-b from-primary via-secondary/20 to-primary gap-5 items-center'>
-                {/* TODO: some checks for KYC here */}
+                
                 <EventBanner
                     name={eventDetails.name}
                     imageUrl={eventDetails.imageUrl}
@@ -363,9 +388,10 @@ const SeatSelect: NextPage = () => {
                 />
                 {userStore.user?.hasCompletedKyc 
                     ? <RenderSeats /> 
-                    : <NonVerified
-                        eventId={String(eventDetails.id)} 
-                        dateTime={eventDetails.eventDateTime} />}
+                    : <NonVerified 
+                        dateTime={eventDetails.eventDateTime}
+                        kycLink="../../../kyc"
+                        backLink={`../../../event-details/${eventDetails.id}`} />}
                 
             </div>
         )
