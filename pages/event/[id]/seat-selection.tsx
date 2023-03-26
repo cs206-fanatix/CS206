@@ -39,13 +39,16 @@ const SeatSelect: NextPage = () => {
     const userStore = useUserStore()
     const [eventDetails, setEventDetails] = useState<Event>();
     const [HTTPStatus, setHTTPStatus] = useState<any>(null);
-    
+    const [boughtTickets, setBoughtTickets] = useState<Ticket[]>([])
+
+    console.log(1, router.query)
+
     useEffect(() => {
         if (userStore.user == null) {
             userStore.fetch()
         }
     }, [userStore.user])
-
+    
     useEffect(() => {
         async function fetchEvent() {
             try {
@@ -150,8 +153,12 @@ const SeatSelect: NextPage = () => {
     }
 
     const RenderSeatDiagram = () => {
+        const catN = eventDetails?.tickets.filter((ticket) => {
+            return ticket.category == 1
+        }) as Array<Ticket>
+
         let count = 0;
-        let seatArray = eventDetails?.tickets.map((ticket) => {
+        let seatArray = catN.map((ticket) => {
             return (
                 <SeatButton key={count++} count={count} ticket={ticket} />
             )
@@ -180,8 +187,6 @@ const SeatSelect: NextPage = () => {
         )
     }
     
-
-    // useeffect for change in cart
     const RenderCartItems = () => {
         let count = 1;
         let itemArray = cart.map((ticket: Ticket) => {
@@ -243,7 +248,7 @@ const SeatSelect: NextPage = () => {
                         newOwnerId: userStore.user?.id
                     });
                 }
-                console.log(response.data);
+
                 if (response.status === 200) {
                     const matchedTicket = cart.find(item => item.id == ticketId) as Ticket
                     setCompletedPurchases([...completedPurchases, matchedTicket])
@@ -290,7 +295,7 @@ const SeatSelect: NextPage = () => {
         )
     }
 
-    if (HTTPStatus != 200) {
+    if (HTTPStatus != 200 && HTTPStatus != null) {
         return (
             <div className="flex flex-col items-center justify-center gap-2 h-120 max-w-4xl">
                 <p className='text-red-500 text-xl font-semibold'>Error {HTTPStatus}</p>
@@ -298,7 +303,7 @@ const SeatSelect: NextPage = () => {
             </div>
         )
     }
-    
+
     if (isCheckedOut){
         return (
             <div className='flex flex-col p-14 pt-24 bg-gradient-to-b from-primary via-secondary/20 to-primary gap-5 items-center'>
@@ -307,6 +312,33 @@ const SeatSelect: NextPage = () => {
                     <div className='p-6 text-center'>
                         <CheckCircleTwoTone twoToneColor="#52c41a" style={{ fontSize: '52px' }}/>
                         <h3 className='mb-5 text-lg font-normal text-accent dark:text-primary my-5'>Purchase completed</h3>
+                        
+                        <Link href="../../view-ticket">
+                            <a className="text-semibold text-white bg-red-600 hover:bg-red-800 hover:text-white focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 rounded-lg border text-sm font-medium px-5 py-2.5 text-md mr-2">View Tickets</a>
+                        </Link>
+                        <Link href='../../'>
+                            <a className="text-semibold text-gray-500 bg-white hover:bg-gray-100 hover:text-gray-500 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 text-md">Home</a>
+                        </Link>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
+    eventDetails?.tickets.forEach((ticket) => {
+        if (ticket.ownerId == userStore.user?.id && !boughtTickets.includes(ticket)){
+            setBoughtTickets([...boughtTickets, ticket])
+        }
+    })
+
+    if (boughtTickets.length >= 4){
+        return (
+            <div className='flex flex-col p-14 pt-24 bg-gradient-to-b from-primary via-secondary/20 to-primary gap-5 items-center'>
+                <div className='flex flex-col bg-primary h-60 w-120 py-2 px-3
+                    rounded-lg drop-shadow-md gap-3 justify-between min-h-min overflow-y-auto'>
+                    <div className='p-6 text-center'>
+                        <svg aria-hidden="true" className="mx-auto mb-4 text-accent w-14 h-14 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <h3 className='mb-5 text-lg font-normal text-accent dark:text-primary my-5'>You have reached the maximum amount of tickets one can buy</h3>
                         
                         <Link href="../../view-ticket">
                             <a className="text-semibold text-white bg-red-600 hover:bg-red-800 hover:text-white focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 rounded-lg border text-sm font-medium px-5 py-2.5 text-md mr-2">View Tickets</a>
