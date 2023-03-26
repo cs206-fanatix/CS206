@@ -23,8 +23,8 @@ const Home: NextPage = () => {
 			try {
 				let res = await axios.get("/api/events");
 				let data = await res.data;
-				setBanner(data[2]);
-				data.splice(2, 1);
+				setBanner(data[0]);
+				data.splice(0, 1);
 				setAllEvents(data);
 			} catch (error) {
 				console.log(error);
@@ -43,7 +43,7 @@ const Home: NextPage = () => {
 				event_name={item.name}
 				artist={item.artist}
 				event_start_date={dateFormatted}
-				image={"/static/images/bp.jpg"}
+				image={item?.imageUrl}
 			/>
 		);
 	});

@@ -20,9 +20,9 @@ const EventCard = (props: props) => {
 				<Image
 					src={props.image}
 					alt="Event Image"
-					width={160}
-					height={128}
-					className="object-contain"
+					width={200}
+					height={120}
+					className="object-fill"
 				/>
 				{props.status === 'listed' && (
 					<h2 className="font-normal text-white bg-accent rounded w-min px-2 -mt-24 ml-2 absolute">

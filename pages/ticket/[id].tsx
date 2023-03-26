@@ -23,6 +23,7 @@ const TicketDetail: NextPage = () => {
 	const [status, setStatus] = useState("Not Listed");
 	const passwordInput = useRef<HTMLInputElement>(null);
 	const [buttonClicked, setButtonClicked] = useState("");
+	const [QRValue, setQRValue] = useState("1");
 	type NotificationType = "success" | "info" | "warning" | "error";
 
 	const data = [
@@ -120,6 +121,8 @@ const TicketDetail: NextPage = () => {
 			setBlur(!blur);
 			setShowConfirmation(!showConfirmation);
 			setPassword("");
+			var shuffled = QRValue.split('').sort(function(){return 0.5-Math.random()}).join('');
+			setQRValue(shuffled)
 			const timer = setTimeout(() => {
 				setBlur(true);
 			}, 10000);
@@ -148,6 +151,7 @@ const TicketDetail: NextPage = () => {
 					setListPrice(data.listings[data.listings.length - 1].price);
 				}
 				setTicket(data);
+				setQRValue(ticket.id.toString())
 			} catch (error) {
 				console.log(error);
 			}
@@ -216,10 +220,11 @@ const TicketDetail: NextPage = () => {
 				<div className="flex">
 					<div>
 						<Image
-							src="/static/images/bp.jpg"
+							src={ticket?.event.imageUrl}
 							width={500}
 							height={400}
-							className="object-cover"
+							objectPosition="center"
+							className="object-fill"
 						></Image>
 						<div className="pt-2 w-full">
 							<Disclosure>
@@ -408,7 +413,7 @@ const TicketDetail: NextPage = () => {
 											)}
 											<div className="pt-2">
 												<QRCode
-													value={ticket ? ticket?.id.toString() : "1"}
+													value={QRValue}
 													style={{
 														height: "600%",
 														maxWidth: "100%",

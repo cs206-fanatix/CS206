@@ -87,7 +87,7 @@ const EventDetails = () => {
 			<div className="relative flex bg-gradient-to-tr from-black to-black w-full">
 				<div className="w-full h-104 overflow-hidden">
 					<Image
-						src="/static/images/1975.jpg"
+						src={banner?.imageUrl}
 						layout="fill"
 						objectFit="cover"
 						objectPosition="right"
@@ -95,7 +95,7 @@ const EventDetails = () => {
 					></Image>
 					<div className="mt-8 ml-28">
 						<Image
-							src="/static/images/1975.jpg"
+							src={banner?.imageUrl}
 							width={800}
 							height={350}
 							objectPosition="center"

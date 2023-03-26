@@ -49,7 +49,7 @@ const ViewTicket: NextPage = () => {
 				artist={item.event.artist}
 				event_start_date={dateFormatted}
 				category={item.category}
-				image={"/static/images/bp.jpg"}
+				image={item.event.imageUrl}
 				status={item.status}
 				seat={item.seatNo}
 			/>
