@@ -31,7 +31,7 @@ const ViewTicket: NextPage = () => {
 			}
 		}
 		getTickets();
-	}, []);
+	}, [userStore.user]);
 
 	const cards = allTickets.map((item) => {
 		const date = item.event.eventDateTime;
