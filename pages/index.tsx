@@ -1,41 +1,41 @@
-import type { NextPage } from 'next';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import Homecard from '../components/HomeCard';
-import { useUserStore } from '../stores/user-store';
-import { format } from 'date-fns';
+import type { NextPage } from "next";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import Homecard from "../components/HomeCard";
+import { useUserStore } from "../stores/user-store";
+import { format } from "date-fns";
 import axios from "axios";
 
 const Home: NextPage = () => {
-	const userStore = useUserStore()
-	const [allEvents, setAllEvents] = useState<any[]>([])
-	const [banner, setBanner] = useState<any>()
+	const userStore = useUserStore();
+	const [allEvents, setAllEvents] = useState<any[]>([]);
+	const [banner, setBanner] = useState<any>();
 
 	useEffect(() => {
 		if (userStore.user == null) {
-			userStore.fetch()
+			userStore.fetch();
 		}
-	}, [userStore.user])
+	}, [userStore.user]);
 
 	useEffect(() => {
 		async function getEvents() {
 			try {
 				let res = await axios.get("/api/events");
-				let data = await res.data
-				setBanner(data[2])
-				data.splice(2, 1)
-				setAllEvents(data)
+				let data = await res.data;
+				setBanner(data[2]);
+				data.splice(2, 1);
+				setAllEvents(data);
 			} catch (error) {
 				console.log(error);
 			}
 		}
-		getEvents()
-	}, [allEvents.length])
+		getEvents();
+	}, [allEvents.length]);
 
 	const cards = allEvents.map((item) => {
-		const date = item.eventDateTime
-		const dateFormatted = format(new Date(date), 'dd/MM/yyyy (EEE)')
+		const date = item.eventDateTime;
+		const dateFormatted = format(new Date(date), "dd/MM/yyyy (EEE)");
 		return (
 			<Homecard
 				key={item.id}
@@ -59,7 +59,7 @@ const Home: NextPage = () => {
 						objectPosition="top"
 						className="opacity-55 blur-sm"
 					></Image>
-					<div className='mt-10 ml-36'>
+					<div className="mt-10 ml-36">
 						<Image
 							src="/static/images/1975.jpg"
 							width={700}
@@ -78,7 +78,7 @@ const Home: NextPage = () => {
 						2023&aposs most famous British band promise only more show-stopping
 						moments in Singapore in July!
 					</h1>
-					<div className='ml-auto pt-3 flex gap-2'>
+					<div className="ml-auto pt-3 flex gap-2">
 						<Link href={`/event/${encodeURIComponent(banner?.id)}`}>
 							<a className="	text-white bg-accent rounded-xl px-4 py-1 text-xl items-center hover:bg-red-900 hover:text-white focus:ring-4 focus:outline-none focus:ring-red-300">
 								Buy Ticket
@@ -90,12 +90,11 @@ const Home: NextPage = () => {
 							</a>
 						</Link>
 					</div>
-
 				</div>
 			</div>
-			<div className='p-8'>
+			<div className="p-8">
 				<div>
-					<h1 className='text-secondary text-3xl font-bold ml-32'>
+					<h1 className="text-secondary text-3xl font-bold ml-32">
 						Upcoming Events
 					</h1>
 				</div>
