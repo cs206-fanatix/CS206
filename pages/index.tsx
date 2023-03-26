@@ -43,7 +43,7 @@ const Home: NextPage = () => {
 				event_name={item.name}
 				artist={item.artist}
 				event_start_date={dateFormatted}
-				image={item?.imageUrl}
+				image={`${item?.imageUrl ? item.imageUrl : "/static/images/1975.jpg"}`}
 			/>
 		);
 	});

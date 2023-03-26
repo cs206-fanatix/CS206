@@ -52,6 +52,7 @@ const ViewTicket: NextPage = () => {
 				image={item.event.imageUrl}
 				status={item.status}
 				seat={item.seatNo}
+				level={item.level}
 			/>
 		);
 	});
@@ -65,6 +66,9 @@ const ViewTicket: NextPage = () => {
 					height={150}
 					className="rounded-full"
 				></Image>
+				<div className="flex flex-col pl-2">
+					<h1 className="text-primary text-bold text-md pb-1">{userStore.user?.name}</h1>
+					<hr className="h-0.5 bg-gray-300"></hr>
 				<div className="flex mt-3 gap-2">
 					<div className="flex rounded-lg bg-primary w-40 h-7 p-2 items-center">
 						<h3 className="text-secondary">Total tickets</h3>
@@ -74,6 +78,7 @@ const ViewTicket: NextPage = () => {
 						<h3 className="text-secondary">Listed Tickets</h3>
 						<p className="text-secondary ml-auto">{listedCount}</p>
 					</div>
+				</div>
 				</div>
 			</div>
 			<hr className="h-0.5 w-10/12 mx-auto my-3 bg-gray-300"></hr>

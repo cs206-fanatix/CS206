@@ -87,7 +87,7 @@ const EventDetails = () => {
 			<div className="relative flex bg-gradient-to-tr from-black to-black w-full">
 				<div className="w-full h-104 overflow-hidden">
 					<Image
-						src={banner?.imageUrl}
+						src={`${banner?.imageUrl ? banner.imageUrl : "/static/images/1975.jpg"}`}
 						layout="fill"
 						objectFit="cover"
 						objectPosition="right"
