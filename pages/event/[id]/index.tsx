@@ -8,6 +8,7 @@ import EventBanner from '../../../components/EventBanner'
 import NonVerified from '../../../components/NonVerified'
 import NotLogin from '../../../components/NotLogin'
 import { useUserStore } from '../../../stores/user-store';
+import { format } from "date-fns";
 
 const DateSelect: NextPage = () => {
     interface Ticket {
@@ -70,10 +71,7 @@ const DateSelect: NextPage = () => {
 
     const RenderDateButtons = ({eventDateTime}: { eventDateTime: Event["eventDateTime"] }) => {
         const dateTime = new Date(eventDateTime)
-        const formattedDateTime = 
-            `${dateTime.getFullYear()}-${dateTime.getMonth()+1}-${dateTime.getDate()} 
-            ${String(dateTime.getHours()).padStart(2, '0')}:${String(dateTime.getMinutes()).padStart(2, '0')}:${String(dateTime.getSeconds()).padStart(2, '0')}`
-
+        const formattedDateTime = format(new Date(dateTime), "dd/MM/yyyy kk:mm (EEE)");
         return (
             <div className='flex gap-3 bg-secondary h-full p-4 rounded-lg drop-shadow m-1 justify-center'>
                 <button onClick={() => Router.push('/event/' + router.query.id + '/category-selection')} className='bg-primary rounded-lg drop-shadow
