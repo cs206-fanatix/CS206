@@ -35,7 +35,7 @@ const ViewTicket: NextPage = () => {
 
 	const cards = allTickets.map((item) => {
 		const date = item.event.eventDateTime;
-		const dateFormatted = format(new Date(date), "dd/MM/yyyy (EEE)");
+		const dateFormatted = format(new Date(date), "dd/MM/yyyy kk:mm (EEE)");
 
 		if (item.status === "listed") {
 			listedCount++;

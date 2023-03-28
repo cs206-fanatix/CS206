@@ -23,7 +23,7 @@ const EventDetails = () => {
 				if (data !== null) {
 					data.eventDateTime = format(
 						new Date(data.eventDateTime),
-						"dd/MM/yyyy (EEE)"
+						"dd/MM/yyyy kk:mm (EEE)"
 					);
 				}
 				setBanner(data);
@@ -87,7 +87,9 @@ const EventDetails = () => {
 			<div className="relative flex bg-gradient-to-tr from-black to-black w-full">
 				<div className="w-full h-104 overflow-hidden">
 					<Image
-						src={`${banner?.imageUrl ? banner.imageUrl : "/static/images/1975.jpg"}`}
+						src={`${
+							banner?.imageUrl ? banner.imageUrl : "/static/images/1975.jpg"
+						}`}
 						layout="fill"
 						objectFit="cover"
 						objectPosition="right"

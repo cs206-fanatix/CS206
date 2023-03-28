@@ -35,7 +35,7 @@ const Home: NextPage = () => {
 
 	const cards = allEvents.map((item) => {
 		const date = item.eventDateTime;
-		const dateFormatted = format(new Date(date), "dd/MM/yyyy (EEE)");
+		const dateFormatted = format(new Date(date), "dd/MM/yyyy kk:mm (EEE)");
 		return (
 			<Homecard
 				key={item.id}

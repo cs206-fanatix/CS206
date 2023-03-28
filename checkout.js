@@ -19,7 +19,7 @@ export async function checkout(){
             quantity: 1
         }],
 		successUrl: `${window.location.origin}?session_id={CHECKOUT_SESSION_ID}`,
-		cancelUrl: window.location.origin
+		cancelUrl: window.location.href
 	})
 
 }
