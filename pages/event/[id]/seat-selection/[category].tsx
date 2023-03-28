@@ -94,24 +94,20 @@ const SeatSelect: NextPage = () => {
 
     interface SeatButtonProps {
         key: number
-        count: number
         ticket: Ticket
     };
     
     const SeatButton = (props: SeatButtonProps) => {
-        const index = props.count
         let isSold = false
         if (props.ticket.status == 'sold'){
             isSold = true
         }
-
-        const definedEvent = eventDetails as Event
         
         return (
             <>{isSold 
                 ? <p className='bg-primary/40  text-secondary font-semibold rounded h-full w-full text-center'> Sold </p>
                 : <Dropdown>
-                    <Dropdown.Trigger><button className='bg-primary hover:bg-accent text-secondary hover:text-primary font-semibold rounded h-full w-full'> {definedEvent.tickets[index].seatNo} </button></Dropdown.Trigger>
+                    <Dropdown.Trigger><button className='bg-primary hover:bg-accent text-secondary hover:text-primary font-semibold rounded h-full w-full'> {props.ticket.seatNo} </button></Dropdown.Trigger>
                     <Dropdown.Menu disabledKeys={["level","cat","seat","price","status","owner", "add to cart"]} aria-label="Seat Details">
                         <Dropdown.Section title="Seat Details">
                             <Dropdown.Item key="level" withDivider>
@@ -139,7 +135,7 @@ const SeatSelect: NextPage = () => {
                                 ? <p>You have hit the limit! For each event, you can only buy 4 tickets.</p>
                                 : cart.some(ticketInCart => ticketInCart.id == props.ticket.id)
                                     ? <p>Added to cart.</p>
-                                    :<button onClick={() => addToCart(definedEvent.tickets[index])} className='text-primary font-bold w-full bg-accent/90 hover:bg-accent hover:text-secondary/70 rounded p-2'>Add to Cart</button> 
+                                    :<button onClick={() => addToCart(props.ticket)} className='text-primary font-bold w-full bg-accent/90 hover:bg-accent hover:text-secondary/70 rounded p-2'>Add to Cart</button> 
                                 
                                 }
                             
@@ -160,7 +156,7 @@ const SeatSelect: NextPage = () => {
         let count = 0;
         let seatArray = catN.map((ticket) => {
             return (
-                <SeatButton key={count++} count={count} ticket={ticket} />
+                <SeatButton key={count++} ticket={ticket} />
             )
         })
         return (
