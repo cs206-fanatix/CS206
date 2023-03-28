@@ -260,6 +260,9 @@ const SeatSelect: NextPage = () => {
                 console.error(error);
             }
         }
+        if (cart.length == 0){
+            return
+        }
         cart.forEach((ticket) => {
             checkoutIndividual(ticket.id, ticket.status == 'unsold')
         })
@@ -279,8 +282,10 @@ const SeatSelect: NextPage = () => {
                     <p className='text-secondary text-lg font-semibold'>Pick a category:</p>
                     <RenderSeatDiagram />
                     <RenderCartTable />
-                    {/* TODO: payment page after button click*/}
-                    <button onClick={() => handleCheckout()} className='text-primary font-bold w-full bg-accent/90 hover:bg-accent hover:text-secondary/70 rounded p-2'>Checkout</button>
+                    {cart.length === 0
+                        ? <p className='text-secondary text-center font-bold w-full bg-secondary/50  rounded p-2'>Checkout</p>
+                        : <button onClick={() => handleCheckout()} className='text-primary font-bold w-full bg-accent/90 hover:bg-accent hover:text-secondary/70 rounded p-2'>Checkout</button>
+                    }
                 </div>
             </div>
     )}
