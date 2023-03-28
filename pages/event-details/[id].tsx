@@ -97,7 +97,9 @@ const EventDetails = () => {
 					></Image>
 					<div className="mt-8 ml-28">
 						<Image
-							src={banner?.imageUrl}
+							src={`${
+								banner?.imageUrl ? banner.imageUrl : "/static/images/1975.jpg"
+							}`}
 							width={800}
 							height={350}
 							objectPosition="center"
