@@ -5,12 +5,12 @@ import { useEffect, useState } from 'react'
 import { Dropdown } from "@nextui-org/react";
 import { ChevronDoubleUpIcon,ChevronDoubleDownIcon,ShoppingCartIcon } from '@heroicons/react/20/solid';
 import { CheckCircleTwoTone, FrownTwoTone } from '@ant-design/icons';
-
 import EventBanner from '../../../../components/EventBanner'
 import NonVerified from '../../../../components/NonVerified'
 import { useUserStore } from '../../../../stores/user-store';
 import NotLogin from '../../../../components/NotLogin';
 import Link from 'next/link';
+import { checkout } from "../../../../checkout"
 
 const SeatSelect: NextPage = () => {
 
@@ -263,8 +263,8 @@ const SeatSelect: NextPage = () => {
         cart.forEach((ticket) => {
             checkoutIndividual(ticket.id, ticket.status == 'unsold')
         })
-
-        setIsCheckedOut(!isCheckedOut)
+        checkout()
+        //setIsCheckedOut(!isCheckedOut)
     }
 
     const RenderSeats = () => {

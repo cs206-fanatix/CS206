@@ -121,8 +121,12 @@ const TicketDetail: NextPage = () => {
 			setBlur(!blur);
 			setShowConfirmation(!showConfirmation);
 			setPassword("");
-			var shuffled = QRValue.split('').sort(function(){return 0.5-Math.random()}).join('');
-			setQRValue(shuffled)
+			var shuffled = QRValue.split("")
+				.sort(function () {
+					return 0.5 - Math.random();
+				})
+				.join("");
+			setQRValue(shuffled);
 			const timer = setTimeout(() => {
 				setBlur(true);
 			}, 10000);
@@ -144,14 +148,14 @@ const TicketDetail: NextPage = () => {
 				let data = await res.data;
 				data.eventDateTime = format(
 					new Date(data.event.eventDateTime),
-					"dd/MM/yyyy (EEE)"
+					"dd/MM/yyyy kk:mm (EEE)"
 				);
 				if (data.status === "listed") {
 					setStatus("Listed");
 					setListPrice(data.listings[data.listings.length - 1].price);
 				}
 				setTicket(data);
-				setQRValue(ticket.id.toString())
+				setQRValue(ticket.id.toString());
 			} catch (error) {
 				console.log(error);
 			}
