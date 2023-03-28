@@ -74,7 +74,7 @@ const TicketDetail: NextPage = () => {
 	};
 
 	const handleListItem = async () => {
-		if (!userStore.user?.hasCompletedKyc) {
+		if (userStore.user?.hasCompletedKyc) {
 			const price = parseFloat(listPrice);
 			try {
 				await axios.post("/api/tickets/" + id + "/listing", {
