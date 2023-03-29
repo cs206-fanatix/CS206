@@ -48,12 +48,13 @@ const Navbar = () => {
       <div className="bg-primary flex p-4 drop-shadow-md w-full">
         <div className="flex gap-10 w-full">
           <div className="flex cursor-pointer align-auto">
-            <Link href="/" passHref>
+            <Link href="#" passHref>
               <Image
                 src="/static/images/logo.png"
                 alt="Logo"
                 width={140}
                 height={40}
+                onClick={() => router.reload()}
               />
             </Link>
           </div>
