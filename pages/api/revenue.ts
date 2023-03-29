@@ -36,22 +36,56 @@ export default async function handler(
           transactions = await prisma.transaction.findMany();
         }
 
+        const transactionsDates: string[] = [];
+        const transactionsGroupedByDate: Map<string, Transaction[]> = new Map();
+
+        transactions.forEach((transaction) => {
+          const date = transaction.createdAt.toISOString().substr(0, 10); // Get date in yyyy-mm-dd format
+          if (!transactionsDates.includes(date)) {
+            transactionsDates.push(date);
+          }
+          if (!transactionsGroupedByDate.has(date)) {
+            transactionsGroupedByDate.set(date, []);
+          }
+          transactionsGroupedByDate.get(date)?.push(transaction);
+        });
+
         const revenues: DailyRevenue[] = [];
+        transactionsDates.sort();
 
-        // Group transactions by date
-        const transactionsByDate = transactions.reduce(
-          (acc: any, transaction) => {
-            const date = transaction.createdAt.toISOString().substr(0, 10); // Get date in yyyy-mm-dd format
-            acc[date] = acc[date] || [];
-            acc[date].push(transaction);
-            return acc;
-          },
-          {}
-        );
+        transactionsDates.forEach((date) => {
+          const transactionsForDate = transactionsGroupedByDate.get(date);
 
-        transactions.forEach((transaction) => {});
+          let totalRevenue = 0;
+          let ticketsPurchased = 0;
+          let revenueFromTicketsPurchased = 0;
+          let ticketsResold = 0;
+          let revenueFromTicketsResold = 0;
 
-        res.status(200).json(transactions);
+          transactionsForDate?.forEach((transaction) => {
+            totalRevenue += transaction.price;
+            if (transaction.type === "purchase") {
+              ticketsPurchased += 1;
+              revenueFromTicketsPurchased += transaction.price;
+            }
+            if (transaction.type === "resell") {
+              ticketsResold += 1;
+              revenueFromTicketsResold += transaction.price;
+            }
+          });
+
+          const dailyRevenue: DailyRevenue = {
+            date,
+            totalRevenue,
+            ticketsPurchased,
+            revenueFromTicketsPurchased,
+            ticketsResold,
+            revenueFromTicketsResold,
+          };
+          revenues.push(dailyRevenue);
+        });
+
+        res.status(200).json(revenues);
       } catch (e) {
         res.status(400).json((e as Error).message);
       }
