@@ -88,7 +88,7 @@ const CreateEvent: NextPage = () => {
           artist: floating_artist_name,
           eventDateTime: floating_date_time,
           venue: floating_venue,
-          imageURL: "/static/images/events/3.webp"
+          imageUrl: "/static/images/events/3.webp"
           // add more fields as needed
         };
       
