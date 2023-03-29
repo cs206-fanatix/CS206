@@ -99,16 +99,6 @@ const Navbar = () => {
               </a>
             </Link>
           )}
-
-          {userStore.user != null && (
-            <Link
-              href="#"
-              passHref
-              className="text-secondary font-semibold cursor-pointer"
-            >
-              <span className="material-symbols-outlined">shopping_cart</span>
-            </Link>
-          )}
           {userStore.user != null && (
             <div ref={imgRef}>
               <Image
