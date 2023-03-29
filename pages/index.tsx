@@ -6,6 +6,7 @@ import Homecard from "../components/HomeCard";
 import { useUserStore } from "../stores/user-store";
 import { format } from "date-fns";
 import axios from "axios";
+import Footer from "../components/Footer";
 
 const Home: NextPage = () => {
 	const userStore = useUserStore();

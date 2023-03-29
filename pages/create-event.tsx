@@ -6,7 +6,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Image from 'next/image'
 import { useUserStore } from '../stores/user-store';
-import { Breadcrumb } from 'antd';
+import { Breadcrumb, Slider, Switch } from 'antd';
 
 
 const steps = [  { id: 'firstName', label: 'First Name' },  { id: 'lastName', label: 'Last Name' },  { id: 'email', label: 'Email' },  { id: 'password', label: 'Password' },];
@@ -46,6 +46,26 @@ const CreateEvent: NextPage = () => {
 
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
+    const [backgroundColor, setBackgroundColor] = useState('gray');
+    const [priceCeiling, setPriceCeiling] = useState(false);
+
+    function onPriceCeiling(b: boolean) {
+      if (b) {
+        setPriceCeiling(true);
+        setBackgroundColor('blue');
+      } else {
+        setPriceCeiling(false);
+        setBackgroundColor('gray');
+      }
+    }
+
+    // price ceiling
+    const [inputValue, setInputValue] = useState(1);
+
+    const onChange = (newValue: number) => {
+      setInputValue(newValue);
+    };
+  
 
     const handleConfirmation = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -67,7 +87,8 @@ const CreateEvent: NextPage = () => {
           name: floating_event_name,
           artist: floating_artist_name,
           eventDateTime: floating_date_time,
-          venue: floating_venue
+          venue: floating_venue,
+          imageURL: "/static/images/events/3.webp"
           // add more fields as needed
         };
       
@@ -170,7 +191,7 @@ const CreateEvent: NextPage = () => {
                 </ul>
             </div>
             {/* Main content */}
-            <div className="flex flex-col w-full pt-28 px-44 py-20 h-screen bg-primary overflow-auto no-scroll-bar">
+            <div className="flex flex-col w-full pt-28 px-64 py-20 h-screen bg-primary overflow-auto no-scroll-bar">
                 <div className="select-none cursor-pointer">
                     <Link href='/organiser-dashboard' passHref>
                         <span className="material-symbols-outlined">arrow_back</span>
@@ -235,6 +256,37 @@ const CreateEvent: NextPage = () => {
                         <input type="artist_name" name="floating_artist_name" id="floating_artist_name" className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 border-gray-600 appearance-none text-black focus:border-blue-500 focus:outline-none focus:ring-0 peer" placeholder=" " required />
                         <label htmlFor="floating_artist_name" className="peer-focus:font-medium absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Artist Name</label>
                     </div>
+
+                    {/* Ticket Price */}
+                    <text className='text-2xl font-bold'>Ticket Price</text>
+                    <div className="relative z-0 w-full mb-6 group">
+                        <input type="number" name="floating_ticket_price" id="floating_ticket_price" className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 border-gray-600 appearance-none text-black focus:border-blue-500 focus:outline-none focus:ring-0 peer" placeholder=" " required />
+                        <label htmlFor="floating_ticket_price" className="peer-focus:font-medium absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Ticket Price ($)</label>
+                    </div>
+                    
+                    {/* Resell Royalty Percentage */}
+                    <text className='text-2xl font-bold'>Royalty Percentage (Resale)</text>
+                    <div className="relative z-0 w-full mb-6 group">
+                        <input type="number" name="floating_royalty_percentage" id="floating_royalty_percentage" className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 border-gray-600 appearance-none text-black focus:border-blue-500 focus:outline-none focus:ring-0 peer" placeholder=" " required />
+                        <label htmlFor="floating_royalty_percentage" className="peer-focus:font-medium absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Royalty Percentage (%)</label>
+                    </div>
+
+                    {/* Price ceiling */}
+                    <div className="flex justify-between">
+                        <text className='text-2xl font-bold'>Price Ceiling</text>
+                        {/* <div className="flex flex-col justify-between relative z-0 w-full mb-6 group"> */}
+                        <div className="w-10">
+                            <Switch id="PriceCeilingSwitch" onChange={onPriceCeiling} style={{ backgroundColor}}/>
+                        </div>
+                    </div>
+                        {/* If toggled display slider */}
+                        {priceCeiling && (
+                            <div className="flex flex-col w-full relative z-0 w-full mb-6 group" aria-required>
+                                <input type="number" name="floating_price_ceiling" id="floating_price_ceiling" className="block py-2.5 px-0 w-full text-sm bg-transparent border-0 border-b-2 border-gray-600 appearance-none text-black focus:border-blue-500 focus:outline-none focus:ring-0 peer" placeholder=" " required />
+                                <label htmlFor="floating_price_ceiling" className="peer-focus:font-medium absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Price Ceiling ($)</label>
+                            </div>
+                        )}
+                    {/* </div> */}
 
                     <div className="flex items-center justify-between mt-6">
                         <fieldset>

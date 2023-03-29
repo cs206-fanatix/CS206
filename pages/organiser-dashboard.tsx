@@ -81,19 +81,19 @@ useEffect(() => {
     const purchases = [
         {
             user: 'SOLgod99',
-            event: 'Aimer - Live',
+            event: 'HELLO',
         },
         {
             user: 'SOLgod99',
-            event: 'Aimer - Live',
+            event: 'HELLO',
         },
         {
             user: 'SOLgod99',
-            event: 'Aimer - Live',
+            event: 'HELLO',
         },
         {
             user: 'SOLgod99',
-            event: 'Aimer - Live',
+            event: 'HELLO',
         },
       ];
 
@@ -290,42 +290,39 @@ useEffect(() => {
                                         </text>
                                         <div className="grid grid-cols-1 w-full bg-opacity-10 content-between">
                                         {recentEvent && recentEvent[0] && (
-                                            <div className="grid grid-cols-1 w-full bg-opacity-10 content-between">
-                                                {/* Top left event name */}
-                                                <div className="flex w-full justify-between items-center px-8 bg-black bg-opacity-40 py-4 rounded-t-lg">
-                                                    <div className="text-xl font-semibold text-white">{recentEvent[0].name}</div>
-                                                    <Tag color="error">Live</Tag>
-                                                </div>
-                                                                                        
-                                                {recentEvent[0].imageUrl ? (
-                                                <Image
-                                                    src={recentEvent[0].imageUrl}
-                                                    alt="Missing image. Please refresh the page."
-                                                    width={1920}
-                                                    height={529}
-                                                    layout="responsive"
-                                                    objectFit="cover"
-                                                />
-                                                ) : (
-                                                    <Image
-                                                    src={"/static/images/events/3.webp"}
-                                                    alt="Missing image. Please refresh the page."
-                                                    width={2560}
-                                                    height={1431}
-                                                    layout="responsive"
-                                                    objectFit="cover"
-                                                />
+                                            <div className="relative">
+                                            <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-10 flex flex-col justify-between">
+                                              <div className="flex justify-between items-center px-8 py-4">
+                                                <div className="text-xl font-semibold text-white">{recentEvent[0].name}</div>
+                                                <span className="bg-red-500 text-white rounded-lg py-1 px-3">Live</span>
+                                              </div>
+                                              <div className="flex flex-col justify-start px-12 py-2">
+                                                {recentEvent && (
+                                                  <div className="text-sm font-normal text-white">{recentEvent[0].eventDateTime.toLocaleTimeString('en-US', {hour: 'numeric', minute: 'numeric'})} on {recentEvent[0].eventDateTime.toLocaleDateString()}</div>
                                                 )}
-
-                                                {/* Bottom left event details */}
-                                                <div className="flex flex-col justify-start px-12 py-2 bg-black bg-opacity-40 rounded-b-lg">
-                                                    {recentEvent && (
-                                                    <div className="text-sm font-normal text-white">{recentEvent[0].eventDateTime.toLocaleTimeString('en-US', {hour: 'numeric', minute: 'numeric'})} on {recentEvent[0].eventDateTime.toLocaleDateString()}</div>
-                                                    )}
-                                                    <div className="text-sm font-semibold text-white">{recentEvent[0].venue}</div>
-                                                </div>
-                                                
+                                                <div className="text-sm font-semibold text-white">{recentEvent[0].venue}</div>
+                                              </div>
                                             </div>
+                                            {recentEvent[0].imageUrl ? (
+                                              <Image
+                                                src={recentEvent[0].imageUrl}
+                                                alt="Missing image. Please refresh the page."
+                                                width={1920}
+                                                height={529}
+                                                layout="responsive"
+                                                objectFit="cover"
+                                              />
+                                            ) : (
+                                              <Image
+                                                src={"/static/images/events/3.webp"}
+                                                alt="Missing image. Please refresh the page."
+                                                width={2560}
+                                                height={1431}
+                                                layout="responsive"
+                                                objectFit="cover"
+                                              />
+                                            )}
+                                          </div>
                                             
                                             )}
 
