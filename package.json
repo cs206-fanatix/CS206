@@ -14,6 +14,7 @@
     "@metaplex-foundation/js": "^0.18.3",
     "@nextui-org/react": "^1.0.0-beta.12",
     "@prisma/client": "4.5.0",
+    "@saberhq/solana-contrib": "^1.14.11",
     "@solana/web3.js": "^1.74.0",
     "@types/js-cookie": "^3.0.3",
     "@types/uuid": "^9.0.1",

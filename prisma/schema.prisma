@@ -58,10 +58,14 @@ model Event {
   id String @id @default(uuid())
   mintAddress String
   name String
+  symbol String
+  description String
   artist String
   imageUrl String?
   eventDateTime DateTime
   venue String
+  attributes Json @db.Json
+  creators Json @db.Json
 
   tickets Ticket[]
 }

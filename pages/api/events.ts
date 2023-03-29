@@ -20,7 +20,7 @@ export default async function handler(
         const cce: CreateCollectionEvent = {
           collectionDetails: {
             attributes: [{ trait_type: 'venue', value: body.venue }, { trait_type: 'datetime', value: body.eventDateTime.toString() }],
-            collectionDescription: '',
+            collectionDescription: body.description,
             collectionImage: body.imageUrl,
             collectionName: body.name,
             collectionRoyalties: 5,
@@ -36,10 +36,14 @@ export default async function handler(
           data: {
             mintAddress,
             name: body.name,
+            symbol: body.symbol,
+            description: body.description,
             artist: body.artist,
             imageUrl: body.imageUrl,
             eventDateTime: new Date(body.eventDateTime),
             venue: body.venue,
+            attributes: [{ trait_type: 'venue', value: body.venue }, { trait_type: 'datetime', value: body.eventDateTime.toString() }],
+            creators: [{creatorAddress: '9qhAuGAn4Jb9z5MaayfJsTNxB26n63qVA74v1k37mFPk', share: 10000}]
           },
         });
         res.status(200).json({
