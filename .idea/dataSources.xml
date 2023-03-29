@@ -16,5 +16,12 @@
       <jdbc-url>jdbc:postgresql://cs206-database.cmgx6kqbzemg.ap-southeast-1.rds.amazonaws.com:5432/cs206-database</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="cs206-database-2@cs206-database.cmgx6kqbzemg.ap-southeast-1.rds.amazonaws.com" uuid="1d20b608-bbcb-427f-8192-3cad44f4e8c3">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://cs206-database.cmgx6kqbzemg.ap-southeast-1.rds.amazonaws.com:5432/cs206-database-2</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
