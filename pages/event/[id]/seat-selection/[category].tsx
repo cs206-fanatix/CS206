@@ -300,7 +300,7 @@ const SeatSelect: NextPage = () => {
         )
     }
 
-    if (HTTPStatus != 200 && HTTPStatus != null) {
+    if (HTTPStatus != 200 && HTTPStatus != null && !eventDetails) {
         console.log(eventDetails)
         return (
             <div className="flex flex-col items-center justify-center gap-2 h-120 max-w-4xl">
