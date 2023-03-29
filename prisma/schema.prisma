@@ -63,4 +63,16 @@ model Event {
   venue String
 
   tickets Ticket[]
+  transactions Transaction[]
+}
+
+// only created upon successful purchase of ticket or reselling of ticket
+model Transaction {
+  id String @id @default(uuid())
+  type String //only "purchase" or "resell"
+  price Float
+  createdAt DateTime
+
+  eventId String
+  event Event @relation(fields: [eventId], references: [id])
 }

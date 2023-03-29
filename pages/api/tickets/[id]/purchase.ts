@@ -36,6 +36,16 @@ export default async function handler(
           },
         });
 
+        // add transaction to event
+        await prisma.transaction.create({
+          data: {
+            type: "purchase",
+            price: ticket.price,
+            createdAt: new Date(),
+            eventId: ticket.eventId,
+          },
+        });
+
         res.status(200).json({
           updatedTicket,
         });

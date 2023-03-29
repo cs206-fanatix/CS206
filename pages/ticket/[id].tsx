@@ -74,16 +74,21 @@ const TicketDetail: NextPage = () => {
 	};
 
 	const handleListItem = async () => {
-		const price = parseFloat(listPrice);
-		try {
-			await axios.post("/api/tickets/" + id + "/listing", {
-				price: price,
-			});
-			openNotificationWithIcon("success", "Successfully created listing");
-		} catch (error) {
-			openNotificationWithIcon("error", (error as AxiosError).response?.data);
+		if (userStore.user?.hasCompletedKyc) {
+			const price = parseFloat(listPrice);
+			try {
+				await axios.post("/api/tickets/" + id + "/listing", {
+					price: price,
+				});
+				openNotificationWithIcon("success", "Successfully created listing");
+			} catch (error) {
+				openNotificationWithIcon("error", (error as AxiosError).response?.data);
+			}
+			setStatus("Listed");
 		}
-		setStatus("Listed");
+		else{
+			openNotificationWithIcon("error", "You have not completed KYC!");
+		}
 	};
 
 	const handleCancelListing = async () => {
