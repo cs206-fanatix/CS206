@@ -18,7 +18,7 @@ export async function checkout(){
             price: "price_1MqJ5qCGYDFYPte2fhHaCziy",
             quantity: 1
         }],
-		successUrl: `${window.location.origin}?session_id={CHECKOUT_SESSION_ID}`,
+		successUrl: `${window.location.origin}/view-ticket`,
 		cancelUrl: window.location.href
 	})
 
