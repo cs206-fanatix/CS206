@@ -275,7 +275,7 @@ const SeatSelect: NextPage = () => {
                     <button onClick={() => Router.push('/event/' + router.query.id + '/category-selection')} className='self-start text-secondary text-md 
                         bg-primary px-4 py-2 rounded-lg drop-shadow hover:bg-accent/90 hover:text-primary'>&lt; Back
                     </button>
-                    <p className='text-secondary text-lg font-semibold'>Pick a category:</p>
+                    <p className='text-secondary text-lg font-semibold'>Pick a seat:</p>
                     <RenderSeatDiagram />
                     <RenderCartTable />
                     {cart.length === 0

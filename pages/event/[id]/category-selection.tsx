@@ -130,7 +130,7 @@ const CategorySelect: NextPage = () => {
         return (
             <div className="flex flex-col items-center justify-center gap-2 h-120 max-w-4xl">
                 <p className='text-red-500 text-xl font-semibold'>Error {HTTPStatus}</p>
-                <p className='text-secondary text-lg font-semibold'>Something went wrong...</p>
+                <p className='text-secondary text-lg font-semibold'>Something went wrong... Try refreshing</p>
             </div>
         )
     }
