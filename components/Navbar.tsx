@@ -54,7 +54,7 @@ const Navbar = () => {
                 alt="Logo"
                 width={140}
                 height={40}
-                onClick={() => router.reload()}
+                
               />
             </Link>
           </div>

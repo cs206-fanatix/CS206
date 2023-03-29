@@ -22,6 +22,8 @@ const ApprovalPage = () => {
     await axios.put("/api/users/" + userStore.user?.id, {
       hasCompletedKyc: true,
     });
+    
+    router.reload()
   };
 
   return (
