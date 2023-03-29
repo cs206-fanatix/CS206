@@ -13,7 +13,7 @@ interface props {
 const Homecard = (props: props) => {
     return (
 
-        <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md basis-1/3 w-max">
+        <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md basis-1/3 w-72">
                 <Image
                     src={props.image}
                     alt="Event Image"

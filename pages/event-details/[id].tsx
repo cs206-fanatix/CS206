@@ -95,7 +95,7 @@ const EventDetails = () => {
 						objectPosition="right"
 						className="opacity-40 blur-sm"
 					></Image>
-					<div className="mt-8 ml-28">
+					<div className="flex justify-center mt-5">
 						<Image
 							src={`${
 								banner?.imageUrl ? banner.imageUrl : "/static/images/1975.jpg"

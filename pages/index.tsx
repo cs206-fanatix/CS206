@@ -60,7 +60,7 @@ const Home: NextPage = () => {
 						objectPosition="top"
 						className="opacity-55 blur-sm"
 					></Image>
-					<div className="mt-10 ml-36">
+					<div className="flex justify-center mt-5">
 						<Image
 							src="/static/images/1975.jpg"
 							width={700}
@@ -71,7 +71,7 @@ const Home: NextPage = () => {
 					</div>
 				</div>
 
-				<div className="ml-auto z-1 flex flex-col w-max mt-20 mr-10">
+				<div className="z-1 flex flex-col w-max justify-center pr-5">
 					<h1 className="text-white text-4xl font-bold">
 						THE 1975 are coming to Singapore!
 					</h1>
@@ -79,7 +79,7 @@ const Home: NextPage = () => {
 						2023&aposs most famous British band promise only more show-stopping
 						moments in Singapore in July!
 					</h1>
-					<div className="ml-auto pt-3 flex gap-2">
+					<div className="pt-3 flex gap-2 justify-end">
 						<Link href={`/event/${encodeURIComponent(banner?.id)}`}>
 							<a className="	text-white bg-accent rounded-xl px-4 py-1 text-xl items-center hover:bg-red-900 hover:text-white focus:ring-4 focus:outline-none focus:ring-red-300">
 								Buy Ticket

@@ -19,7 +19,7 @@ const EventCard = (props: props) => {
 		<Link href={`/ticket/${encodeURIComponent(props.id)}`}>
 			<a
 				title="View Ticket"
-				className="max-w-sm bg-secondary border border-gray-200 rounded-lg shadow-md basis-1/3 h-60"
+				className="max-w-sm bg-secondary border border-gray-200 rounded-lg shadow-md basis-1/3 h-60 w-72-max"
 			>
 				<Image
 					src={props.image}
