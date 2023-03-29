@@ -14,7 +14,7 @@ model User {
   id String @id @default(uuid())
   email String @unique
   name String
-  hasCompletedKyc Boolean 
+  hasCompletedKyc Boolean
 
   tickets Ticket[]
 
@@ -40,8 +40,8 @@ model Ticket {
 }
 
 model Listing {
-  createdAt DateTime 
-  ticketId String 
+  createdAt DateTime
+  ticketId String
   price Float
   status String
   buyerUserId String?
@@ -56,6 +56,7 @@ model Listing {
 
 model Event {
   id String @id @default(uuid())
+  mintAddress String
   name String
   artist String
   imageUrl String?
