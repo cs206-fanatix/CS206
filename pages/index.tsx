@@ -76,7 +76,7 @@ const Home: NextPage = () => {
 						THE 1975 are coming to Singapore!
 					</h1>
 					<h1 className="text-gray-200 text-xl font-semibold pt-1">
-						2023&aposs most famous British band promise only more show-stopping
+						Most famous British band promise only more show-stopping
 						moments in Singapore in July!
 					</h1>
 					<div className="pt-3 flex gap-2 justify-end">
